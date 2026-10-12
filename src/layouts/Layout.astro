@@ -1,0 +1,223 @@
+---
+import '@/styles/global.css';
+import SEO from '@/components/SEO.astro';
+import { site } from '@/data/config';
+import { Phone, Menu, MapPin, Clock, Send } from 'lucide-astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, any>;
+}
+
+const { title, description, image, type, jsonLd } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <SEO title={title} description={description} image={image} type={type} jsonLd={jsonLd} />
+  </head>
+  <body class="bg-canvas-50 text-ink-600 antialiased">
+
+    <!-- ============ ХЕДЕР ============ -->
+    <header class="fixed top-0 inset-x-0 z-50">
+      <div class="backdrop-blur-xl bg-white/80 border-b border-canvas-200">
+        <div class="container-x h-16 lg:h-20 flex items-center justify-between gap-6">
+
+          <!-- Лого -->
+          <a href="/" class="flex items-center gap-2.5 group">
+            <div class="relative w-9 h-9 rounded-lg bg-gradient-to-br from-volt-500 to-cyan-500 flex items-center justify-center shadow-glow group-hover:scale-105 transition-transform">
+              <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <span class="font-display font-bold text-lg tracking-tight text-ink-900">
+              РемБыт<span class="text-volt-500">.</span>
+            </span>
+          </a>
+
+          <!-- Навигация desktop -->
+          <nav class="hidden lg:flex items-center gap-1">
+            {site.nav.map((item) => (
+              <a
+                href={item.href}
+                class="px-3.5 py-2 text-sm font-medium text-ink-600 hover:text-volt-500 rounded-lg hover:bg-volt-50 transition-all"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <!-- Правый блок -->
+          <div class="flex items-center gap-2.5">
+            <a
+              href={`tel:${site.phoneRaw}`}
+              class="hidden md:flex items-center gap-2 text-sm font-semibold text-ink-800 hover:text-volt-500 transition-colors"
+            >
+              <Phone class="w-4 h-4" />
+              <span>{site.phone}</span>
+            </a>
+            <a href="/kontakty" class="btn-primary !px-4 !py-2.5 text-sm">
+              Заказать звонок
+            </a>
+            <button
+              id="mobile-menu-btn"
+              class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-canvas-100 transition-colors"
+              aria-label="Меню"
+            >
+              <Menu class="w-5 h-5 text-ink-800" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Мобильное меню -->
+      <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 top-16 bg-white z-40 border-t border-canvas-200">
+        <nav class="container-x py-8 flex flex-col gap-1">
+          {site.nav.map((item) => (
+            <a
+              href={item.href}
+              class="px-4 py-3.5 text-lg font-medium text-ink-700 hover:text-volt-500 hover:bg-volt-50 rounded-xl transition-all"
+            >
+              {item.label}
+            </a>
+          ))}
+          <a href={`tel:${site.phoneRaw}`} class="mt-6 btn-primary w-full">
+            <Phone class="w-4 h-4" />
+            {site.phone}
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ============ КОНТЕНТ ============ -->
+    <main class="pt-16 lg:pt-20">
+      <slot />
+    </main>
+
+    <!-- ============ ФУТЕР ============ -->
+    <footer class="relative mt-32 bg-white border-t border-canvas-200">
+      <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-volt-500/40 to-transparent"></div>
+
+      <div class="container-x py-16 lg:py-20">
+        <div class="grid lg:grid-cols-12 gap-12">
+
+          <!-- Бренд -->
+          <div class="lg:col-span-4 space-y-5">
+            <a href="/" class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-volt-500 to-cyan-500 flex items-center justify-center shadow-glow">
+                <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </div>
+              <span class="font-display font-bold text-lg tracking-tight text-ink-900">
+                РемБыт<span class="text-volt-500">.</span>
+              </span>
+            </a>
+            <p class="text-sm text-ink-500 leading-relaxed max-w-sm">
+              {site.description}
+            </p>
+            <div class="flex items-center gap-3 pt-2">
+              <a href={site.social.telegram} target="_blank" rel="noopener" class="w-9 h-9 rounded-lg bg-canvas-100 hover:bg-volt-50 border border-canvas-200 hover:border-volt-200 flex items-center justify-center transition-colors" aria-label="Telegram">
+                <Send class="w-4 h-4 text-ink-600" />
+              </a>
+            </div>
+          </div>
+
+          <!-- Услуги -->
+          <div class="lg:col-span-3">
+            <h3 class="font-display font-semibold text-xs uppercase tracking-wider text-ink-400 mb-5">Услуги</h3>
+            <ul class="space-y-3">
+              {[
+                ['Ремонт стиральных машин', '/uslugi/remont-stiralnyh-mashin'],
+                ['Ремонт холодильников', '/uslugi/remont-holodilnikov'],
+                ['Ремонт вытяжек', '/uslugi/remont-vytyazhek'],
+                ['Ремонт духовок', '/uslugi/remont-duhovok'],
+                ['Замена батареек', '/uslugi/zamena-batareek'],
+              ].map(([label, href]) => (
+                <li>
+                  <a href={href} class="text-sm text-ink-500 hover:text-volt-500 transition-colors">
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Компания -->
+          <div class="lg:col-span-2">
+            <h3 class="font-display font-semibold text-xs uppercase tracking-wider text-ink-400 mb-5">Компания</h3>
+            <ul class="space-y-3">
+              <li><a href="/o-nas" class="text-sm text-ink-500 hover:text-volt-500 transition-colors">О нас</a></li>
+              <li><a href="/ceny" class="text-sm text-ink-500 hover:text-volt-500 transition-colors">Цены</a></li>
+              <li><a href="/raboty" class="text-sm text-ink-500 hover:text-volt-500 transition-colors">Наши работы</a></li>
+              <li><a href="/blog" class="text-sm text-ink-500 hover:text-volt-500 transition-colors">Блог</a></li>
+              <li><a href="/kontakty" class="text-sm text-ink-500 hover:text-volt-500 transition-colors">Контакты</a></li>
+            </ul>
+          </div>
+
+          <!-- Контакты -->
+          <div class="lg:col-span-3">
+            <h3 class="font-display font-semibold text-xs uppercase tracking-wider text-ink-400 mb-5">Контакты</h3>
+            <ul class="space-y-4">
+              <li>
+                <a href={`tel:${site.phoneRaw}`} class="group flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-volt-50 flex items-center justify-center shrink-0 mt-0.5">
+                    <Phone class="w-4 h-4 text-volt-500" />
+                  </div>
+                  <div>
+                    <div class="text-sm font-semibold text-ink-800 group-hover:text-volt-500 transition-colors">{site.phone}</div>
+                    <div class="text-xs text-ink-400">Звонок бесплатный</div>
+                  </div>
+                </a>
+              </li>
+              <li class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-canvas-100 flex items-center justify-center shrink-0 mt-0.5">
+                  <MapPin class="w-4 h-4 text-ink-500" />
+                </div>
+                <div>
+                  <div class="text-sm text-ink-700">{site.address}</div>
+                  <div class="text-xs text-ink-400">{site.city}, Беларусь</div>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-canvas-100 flex items-center justify-center shrink-0 mt-0.5">
+                  <Clock class="w-4 h-4 text-ink-500" />
+                </div>
+                <div>
+                  <div class="text-sm text-ink-700">{site.workingHoursShort}</div>
+                  <div class="text-xs text-ink-400">Без выходных</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-canvas-200 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p class="text-xs text-ink-400">
+            © {year} {site.name}. Все права защищены.
+          </p>
+          <div class="flex items-center gap-6 text-xs text-ink-400">
+            <a href="/politika" class="hover:text-ink-700 transition-colors">Политика конфиденциальности</a>
+            <span>•</span>
+            <span>УНП 500000000</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Мобильное меню -->
+    <script>
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      btn?.addEventListener('click', () => {
+        menu?.classList.toggle('hidden');
+        document.body.style.overflow = menu?.classList.contains('hidden') ? '' : 'hidden';
+      });
+    </script>
+  </body>
+</html>
