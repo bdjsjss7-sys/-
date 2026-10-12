@@ -1,0 +1,138 @@
+---
+import { site } from '@/data/config';
+import { Phone, ArrowRight, ShieldCheck, Clock, MapPin, Zap } from 'lucide-astro';
+
+const stats = [
+  { value: `${site.yearsOnMarket}+`, label: 'лет на рынке' },
+  { value: `${(site.repairsDone / 1000).toFixed(0)}K+`, label: 'ремонтов' },
+  { value: `${site.warrantyMonths} мес`, label: 'гарантия' },
+  { value: site.diagnosticTime, label: 'диагностика' },
+];
+---
+
+<section class="relative overflow-hidden bg-mesh-light">
+  <div class="absolute inset-0 bg-grid-light pointer-events-none"></div>
+
+  <div class="absolute top-0 -left-40 w-[500px] h-[500px] bg-volt-500/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-40 -right-40 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="container-x relative pt-16 pb-20 lg:pt-24 lg:pb-28">
+    <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+      <!-- ТЕКСТ -->
+      <div class="lg:col-span-7 space-y-8">
+
+        <!-- Бейдж -->
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-white border border-canvas-200 shadow-soft">
+          <span class="relative flex w-2 h-2">
+            <span class="status-dot absolute inline-flex w-2 h-2 rounded-full bg-green-500"></span>
+            <span class="relative inline-flex w-2 h-2 rounded-full bg-green-500"></span>
+          </span>
+          <span class="text-xs sm:text-sm font-medium text-ink-700">
+            Принимаем технику · {site.city} и область
+          </span>
+        </div>
+
+        <!-- Заголовок -->
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-ink-900 leading-[1.05] tracking-tight">
+          Ремонт бытовой техники
+          <span class="block mt-2 glow-text">без нервов и переплат</span>
+        </h1>
+
+        <!-- Подзаголовок -->
+        <p class="text-base sm:text-lg text-ink-500 max-w-2xl leading-relaxed">
+          Диагностика, ремонт стиральных машин, холодильников, вытяжек и духовок.
+          Принимаем технику в мастерской в центре {site.city}а.
+          Гарантия {site.warrantyMonths} месяцев на все работы.
+        </p>
+
+        <!-- Кнопки -->
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
+          <a href={`tel:${site.phoneRaw}`} class="btn-primary text-base w-full sm:w-auto">
+            <Phone class="w-5 h-5" />
+            Позвонить мастеру
+          </a>
+          <a href="/kontakty" class="btn-ghost text-base w-full sm:w-auto group">
+            Оставить заявку
+            <ArrowRight class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </a>
+        </div>
+
+        <!-- Мини-преимущества -->
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-4">
+          <div class="flex items-center gap-2 text-sm text-ink-600">
+            <div class="w-5 h-5 rounded-full bg-volt-50 flex items-center justify-center">
+              <ShieldCheck class="w-3.5 h-3.5 text-volt-500" />
+            </div>
+            <span>Официально, с гарантией</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-ink-600">
+            <div class="w-5 h-5 rounded-full bg-volt-50 flex items-center justify-center">
+              <Clock class="w-3.5 h-3.5 text-volt-500" />
+            </div>
+            <span>Диагностика за {site.diagnosticTime}</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-ink-600">
+            <div class="w-5 h-5 rounded-full bg-volt-50 flex items-center justify-center">
+              <MapPin class="w-3.5 h-3.5 text-volt-500" />
+            </div>
+            <span>Мастерская в центре {site.city}а</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- КАРТОЧКА СО СТАТИСТИКОЙ -->
+      <div class="lg:col-span-5 relative">
+        <div class="relative">
+
+          <div class="surface rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-volt-500 via-cyan-500 to-volt-500"></div>
+
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <div class="text-xs uppercase tracking-wider text-ink-400 font-semibold">Наши показатели</div>
+                <div class="font-display font-bold text-xl text-ink-900 mt-1">За последний год</div>
+              </div>
+              <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-volt-500 to-cyan-500 flex items-center justify-center shadow-glow">
+                <Zap class="w-5 h-5 text-white" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              {stats.map((stat) => (
+                <div class="p-4 rounded-2xl bg-canvas-50 border border-canvas-200">
+                  <div class="font-display font-bold text-2xl sm:text-3xl text-ink-900">{stat.value}</div>
+                  <div class="text-xs text-ink-500 mt-1">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-canvas-200 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-spark-50 border border-spark-400/30 flex items-center justify-center">
+                <span class="text-spark-600 font-bold">₽</span>
+              </div>
+              <div class="flex-1">
+                <div class="text-xs text-ink-400">Средний чек ремонта</div>
+                <div class="text-sm font-semibold text-ink-800">от 25 до 120 рублей</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Плавающий бейдж -->
+          <div class="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 surface px-4 py-3 rounded-2xl shadow-card-hover animate-float">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center">
+                <ShieldCheck class="w-4 h-4 text-green-600" />
+              </div>
+              <div>
+                <div class="text-xs text-ink-400">Все работы</div>
+                <div class="text-sm font-bold text-ink-900">С гарантией</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
