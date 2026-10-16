@@ -862,3 +862,30 @@ strong { color: var(--ink); font-weight: 600; }
   .form-step__num { width: 36px; height: 36px; font-size: 12px; }
   .footer__inner { flex-direction: column; align-items: flex-start; gap: 20px; }
 }
+
+/* ============================================================
+   ФИКС — hero grid overflow
+   ============================================================ */
+
+.hero__inner > * {
+  min-width: 0;
+}
+
+.hero__right {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.hero-calc {
+  max-width: 100%;
+  width: 100%;
+}
+
+.hero-calc__chips--scroll {
+  width: 100%;
+  max-width: 100%;
+}
+
+.hero-calc__result {
+  overflow: hidden;
+}
