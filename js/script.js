@@ -1,37 +1,35 @@
 /* ============================================================
-   РемБытТехника — Скрипты v2
+   РемБытТехника — Скрипты v5
    ============================================================ */
 
 (function () {
   'use strict';
 
-  /* ==========================================================
-     ДАННЫЕ КАЛЬКУЛЯТОРА — техника и проблемы
-     ========================================================== */
-  const CALC_DATA = {
+  /* ДАННЫЕ КАЛЬКУЛЯТОРА */
+  var CALC_DATA = {
     wash: {
       label: 'Стиральная',
       issues: [
         { label: 'Не сливает воду', price: 45 },
         { label: 'Не набирает воду', price: 45 },
-        { label: 'Не отжимает / барабан не крутится', price: 55 },
-        { label: 'Шумит, гудит при отжиме', price: 90 },
+        { label: 'Не отжимает', price: 55 },
+        { label: 'Шумит при отжиме', price: 90 },
         { label: 'Течёт вода', price: 45 },
         { label: 'Не греет воду', price: 50 },
-        { label: 'Ошибка на дисплее', price: 55 },
+        { label: 'Ошибка дисплея', price: 55 },
         { label: 'Не включается', price: 45 }
       ]
     },
     dish: {
       label: 'Посудомойка',
       issues: [
-        { label: 'Не сливает воду (E15, F11)', price: 45 },
-        { label: 'Не набирает воду (F24)', price: 45 },
-        { label: 'Плохо моет посуду', price: 40 },
-        { label: 'Не сушит посуду', price: 45 },
+        { label: 'Не сливает (E15, F11)', price: 45 },
+        { label: 'Не набирает (F24)', price: 45 },
+        { label: 'Плохо моет', price: 40 },
+        { label: 'Не сушит', price: 45 },
         { label: 'Течёт вода', price: 45 },
-        { label: 'Не открывается дверца', price: 40 },
-        { label: 'Ошибка на дисплее', price: 55 },
+        { label: 'Дверца не открывается', price: 40 },
+        { label: 'Ошибка дисплея', price: 55 },
         { label: 'Посторонний шум', price: 50 }
       ]
     },
@@ -39,76 +37,76 @@
       label: 'Телевизор',
       issues: [
         { label: 'Не включается', price: 55 },
-        { label: 'Нет изображения / чёрный экран', price: 60 },
+        { label: 'Нет изображения', price: 60 },
         { label: 'Нет звука', price: 50 },
-        { label: 'Полосы / пятна на экране', price: 70 },
-        { label: 'Не работает подсветка', price: 90 },
+        { label: 'Полосы на экране', price: 70 },
+        { label: 'Подсветка не работает', price: 90 },
         { label: 'Сам выключается', price: 60 },
-        { label: 'Не работает HDMI', price: 50 },
+        { label: 'HDMI не работает', price: 50 },
         { label: 'Пульт не реагирует', price: 40 }
       ]
     },
     coffee: {
       label: 'Кофемашина',
       issues: [
-        { label: 'Не наливает кофе / слабый напор', price: 55 },
-        { label: 'Течёт вода снизу', price: 65 },
-        { label: 'Не нагревает воду', price: 60 },
-        { label: 'Не работает капучинатор', price: 55 },
+        { label: 'Не наливает кофе', price: 55 },
+        { label: 'Течёт снизу', price: 65 },
+        { label: 'Не греет воду', price: 60 },
+        { label: 'Капучинатор', price: 55 },
         { label: 'Не мелет кофе', price: 60 },
-        { label: 'Ошибка на дисплее', price: 65 },
+        { label: 'Ошибка дисплея', price: 65 },
         { label: 'Шумит / гудит', price: 55 },
-        { label: 'Постоянно просит промывку', price: 50 }
+        { label: 'Просит промывку', price: 50 }
       ]
     },
     vacuum: {
       label: 'Пылесос',
       issues: [
         { label: 'Не включается', price: 30 },
-        { label: 'Потерял мощность, плохо сосёт', price: 30 },
+        { label: 'Плохо сосёт', price: 30 },
         { label: 'Шумит / вибрирует', price: 30 },
-        { label: 'Аккумулятор быстро садится', price: 50 },
-        { label: 'Не крутится турбощётка', price: 35 },
+        { label: 'Аккумулятор садится', price: 50 },
+        { label: 'Не крутится щётка', price: 35 },
         { label: 'Не заряжается', price: 40 },
         { label: 'Робот не находит базу', price: 45 },
-        { label: 'Робот не выезжает с базы', price: 45 }
+        { label: 'Робот не выезжает', price: 45 }
       ]
     },
     boiler: {
       label: 'Водонагреватель',
       issues: [
         { label: 'Не греет воду', price: 45 },
-        { label: 'Слабо греет / долго нагревает', price: 50 },
+        { label: 'Слабо греет', price: 50 },
         { label: 'Течёт вода', price: 50 },
         { label: 'Выбивает автомат', price: 55 },
         { label: 'Не включается', price: 40 },
         { label: 'Шумит при нагреве', price: 45 },
-        { label: 'Ошибка на дисплее', price: 55 }
+        { label: 'Ошибка дисплея', price: 55 }
       ]
     },
     oven: {
       label: 'Духовка',
       issues: [
         { label: 'Не греет', price: 45 },
-        { label: 'Не работает конвекция', price: 50 },
-        { label: 'Не работает пиролиз', price: 65 },
-        { label: 'Не работает гриль', price: 50 },
+        { label: 'Нет конвекции', price: 50 },
+        { label: 'Пиролиз не работает', price: 65 },
+        { label: 'Гриль не работает', price: 50 },
         { label: 'Дверца не закрывается', price: 40 },
-        { label: 'Не работает таймер', price: 45 },
-        { label: 'Не горит свет внутри', price: 30 },
-        { label: 'Ошибка на дисплее', price: 55 }
+        { label: 'Таймер не работает', price: 45 },
+        { label: 'Свет не горит', price: 30 },
+        { label: 'Ошибка дисплея', price: 55 }
       ]
     },
     cooktop: {
       label: 'Варочная',
       issues: [
         { label: 'Не включается', price: 55 },
-        { label: 'Не греет одна зона', price: 55 },
+        { label: 'Не греет зона', price: 55 },
         { label: 'Сенсоры не реагируют', price: 60 },
-        { label: 'Ошибка на дисплее', price: 60 },
+        { label: 'Ошибка дисплея', price: 60 },
         { label: 'Выбивает автомат', price: 65 },
         { label: 'Трещина на стекле', price: 90 },
-        { label: 'Не работает таймер / автоотключение', price: 55 }
+        { label: 'Таймер не работает', price: 55 }
       ]
     },
     micro: {
@@ -116,21 +114,21 @@
       issues: [
         { label: 'Не греет', price: 45 },
         { label: 'Искрит внутри', price: 35 },
-        { label: 'Не крутится поддон', price: 35 },
+        { label: 'Поддон не крутится', price: 35 },
         { label: 'Не включается', price: 40 },
-        { label: 'Не работает гриль', price: 45 },
-        { label: 'Шумит при работе', price: 40 },
+        { label: 'Гриль не работает', price: 45 },
+        { label: 'Шумит', price: 40 },
         { label: 'Свет не горит', price: 30 }
       ]
     },
     hood: {
       label: 'Вытяжка',
       issues: [
-        { label: 'Не работает мотор', price: 50 },
-        { label: 'Не работает подсветка', price: 30 },
+        { label: 'Мотор не работает', price: 50 },
+        { label: 'Подсветка не работает', price: 30 },
         { label: 'Слабо всасывает', price: 40 },
         { label: 'Шумит / вибрирует', price: 45 },
-        { label: 'Не реагирует на кнопки', price: 50 },
+        { label: 'Кнопки не реагируют', price: 50 },
         { label: 'Течёт / капает', price: 40 }
       ]
     },
@@ -140,34 +138,31 @@
         { label: 'Не зажигается', price: 35 },
         { label: 'Гаснет пламя', price: 40 },
         { label: 'Слабый огонь', price: 35 },
-        { label: 'Не работает электророзжиг', price: 40 },
+        { label: 'Розжиг не работает', price: 40 },
         { label: 'Забиты форсунки', price: 35 },
         { label: 'Течёт газ', price: 55 }
       ]
     },
     small: {
-      label: 'Фен / отпариватель',
+      label: 'Фен',
       issues: [
         { label: 'Не включается', price: 25 },
         { label: 'Не греет', price: 30 },
         { label: 'Слабо дует пар', price: 30 },
         { label: 'Течёт вода', price: 30 },
         { label: 'Шумит', price: 30 },
-        { label: 'Не работает регулятор', price: 30 }
+        { label: 'Регулятор не работает', price: 30 }
       ]
     }
   };
 
-  /* ==========================================================
-     HEADER SCROLL
-     ========================================================== */
+  /* HEADER SCROLL */
   function initHeaderScroll() {
-    const header = document.getElementById('header');
-    const topbar = document.getElementById('topbar');
+    var header = document.getElementById('header');
+    var topbar = document.getElementById('topbar');
     if (!header) return;
-
-    let ticking = false;
-    const update = () => {
+    var ticking = false;
+    function update() {
       if (window.scrollY > 24) {
         header.classList.add('is-scrolled');
         if (topbar) topbar.classList.add('is-hidden');
@@ -176,9 +171,8 @@
         if (topbar) topbar.classList.remove('is-hidden');
       }
       ticking = false;
-    };
-
-    window.addEventListener('scroll', () => {
+    }
+    window.addEventListener('scroll', function () {
       if (!ticking) {
         window.requestAnimationFrame(update);
         ticking = true;
@@ -187,130 +181,108 @@
     update();
   }
 
-  /* ==========================================================
-     BURGER
-     ========================================================== */
+  /* BURGER */
   function initBurger() {
-    const burger = document.getElementById('burger');
-    const nav = document.getElementById('nav');
+    var burger = document.getElementById('burger');
+    var nav = document.getElementById('nav');
     if (!burger || !nav) return;
-
-    const toggle = () => {
-      const willOpen = !nav.classList.contains('is-open');
+    function toggle() {
+      var willOpen = !nav.classList.contains('is-open');
       burger.classList.toggle('is-open');
       nav.classList.toggle('is-open');
       document.body.style.overflow = willOpen ? 'hidden' : '';
-    };
-
+    }
     burger.addEventListener('click', toggle);
-    nav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
+    var links = nav.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener('click', function () {
         if (nav.classList.contains('is-open')) toggle();
       });
-    });
-    document.addEventListener('keydown', (e) => {
+    }
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('is-open')) toggle();
     });
   }
 
-  /* ==========================================================
-     SMOOTH SCROLL
-     ========================================================== */
+  /* SMOOTH SCROLL */
   function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener('click', (e) => {
-        const id = link.getAttribute('href');
+    var links = document.querySelectorAll('a[href^="#"]');
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener('click', function (e) {
+        var id = this.getAttribute('href');
         if (!id || id === '#' || id.length < 2) return;
-        const target = document.querySelector(id);
+        var target = document.querySelector(id);
         if (!target) return;
         e.preventDefault();
-        const offset = 100;
-        const top = target.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
+        var top = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: top, behavior: 'smooth' });
       });
-    });
+    }
   }
 
-  /* ==========================================================
-     REVEAL
-     ========================================================== */
+  /* REVEAL */
   function initReveal() {
-    const elements = document.querySelectorAll(
-      '.head, .service-row, .stat-block, .tl-step, .not-doing, .testimonial, .form-wrap, .hero-calc'
-    );
-    if (!elements.length) return;
-
+    var els = document.querySelectorAll('.head, .service-row, .stat-block, .tl-step, .not-doing, .testimonial, .form-wrap');
+    if (!els.length) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      elements.forEach((el) => el.classList.add('is-visible'));
+      for (var i = 0; i < els.length; i++) els[i].classList.add('is-visible');
       return;
     }
-
-    elements.forEach((el) => el.classList.add('reveal'));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
-    );
-
-    elements.forEach((el) => observer.observe(el));
+    for (var j = 0; j < els.length; j++) els[j].classList.add('reveal');
+    var observer = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        if (entries[k].isIntersecting) {
+          entries[k].target.classList.add('is-visible');
+          observer.unobserve(entries[k].target);
+        }
+      }
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    for (var l = 0; l < els.length; l++) observer.observe(els[l]);
   }
 
-  /* ==========================================================
-     КАЛЬКУЛЯТОР В HERO
-     ========================================================== */
+  /* КАЛЬКУЛЯТОР */
   function initHeroCalc() {
-    const calc = document.getElementById('heroCalc');
-    const typesWrap = document.getElementById('calcTypes');
-    const issuesWrap = document.getElementById('calcIssues');
-    const valueEl = document.getElementById('calcValue');
-    if (!calc || !typesWrap || !issuesWrap || !valueEl) return;
+    var typesWrap = document.getElementById('calcTypes');
+    var issuesWrap = document.getElementById('calcIssues');
+    var valueEl = document.getElementById('calcValue');
+    if (!typesWrap || !issuesWrap || !valueEl) return;
 
-    const state = {
-      type: 'wash',
-      issue: 0
-    };
+    var state = { type: 'wash', issue: 0 };
 
-    /* Рендер типов техники */
     function renderTypes() {
-      typesWrap.innerHTML = Object.keys(CALC_DATA).map((key) => {
-        const item = CALC_DATA[key];
-        const cls = key === state.type ? 'hero-calc__chip is-active' : 'hero-calc__chip';
-        return `<button type="button" class="${cls}" data-value="${key}">${item.label}</button>`;
-      }).join('');
+      var html = '';
+      for (var key in CALC_DATA) {
+        if (!CALC_DATA.hasOwnProperty(key)) continue;
+        var cls = key === state.type ? 'hero-calc__chip is-active' : 'hero-calc__chip';
+        html += '<button type="button" class="' + cls + '" data-value="' + key + '">' + CALC_DATA[key].label + '</button>';
+      }
+      typesWrap.innerHTML = html;
     }
 
-    /* Рендер проблем под выбранный тип */
     function renderIssues() {
-      const issues = CALC_DATA[state.type].issues;
-      issuesWrap.innerHTML = issues.map((issue, i) => {
-        const cls = i === state.issue ? 'hero-calc__chip is-active' : 'hero-calc__chip';
-        return `<button type="button" class="${cls}" data-index="${i}">${issue.label}</button>`;
-      }).join('');
+      var issues = CALC_DATA[state.type].issues;
+      var html = '';
+      for (var i = 0; i < issues.length; i++) {
+        var cls = i === state.issue ? 'hero-calc__chip is-active' : 'hero-calc__chip';
+        html += '<button type="button" class="' + cls + '" data-index="' + i + '">' + issues[i].label + '</button>';
+      }
+      issuesWrap.innerHTML = html;
     }
 
-    /* Обновление цены */
     function updatePrice() {
-      const issue = CALC_DATA[state.type].issues[state.issue];
+      var issue = CALC_DATA[state.type].issues[state.issue];
       if (!issue) return;
       valueEl.style.opacity = '0';
-      setTimeout(() => {
+      setTimeout(function () {
         valueEl.textContent = issue.price + ' BYN';
         valueEl.style.opacity = '1';
       }, 120);
     }
 
-    /* Клик по типу */
-    typesWrap.addEventListener('click', (e) => {
-      const chip = e.target.closest('.hero-calc__chip');
+    typesWrap.addEventListener('click', function (e) {
+      var chip = e.target.closest('.hero-calc__chip');
       if (!chip) return;
-      const val = chip.dataset.value;
+      var val = chip.dataset.value;
       if (!val || val === state.type) return;
       state.type = val;
       state.issue = 0;
@@ -319,71 +291,46 @@
       updatePrice();
     });
 
-    /* Клик по проблеме */
-    issuesWrap.addEventListener('click', (e) => {
-      const chip = e.target.closest('.hero-calc__chip');
+    issuesWrap.addEventListener('click', function (e) {
+      var chip = e.target.closest('.hero-calc__chip');
       if (!chip) return;
-      const idx = parseInt(chip.dataset.index, 10);
+      var idx = parseInt(chip.dataset.index, 10);
       if (isNaN(idx) || idx === state.issue) return;
       state.issue = idx;
       renderIssues();
       updatePrice();
     });
 
-    /* Стартовый рендер */
     renderTypes();
     renderIssues();
     updatePrice();
   }
 
-  /* ==========================================================
-     КАРУСЕЛЬ ОТЗЫВОВ
-     ========================================================== */
+  /* ОТЗЫВЫ */
   function initTestimonial() {
-    const block = document.getElementById('testimonial');
+    var block = document.getElementById('testimonial');
     if (!block) return;
-
-    const data = [
-      {
-        text: 'Стиральная машина Bosch перестала сливать воду. Позвонил — сказали привезти в мастерскую. Нашли засор помпы, заменили за день, взяли 65 рублей. Работает как новая.',
-        name: 'Андрей',
-        device: 'Стиральная машина Bosch'
-      },
-      {
-        text: 'Телевизор Samsung перестал включаться. В сервисе по гарантии сказали, что ремонт нецелесообразен. Здесь нашли проблему в блоке питания, заменили за 2 дня. Работает уже год.',
-        name: 'Марина',
-        device: 'Телевизор Samsung'
-      },
-      {
-        text: 'Посудомойка Indesit выдавала ошибку E15. Ребята быстро разобрались, заменили уплотнитель. Обошлось в 50 рублей, а не в новый агрегат. Спасибо.',
-        name: 'Дмитрий',
-        device: 'Посудомойка Indesit'
-      },
-      {
-        text: 'Кофемашина DeLonghi перестала подавать воду. Думал, всё — покупать новую. Починили за день, заменили помпу. Работает отлично.',
-        name: 'Елена',
-        device: 'Кофемашина DeLonghi'
-      },
-      {
-        text: 'Водонагреватель потёк. Привёз в мастерскую, заменили ТЭН и анод, почистили от накипи. 70 рублей и всё работает. Рекомендую.',
-        name: 'Сергей',
-        device: 'Водонагреватель'
-      }
+    var data = [
+      { text: 'Стиральная машина Bosch перестала сливать воду. Позвонил — сказали привезти в мастерскую. Нашли засор помпы, заменили за день, взяли 65 рублей. Работает как новая.', name: 'Андрей', device: 'Стиральная машина Bosch' },
+      { text: 'Телевизор Samsung перестал включаться. В сервисе по гарантии сказали, что ремонт нецелесообразен. Здесь нашли проблему в блоке питания, заменили за 2 дня. Работает уже год.', name: 'Марина', device: 'Телевизор Samsung' },
+      { text: 'Посудомойка Indesit выдавала ошибку E15. Ребята быстро разобрались, заменили уплотнитель. Обошлось в 50 рублей, а не в новый агрегат. Спасибо.', name: 'Дмитрий', device: 'Посудомойка Indesit' },
+      { text: 'Кофемашина DeLonghi перестала подавать воду. Думал, всё — покупать новую. Починили за день, заменили помпу. Работает отлично.', name: 'Елена', device: 'Кофемашина DeLonghi' },
+      { text: 'Водонагреватель потёк. Привёз в мастерскую, заменили ТЭН и анод, почистили от накипи. 70 рублей и всё работает. Рекомендую.', name: 'Сергей', device: 'Водонагреватель' }
     ];
+    var current = 0;
+    var quoteEl = document.getElementById('testimonialQuote');
+    var nameEl = document.getElementById('testimonialName');
+    var avatarEl = document.getElementById('testimonialAvatar');
+    var deviceEl = document.getElementById('testimonialDevice');
+    var dotsWrap = document.getElementById('testimonialDots');
+    var prevBtn = document.getElementById('testimonialPrev');
+    var nextBtn = document.getElementById('testimonialNext');
+    if (!quoteEl || !nameEl || !avatarEl || !deviceEl || !dotsWrap) return;
 
-    let current = 0;
-    const quoteEl = document.getElementById('testimonialQuote');
-    const nameEl = document.getElementById('testimonialName');
-    const avatarEl = document.getElementById('testimonialAvatar');
-    const deviceEl = document.getElementById('testimonialDevice');
-    const dotsWrap = document.getElementById('testimonialDots');
-    const prevBtn = document.getElementById('testimonialPrev');
-    const nextBtn = document.getElementById('testimonialNext');
-
-    const render = () => {
-      const item = data[current];
+    function render() {
+      var item = data[current];
       quoteEl.style.opacity = '0';
-      setTimeout(() => {
+      setTimeout(function () {
         quoteEl.textContent = item.text;
         nameEl.textContent = item.name;
         deviceEl.textContent = item.device;
@@ -391,132 +338,116 @@
         quoteEl.style.transition = 'opacity 0.35s';
         quoteEl.style.opacity = '1';
       }, 200);
+      var dots = dotsWrap.querySelectorAll('.testimonial__dot');
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle('is-active', i === current);
+      }
+    }
 
-      dotsWrap.querySelectorAll('.testimonial__dot').forEach((dot, i) => {
-        dot.classList.toggle('is-active', i === current);
-      });
-    };
+    for (var i = 0; i < data.length; i++) {
+      (function (idx) {
+        var dot = document.createElement('button');
+        dot.className = 'testimonial__dot' + (idx === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', 'Отзыв ' + (idx + 1));
+        dot.addEventListener('click', function () { current = idx; render(); });
+        dotsWrap.appendChild(dot);
+      })(i);
+    }
 
-    data.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'testimonial__dot' + (i === 0 ? ' is-active' : '');
-      dot.setAttribute('aria-label', 'Отзыв ' + (i + 1));
-      dot.addEventListener('click', () => { current = i; render(); });
-      dotsWrap.appendChild(dot);
-    });
-
-    prevBtn.addEventListener('click', () => {
-      current = (current - 1 + data.length) % data.length;
-      render();
-    });
-
-    nextBtn.addEventListener('click', () => {
-      current = (current + 1) % data.length;
-      render();
-    });
+    if (prevBtn) prevBtn.addEventListener('click', function () { current = (current - 1 + data.length) % data.length; render(); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { current = (current + 1) % data.length; render(); });
 
     render();
   }
 
-  /* ==========================================================
-     ФОРМЫ
-     ========================================================== */
+  /* ФОРМЫ */
   function initForms() {
-    const forms = document.querySelectorAll('form[data-formspree]');
-    if (!forms.length) return;
-
-    forms.forEach((form) => {
-      form.addEventListener('submit', async (e) => {
+    var forms = document.querySelectorAll('form[data-formspree]');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].addEventListener('submit', function (e) {
         e.preventDefault();
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn ? submitBtn.innerHTML : '';
-        const formData = new FormData(form);
-
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.style.opacity = '0.7';
-          submitBtn.innerHTML = 'Отправляем...';
-        }
-
-        try {
-          const response = await fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
+        var form = this;
+        var btn = form.querySelector('button[type="submit"]');
+        var original = btn ? btn.innerHTML : '';
+        var data = new FormData(form);
+        if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; btn.innerHTML = 'Отправляем...'; }
+        fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+          .then(function (r) {
+            if (r.ok) {
+              showMessage(form, 'success', 'Спасибо! Мы перезвоним в течение 30 минут.');
+              form.reset();
+            } else {
+              showMessage(form, 'error', 'Что-то пошло не так. Позвоните: +375 29 108-79-79');
+            }
+          })
+          .catch(function () {
+            showMessage(form, 'error', 'Ошибка соединения. Позвоните: +375 29 108-79-79');
+          })
+          .finally(function () {
+            if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = original; }
           });
-          if (response.ok) {
-            showMessage(form, 'success', 'Спасибо! Мы перезвоним в течение 30 минут.');
-            form.reset();
-          } else {
-            showMessage(form, 'error', 'Что-то пошло не так. Позвоните: +375 29 108-79-79');
-          }
-        } catch (err) {
-          showMessage(form, 'error', 'Ошибка соединения. Позвоните: +375 29 108-79-79');
-        } finally {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '';
-            submitBtn.innerHTML = originalText;
-          }
-        }
       });
-    });
+    }
   }
 
   function showMessage(form, type, text) {
-    const existing = form.querySelector('.form__message');
+    var existing = form.querySelector('.form__message');
     if (existing) existing.remove();
-    const message = document.createElement('div');
-    message.className = 'form__message';
-    message.textContent = text;
-    const styles = type === 'success'
-      ? { padding: '12px 14px', borderRadius: '8px', fontSize: '14px', fontWeight: '500', background: 'rgba(16,185,129,0.12)', color: '#047857', border: '1px solid rgba(16,185,129,0.28)', marginTop: '8px' }
-      : { padding: '12px 14px', borderRadius: '8px', fontSize: '14px', fontWeight: '500', background: 'rgba(239,68,68,0.10)', color: '#B91C1C', border: '1px solid rgba(239,68,68,0.28)', marginTop: '8px' };
-    Object.assign(message.style, styles);
-    form.appendChild(message);
-    setTimeout(() => message.remove(), 8000);
+    var msg = document.createElement('div');
+    msg.className = 'form__message';
+    msg.textContent = text;
+    msg.style.padding = '12px 14px';
+    msg.style.borderRadius = '8px';
+    msg.style.fontSize = '14px';
+    msg.style.fontWeight = '500';
+    msg.style.marginTop = '8px';
+    if (type === 'success') {
+      msg.style.background = 'rgba(16,185,129,0.12)';
+      msg.style.color = '#047857';
+      msg.style.border = '1px solid rgba(16,185,129,0.28)';
+    } else {
+      msg.style.background = 'rgba(239,68,68,0.10)';
+      msg.style.color = '#B91C1C';
+      msg.style.border = '1px solid rgba(239,68,68,0.28)';
+    }
+    form.appendChild(msg);
+    setTimeout(function () { msg.remove(); }, 8000);
   }
 
-  /* ==========================================================
-     МАСКА ТЕЛЕФОНА
-     ========================================================== */
+  /* МАСКА ТЕЛЕФОНА */
   function initPhoneMask() {
-    document.querySelectorAll('input[data-phone]').forEach((input) => {
-      input.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.startsWith('80')) value = '375' + value.slice(2);
-        value = value.slice(0, 12);
-
-        let formatted = '';
-        if (value.length > 0) formatted = '+';
-        if (value.length > 0) formatted += value.slice(0, 3);
-        if (value.length > 3) formatted += ' ' + value.slice(3, 5);
-        if (value.length > 5) formatted += ' ' + value.slice(5, 8);
-        if (value.length > 8) formatted += '-' + value.slice(8, 10);
-        if (value.length > 10) formatted += '-' + value.slice(10, 12);
-        e.target.value = formatted;
+    var inputs = document.querySelectorAll('input[data-phone]');
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].addEventListener('input', function (e) {
+        var v = e.target.value.replace(/\D/g, '');
+        if (v.indexOf('80') === 0) v = '375' + v.slice(2);
+        v = v.slice(0, 12);
+        var f = '';
+        if (v.length > 0) f = '+';
+        if (v.length > 0) f += v.slice(0, 3);
+        if (v.length > 3) f += ' ' + v.slice(3, 5);
+        if (v.length > 5) f += ' ' + v.slice(5, 8);
+        if (v.length > 8) f += '-' + v.slice(8, 10);
+        if (v.length > 10) f += '-' + v.slice(10, 12);
+        e.target.value = f;
       });
-    });
+    }
   }
 
-  /* ==========================================================
-     CURRENT PAGE
-     ========================================================== */
+  /* CURRENT PAGE */
   function initCurrentPage() {
-    const nav = document.getElementById('nav');
+    var nav = document.getElementById('nav');
     if (!nav) return;
-    const path = window.location.pathname.split('/').pop() || 'index.html';
-    nav.querySelectorAll('a').forEach((link) => {
-      const href = link.getAttribute('href');
-      if (!href) return;
-      link.classList.remove('is-current');
-      if (href === path) link.classList.add('is-current');
-    });
+    var path = window.location.pathname.split('/').pop() || 'index.html';
+    var links = nav.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+      var href = links[i].getAttribute('href');
+      if (!href) continue;
+      links[i].classList.remove('is-current');
+      if (href === path) links[i].classList.add('is-current');
+    }
   }
 
-  /* ==========================================================
-     INIT
-     ========================================================== */
   function init() {
     initHeaderScroll();
     initBurger();
