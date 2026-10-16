@@ -10,6 +10,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=1001">
+<style>
+/* Inline защита от раздувания SVG в этой странице */
+.price-cat__icon { width: 40px !important; height: 40px !important; max-width: 40px !important; max-height: 40px !important; overflow: hidden; flex-shrink: 0; }
+.price-cat__icon svg { width: 40px !important; height: 40px !important; max-width: 40px !important; max-height: 40px !important; display: block; }
+@media (max-width: 768px) {
+  .price-cat__icon, .price-cat__icon svg { width: 32px !important; height: 32px !important; max-width: 32px !important; max-height: 32px !important; }
+}
+</style>
 </head>
 <body>
 
@@ -69,23 +77,22 @@
   </div>
 </section>
 
-<!-- ЯКОРНЫЕ КАРТОЧКИ -->
 <section class="section--tight">
   <div class="container">
     <div class="stats-bar">
       <div class="stat-block">
         <div class="stat-block__num">15<span> BYN</span></div>
-        <div class="stat-block__label">Диагностика — считается в счёт ремонта, если соглашаетесь</div>
+        <div class="stat-block__label">Диагностика — входит в счёт ремонта, если соглашаетесь</div>
         <div class="stat-block__meta">diagnostics</div>
       </div>
       <div class="stat-block">
         <div class="stat-block__num">25<span> BYN</span></div>
-        <div class="stat-block__label">Минимальная стоимость ремонта — плюс запчасти, если нужна замена</div>
+        <div class="stat-block__label">Минимальный ремонт — плюс запчасти, если нужна замена</div>
         <div class="stat-block__meta">from</div>
       </div>
       <div class="stat-block">
         <div class="stat-block__num">0<span> BYN</span></div>
-        <div class="stat-block__label">Никаких предоплат и скрытых сборов — оплата только после проверки</div>
+        <div class="stat-block__label">Никаких предоплат — оплата только после проверки техники</div>
         <div class="stat-block__meta">no prepay</div>
       </div>
       <div class="stat-block">
@@ -97,7 +104,6 @@
   </div>
 </section>
 
-<!-- ПРАЙС -->
 <section class="section">
   <div class="container">
     <div class="head">
@@ -112,7 +118,7 @@
 
       <details class="price-cat" open>
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="14" r="1.5"/><line x1="15" y1="7" x2="17" y2="7"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="14" r="1.5"/><line x1="15" y1="7" x2="17" y2="7"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Стиральные машины</span>
             <span class="price-cat__meta">Bosch · Samsung · LG · Indesit · Electrolux</span>
@@ -133,7 +139,7 @@
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="4" y1="9" x2="20" y2="9"/><path d="M8 14c1.5 0 2.5 1 2.5 2s-1 2-2.5 2"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="4" y1="9" x2="20" y2="9"/><path d="M8 14c1.5 0 2.5 1 2.5 2s-1 2-2.5 2"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Посудомоечные машины</span>
             <span class="price-cat__meta">Bosch · Samsung · LG · Electrolux</span>
@@ -143,7 +149,7 @@
         </summary>
         <div class="price-cat__body">
           <div class="price-row"><div class="price-row__name">Диагностика</div><div class="price-row__value">15 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Чистка дренажной системы, фильтров</div><div class="price-row__value">от 45 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Чистка дренажной системы</div><div class="price-row__value">от 45 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена сливной помпы</div><div class="price-row__value">от 45 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена циркуляционной помпы</div><div class="price-row__value">от 55 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена ТЭНа</div><div class="price-row__value">от 50 BYN</div></div>
@@ -154,7 +160,7 @@
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><polyline points="8 21 12 17 16 21"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><rect x="3" y="5" width="18" height="12" rx="2"/><polyline points="8 21 12 17 16 21"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Телевизоры</span>
             <span class="price-cat__meta">Samsung · LG · Sony · Philips</span>
@@ -175,20 +181,20 @@
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v4a6 6 0 0 1-12 0V4z"/><path d="M4 20h16"/><path d="M12 14v4"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><path d="M6 4h12v4a6 6 0 0 1-12 0V4z"/><path d="M4 20h16"/><path d="M12 14v4"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Кофемашины</span>
-            <span class="price-cat__meta">DeLonghi · Philips · Siemens · Jura · Nivona</span>
+            <span class="price-cat__meta">DeLonghi · Philips · Siemens · Jura</span>
           </div>
           <span class="price-cat__from">от 55 BYN</span>
           <span class="price-cat__arrow">+</span>
         </summary>
         <div class="price-cat__body">
           <div class="price-row"><div class="price-row__name">Диагностика</div><div class="price-row__value">20 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Чистка от накипи и кофейных масел</div><div class="price-row__value">от 55 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Чистка от накипи</div><div class="price-row__value">от 55 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена помпы</div><div class="price-row__value">от 55 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена бойлера / ТЭНа</div><div class="price-row__value">от 65 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Ремонт кофемолки (жернова)</div><div class="price-row__value">от 60 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Ремонт кофемолки</div><div class="price-row__value">от 60 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Ремонт капучинатора</div><div class="price-row__value">от 55 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Ремонт/замена платы управления</div><div class="price-row__value">от 65 BYN</div></div>
         </div>
@@ -196,10 +202,10 @@
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"/><path d="M15 14h5v-4l-3-2"/><path d="M10 9V6"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><circle cx="10" cy="14" r="5"/><path d="M15 14h5v-4l-3-2"/><path d="M10 9V6"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Пылесосы</span>
-            <span class="price-cat__meta">Dyson · Samsung · LG · Bosch · Xiaomi</span>
+            <span class="price-cat__meta">Dyson · Samsung · LG · Bosch</span>
           </div>
           <span class="price-cat__from">от 25 BYN</span>
           <span class="price-cat__arrow">+</span>
@@ -209,14 +215,14 @@
           <div class="price-row"><div class="price-row__name">Чистка, замена фильтров</div><div class="price-row__value">от 25 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена аккумулятора</div><div class="price-row__value">от 50 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена мотора</div><div class="price-row__value">от 30 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Замена турбощётки, ремня</div><div class="price-row__value">от 35 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Ремонт робота-пылесоса, базы</div><div class="price-row__value">от 45 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Замена турбощётки</div><div class="price-row__value">от 35 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Ремонт робота-пылесоса</div><div class="price-row__value">от 45 BYN</div></div>
         </div>
       </details>
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="16" rx="3"/><path d="M12 8v4M12 8l-2 2M12 8l2 2"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><rect x="6" y="4" width="12" height="16" rx="3"/><path d="M12 8v4M12 8l-2 2M12 8l2 2"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Водонагреватели и бойлеры</span>
             <span class="price-cat__meta">Ariston · Electrolux · Gorenje · Bosch</span>
@@ -236,28 +242,27 @@
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
           <div class="price-cat__title">
-            <span class="price-cat__name">Духовки и духовые шкафы</span>
-            <span class="price-cat__meta">Bosch · Samsung · LG · Electrolux · Gorenje</span>
+            <span class="price-cat__name">Духовки</span>
+            <span class="price-cat__meta">Bosch · Samsung · LG · Electrolux</span>
           </div>
           <span class="price-cat__from">от 40 BYN</span>
           <span class="price-cat__arrow">+</span>
         </summary>
         <div class="price-cat__body">
           <div class="price-row"><div class="price-row__name">Диагностика</div><div class="price-row__value">15 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Замена ТЭНа (верх / низ / конвекция)</div><div class="price-row__value">от 45 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Замена термостата, термодатчика</div><div class="price-row__value">от 45 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Замена ТЭНа</div><div class="price-row__value">от 45 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Замена термостата</div><div class="price-row__value">от 45 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Ремонт конвекции</div><div class="price-row__value">от 50 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Ремонт пиролиза</div><div class="price-row__value">от 65 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Замена петли / замка</div><div class="price-row__value">от 40 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Ремонт/замена платы управления</div><div class="price-row__value">от 55 BYN</div></div>
         </div>
       </details>
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="12" r="2"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="12" r="2"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Варочные панели</span>
             <span class="price-cat__meta">Индукция · стеклокерамика · электрика</span>
@@ -270,24 +275,23 @@
           <div class="price-row"><div class="price-row__name">Замена силового модуля</div><div class="price-row__value">от 65 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена индукционной катушки</div><div class="price-row__value">от 55 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Ремонт сенсорной панели</div><div class="price-row__value">от 60 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Ремонт/замена платы управления</div><div class="price-row__value">от 60 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Замена стекла</div><div class="price-row__value">от 90 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Ремонт платы управления</div><div class="price-row__value">от 60 BYN</div></div>
         </div>
       </details>
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16v6H4z"/><path d="M7 14V6h10v8"/><circle cx="12" cy="17" r="1"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><path d="M4 14h16v6H4z"/><path d="M7 14V6h10v8"/><circle cx="12" cy="17" r="1"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Вытяжки</span>
-            <span class="price-cat__meta">Bosch · Samsung · LG · Electrolux · Miele</span>
+            <span class="price-cat__meta">Bosch · Samsung · LG · Miele</span>
           </div>
           <span class="price-cat__from">от 30 BYN</span>
           <span class="price-cat__arrow">+</span>
         </summary>
         <div class="price-cat__body">
           <div class="price-row"><div class="price-row__name">Диагностика</div><div class="price-row__value">15 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Чистка моторного отсека, фильтров</div><div class="price-row__value">от 30 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Чистка моторного отсека</div><div class="price-row__value">от 30 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена мотора</div><div class="price-row__value">от 50 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена LED-модуля</div><div class="price-row__value">от 30 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Ремонт сенсорной панели</div><div class="price-row__value">от 50 BYN</div></div>
@@ -296,10 +300,10 @@
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M8 9c0-1.5 0-3 0-4M16 9c0-1.5 0-3 0-4"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M8 9c0-1.5 0-3 0-4M16 9c0-1.5 0-3 0-4"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Газовые плиты</span>
-            <span class="price-cat__meta">Bosch · Samsung · LG · Electrolux · Gorenje</span>
+            <span class="price-cat__meta">Bosch · Samsung · LG · Gorenje</span>
           </div>
           <span class="price-cat__from">от 30 BYN</span>
           <span class="price-cat__arrow">+</span>
@@ -315,10 +319,10 @@
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="15" cy="12" r="3"/><line x1="7" y1="12" x2="7.01" y2="12"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="15" cy="12" r="3"/><line x1="7" y1="12" x2="7.01" y2="12"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Микроволновки</span>
-            <span class="price-cat__meta">Bosch · Samsung · LG · Electrolux</span>
+            <span class="price-cat__meta">Bosch · Samsung · LG</span>
           </div>
           <span class="price-cat__from">от 30 BYN</span>
           <span class="price-cat__arrow">+</span>
@@ -328,16 +332,16 @@
           <div class="price-row"><div class="price-row__name">Замена магнетрона</div><div class="price-row__value">от 45 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена высоковольтного диода</div><div class="price-row__value">от 40 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена слюдяной пластины</div><div class="price-row__value">от 30 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Ремонт/замена платы управления</div><div class="price-row__value">от 50 BYN</div></div>
+          <div class="price-row"><div class="price-row__name">Ремонт платы управления</div><div class="price-row__value">от 50 BYN</div></div>
         </div>
       </details>
 
       <details class="price-cat">
         <summary class="price-cat__head">
-          <div class="price-cat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v6a3 3 0 0 1-6 0V3z"/><path d="M12 12v4"/><rect x="8" y="16" width="8" height="5" rx="1"/></svg></div>
+          <div class="price-cat__icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;"><path d="M9 3h6v6a3 3 0 0 1-6 0V3z"/><path d="M12 12v4"/><rect x="8" y="16" width="8" height="5" rx="1"/></svg></div>
           <div class="price-cat__title">
             <span class="price-cat__name">Фены и отпариватели</span>
-            <span class="price-cat__meta">Philips · Bosch · Tefal · Braun · Rowenta</span>
+            <span class="price-cat__meta">Philips · Bosch · Tefal · Braun</span>
           </div>
           <span class="price-cat__from">от 25 BYN</span>
           <span class="price-cat__arrow">+</span>
@@ -348,7 +352,6 @@
           <div class="price-row"><div class="price-row__name">Замена двигателя фена</div><div class="price-row__value">от 30 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Чистка бойлера отпаривателя</div><div class="price-row__value">от 30 BYN</div></div>
           <div class="price-row"><div class="price-row__name">Замена помпы парогенератора</div><div class="price-row__value">от 35 BYN</div></div>
-          <div class="price-row"><div class="price-row__name">Замена регулятора</div><div class="price-row__value">от 30 BYN</div></div>
         </div>
       </details>
 
@@ -356,7 +359,6 @@
   </div>
 </section>
 
-<!-- ЧТО ВХОДИТ / НЕ ВХОДИТ -->
 <section class="section section--soft">
   <div class="container">
     <div class="head">
@@ -397,7 +399,6 @@
   </div>
 </section>
 
-<!-- FAQ -->
 <section class="section">
   <div class="container">
     <div class="head">
@@ -430,7 +431,7 @@
       </details>
       <details class="faq-item">
         <summary>Что если после диагностики я откажусь от ремонта?</summary>
-        <p>Тогда оплачиваете только диагностику — 15 BYN. Никаких дополнительных сборов. Забираете технику и решаете, что делать дальше.</p>
+        <p>Тогда оплачиваете только диагностику — от 15 BYN. Никаких дополнительных сборов. Забираете технику и решаете, что делать дальше.</p>
       </details>
     </div>
   </div>
