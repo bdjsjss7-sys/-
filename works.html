@@ -1,306 +1,282 @@
-<div class="works-grid">
+<script>
+/* ДАННЫЕ КЕЙСОВ — 10 категорий × 15 = 150 кейсов */
+const WORKS = {
+  wash: {
+    label: 'Стиральные машины',
+    items: [
+      { brand: 'Bosch', model: 'WAT 24', time: '1 день', fast: true, symptom: 'Не сливает воду, код ошибки', action: 'Засор фильтра, износ <strong>сливной помпы</strong>. Прочистили, заменили помпу.', work: 45, parts: 40 },
+      { brand: 'Samsung', model: 'WF 60', time: '3 дня', symptom: 'Гул при отжиме, вибрация', action: 'Износ <strong>подшипников барабана</strong>. Заменили подшипники и сальник.', work: 90, parts: 60 },
+      { brand: 'LG', model: 'F2M5', time: '1 день', fast: true, symptom: 'Течёт вода снизу', action: 'Износ <strong>уплотнителя люка</strong>, трещина патрубка. Заменили оба.', work: 45, parts: 65 },
+      { brand: 'Indesit', model: 'IWSB 5085', time: '1 день', fast: true, symptom: 'Не отжимает, барабан стоит', action: 'Износ <strong>ремня и щёток двигателя</strong>. Заменили.', work: 45, parts: 30 },
+      { brand: 'Electrolux', model: 'EWT 1064', time: '2 дня', symptom: 'Не греет воду', action: 'Износ <strong>ТЭНа</strong>. Заменили ТЭН, проверили термодатчик.', work: 50, parts: 45 },
+      { brand: 'Beko', model: 'WRE 6511', time: '1 день', fast: true, symptom: 'Ошибка на дисплее', action: 'Сбой <strong>платы управления</strong>. Заменили модуль.', work: 55, parts: 120 },
+      { brand: 'Bosch', model: 'WAE 20', time: '1 день', fast: true, symptom: 'Не набирает воду', action: 'Засор <strong>впускного клапана</strong>. Прочистили, заменили уплотнители.', work: 45, parts: 35 },
+      { brand: 'Samsung', model: 'WW 70', time: '2 дня', symptom: 'Не работает дисплей', action: 'Износ <strong>шлейфа панели</strong>. Заменили шлейф.', work: 50, parts: 55 },
+      { brand: 'LG', model: 'F2H5', time: '1 день', fast: true, symptom: 'Не блокируется дверца', action: 'Износ <strong>замка блокировки</strong>. Заменили замок.', work: 40, parts: 35 },
+      { brand: 'Whirlpool', model: 'AWS 612', time: '2 дня', symptom: 'Не крутится барабан', action: 'Износ <strong>щеток двигателя</strong>, проблема с платой. Заменили щётки.', work: 50, parts: 45 },
+      { brand: 'Candy', model: 'CS 14', time: '2 дня', symptom: 'Шумит при стирке', action: 'Посторонний предмет в баке, износ <strong>подшипника</strong>. Разобрали.', work: 60, parts: 50 },
+      { brand: 'Gorenje', model: 'W 72', time: '1 день', fast: true, symptom: 'Ошибка E05', action: 'Сбой датчика уровня воды. Заменили <strong>прессостат</strong>.', work: 45, parts: 40 },
+      { brand: 'Bosch', model: 'WAU 28', time: '2 дня', symptom: 'Не сливает и не отжимает', action: 'Засор + износ <strong>помпы</strong>. Заменили помпу, прочистили.', work: 50, parts: 55 },
+      { brand: 'Samsung', model: 'WF 45', time: '1 день', fast: true, symptom: 'Выбивает автомат', action: 'Пробой <strong>ТЭНа</strong>. Заменили ТЭН, проверили изоляцию.', work: 45, parts: 40 },
+      { brand: 'Miele', model: 'W 1 WMV 963', time: '3 дня', symptom: 'Гул при отжиме', action: 'Износ <strong>подшипников барабана</strong>. Заменили подшипники и сальник.', work: 110, parts: 90 }
+    ]
+  },
+  dish: {
+    label: 'Посудомойки',
+    items: [
+      { brand: 'Bosch', model: 'SMV 68', time: '1 день', fast: true, symptom: 'Ошибка E15 (AquaStop)', action: 'Износ <strong>уплотнителя дверцы</strong>. Заменили, сбросили систему.', work: 45, parts: 50 },
+      { brand: 'Samsung', model: 'DW 60', time: '2 дня', symptom: 'Плохо моет посуду', action: 'Засор форсунок, износ <strong>циркуляционной помпы</strong>. Заменили.', work: 60, parts: 95 },
+      { brand: 'LG', model: 'DF 24', time: '1 день', fast: true, symptom: 'Не сушит посуду', action: 'Износ <strong>ТЭНа сушки</strong>. Заменили ТЭН, проверили вентилятор.', work: 50, parts: 60 },
+      { brand: 'Bosch', model: 'SMS 46', time: '1 день', fast: true, symptom: 'Не набирает воду (E14)', action: 'Засор <strong>впускного клапана</strong>. Прочистили, заменили уплотнители.', work: 45, parts: 40 },
+      { brand: 'Electrolux', model: 'ESL 94200', time: '2 дня', symptom: 'Не сливает воду', action: 'Износ <strong>сливной помпы</strong>. Заменили помпу, проверили дренаж.', work: 55, parts: 70 },
+      { brand: 'Siemens', model: 'SN 678', time: '2 дня', symptom: 'Ошибка F24 (подача)', action: 'Сбой <strong>аквасенсора</strong>. Заменили датчик, откалибровали.', work: 60, parts: 80 },
+      { brand: 'Miele', model: 'G 5000', time: '2 дня', symptom: 'Дверца не открывается', action: 'Сбой <strong>AutoOpen</strong>. Заменили привод дверцы.', work: 65, parts: 90 },
+      { brand: 'Beko', model: 'DFN 05', time: '1 день', fast: true, symptom: 'Протечка на пол', action: 'Трещина <strong>дренажного шланга</strong>. Заменили шланг.', work: 45, parts: 35 },
+      { brand: 'Bosch', model: 'SMS 88', time: '2 дня', symptom: 'Ошибка E17', action: 'Проблема с <strong>датчиком давления</strong>. Заменили прессостат.', work: 55, parts: 65 },
+      { brand: 'Miele', model: 'G 7000', time: '2 дня', symptom: 'Ошибка F11', action: 'Засор <strong>обратного клапана</strong> дренажа. Прочистили.', work: 50, parts: 45 },
+      { brand: 'LG', model: 'DF 14', time: '1 день', fast: true, symptom: 'Плохо сушит', action: 'Засор воздуховода. Прочистили систему, заменили фильтр.', work: 40, parts: 30 },
+      { brand: 'Whirlpool', model: 'ADP 20', time: '2 дня', symptom: 'Не закрывается дверца', action: 'Износ <strong>замка и петель</strong>. Заменили.', work: 50, parts: 60 },
+      { brand: 'Siemens', model: 'SN 58', time: '2 дня', symptom: 'Странный запах', action: 'Засор <strong>фильтров и дренажа</strong>. Полная чистка системы.', work: 50, parts: 0 },
+      { brand: 'Bosch', model: 'SPS 4', time: '1 день', fast: true, symptom: 'Не выключается', action: 'Сбой <strong>кнопки питания</strong>. Заменили кнопку, проверили плату.', work: 45, parts: 35 },
+      { brand: 'Samsung', model: 'DW 70', time: '2 дня', symptom: 'Ошибка LC', action: 'Протечка на поддон. Устранили, заменили <strong>уплотнитель</strong>.', work: 55, parts: 50 }
+    ]
+  },
+  tv: {
+    label: 'Телевизоры',
+    items: [
+      { brand: 'Samsung', model: 'UE 55', time: '4 дня', symptom: 'Нет изображения, звук есть', action: 'Перегорела <strong>LED-подсветка</strong>. Заменили линейку LED.', work: 90, parts: 120 },
+      { brand: 'LG', model: '43UM', time: '3 дня', symptom: 'Сам выключается', action: 'Износ <strong>конденсаторов блока питания</strong>. Перепаяли.', work: 60, parts: 70 },
+      { brand: 'Sony', model: 'KD-49', time: '3 дня', symptom: 'Не работает HDMI', action: 'Повреждён <strong>HDMI-разъём</strong>. Перепаяли на новый.', work: 55, parts: 35 },
+      { brand: 'Philips', model: '50PUS', time: '4 дня', symptom: 'Полосы на экране', action: 'Износ <strong>T-CON контроллера</strong>. Заменили контроллер.', work: 85, parts: 100 },
+      { brand: 'Samsung', model: 'UE 43', time: '1 день', fast: true, symptom: 'Не включается', action: 'Сбой <strong>кнопки включения</strong>. Заменили кнопку.', work: 45, parts: 25 },
+      { brand: 'LG', model: 'OLED 55', time: '5 дней', symptom: 'Пятна на экране', action: 'Повреждение <strong>OLED-матрицы</strong>. Заменили матрицу.', work: 120, parts: 350 },
+      { brand: 'Sony', model: 'Bravia 55', time: '3 дня', symptom: 'Нет звука', action: 'Износ <strong>усилителя звука</strong>. Заменили звуковую плату.', work: 60, parts: 75 },
+      { brand: 'Philips', model: '43PFS', time: '2 дня', symptom: 'Не работает Wi-Fi', action: 'Сбой <strong>Wi-Fi модуля</strong>. Заменили модуль, настроили Smart TV.', work: 55, parts: 45 },
+      { brand: 'Samsung', model: 'QE 65 QLED', time: '4 дня', symptom: 'Мигает подсветка', action: 'Износ <strong>драйвера подсветки</strong>. Заменили драйвер.', work: 80, parts: 110 },
+      { brand: 'LG', model: 'NanoCell 55', time: '3 дня', symptom: 'Не работает пульт', action: 'Износ <strong>ИК-приёмника</strong>. Заменили приёмник.', work: 45, parts: 35 },
+      { brand: 'Xiaomi', model: 'Mi TV P1', time: '3 дня', symptom: 'Зависает Smart TV', action: 'Сбой <strong>прошивки</strong>. Перепрошили, заменили модуль памяти.', work: 55, parts: 50 },
+      { brand: 'Panasonic', model: 'TX-50', time: '4 дня', symptom: 'Белый экран', action: 'Износ <strong>T-CON</strong> или шлейфа. Заменили шлейф, проверили.', work: 70, parts: 90 },
+      { brand: 'Sony', model: 'XH 90', time: '5 дней', symptom: 'Не включается подсветка', action: 'Износ <strong>LED-драйвера</strong>. Заменили драйвер и часть LED.', work: 85, parts: 130 },
+      { brand: 'Samsung', model: 'UE 32', time: '2 дня', symptom: 'Нет картинки, звук есть', action: 'Сбой <strong>mainboard</strong>. Заменили плату.', work: 60, parts: 80 },
+      { brand: 'LG', model: '43 UQ', time: '2 дня', symptom: 'Хрипит звук', action: 'Износ <strong>динамиков</strong>. Заменили динамики.', work: 45, parts: 40 }
+    ]
+  },
+  coffee: {
+    label: 'Кофемашины',
+    items: [
+      { brand: 'DeLonghi', model: 'Magnifica S', time: '2 дня', symptom: 'Течёт вода снизу', action: 'Треснул <strong>бойлер</strong>. Заменили бойлер и помпу.', work: 65, parts: 120 },
+      { brand: 'Philips', model: '3200 LatteGo', time: '1 день', fast: true, symptom: 'Не мелет кофе', action: 'Износ <strong>керамических жернов</strong>. Заменили, откалибровали.', work: 60, parts: 90 },
+      { brand: 'Siemens', model: 'EQ.6', time: '2 дня', symptom: 'Не работает капучинатор', action: 'Засор парогенератора. Почистили, заменили трубки.', work: 55, parts: 85 },
+      { brand: 'Jura', model: 'E8', time: '3 дня', symptom: 'Потерял напор воды', action: 'Износ <strong>помпы</strong>. Заменили помпу на оригинал Jura.', work: 70, parts: 150 },
+      { brand: 'Nivona', model: 'CafeRomatica 7', time: '2 дня', symptom: 'Ошибка на дисплее', action: 'Сбой <strong>платы управления</strong>. Заменили модуль.', work: 65, parts: 130 },
+      { brand: 'DeLonghi', model: 'Dinamica', time: '1 день', fast: true, symptom: 'Не наливает кофе', action: 'Засор <strong>заварочного блока</strong>. Прочистили, смазали.', work: 55, parts: 0 },
+      { brand: 'Saeco', model: 'Xelsis', time: '2 дня', symptom: 'Просит промывку', action: 'Сбой <strong>датчика потока</strong>. Заменили датчик.', work: 60, parts: 75 },
+      { brand: 'Philips', model: '5400 LatteGo', time: '2 дня', symptom: 'Кофе холодный', action: 'Износ <strong>ТЭНа бойлера</strong>. Заменили ТЭН.', work: 60, parts: 95 },
+      { brand: 'Melitta', model: 'Caffeo CI', time: '2 дня', symptom: 'Течёт из-под капучинатора', action: 'Износ <strong>уплотнителей</strong>. Заменили уплотнители.', work: 50, parts: 40 },
+      { brand: 'Krups', model: 'EA 89', time: '2 дня', symptom: 'Не греет воду', action: 'Износ <strong>ТЭНа</strong>. Заменили, проверили термостат.', work: 55, parts: 85 },
+      { brand: 'Bosch', model: 'VeroCafe', time: '2 дня', symptom: 'Слабый напор кофе', action: 'Засор гидросистемы. Почистили, заменили <strong>клапан</strong>.', work: 55, parts: 50 },
+      { brand: 'Jura', model: 'ENA 8', time: '3 дня', symptom: 'Течёт вода снизу', action: 'Износ <strong>уплотнителей</strong> бойлера. Заменили.', work: 60, parts: 70 },
+      { brand: 'Miele', model: 'CM 6160', time: '3 дня', symptom: 'Ошибка капучинатора', action: 'Засор трубок молока. Почистили, заменили клапан.', work: 65, parts: 90 },
+      { brand: 'Nivona', model: 'NICR 7', time: '2 дня', symptom: 'Не включается', action: 'Сбой <strong>платы</strong>. Заменили модуль.', work: 60, parts: 110 },
+      { brand: 'Melitta', model: 'Purista', time: '1 день', fast: true, symptom: 'Посторонний шум', action: 'Износ <strong>кофемолки</strong>. Заменили жернова.', work: 55, parts: 75 }
+    ]
+  },
+  boiler: {
+    label: 'Водонагреватели',
+    items: [
+      { brand: 'Ariston', model: 'ABS 80', time: '1 день', fast: true, symptom: 'Не греет, выбивает автомат', action: 'Пробой <strong>ТЭНа</strong>. Заменили, анод, почистили бак.', work: 55, parts: 65 },
+      { brand: 'Electrolux', model: 'EWH 50', time: '1 день', fast: true, symptom: 'Течёт из-под фланца', action: 'Износ <strong>уплотнителя</strong>. Заменили прокладку.', work: 50, parts: 30 },
+      { brand: 'Gorenje', model: 'OTG 80', time: '2 дня', symptom: 'Слабо греет воду', action: 'Накипь 3 мм на <strong>ТЭНе</strong>. Очистили, заменили анод.', work: 50, parts: 40 },
+      { brand: 'Bosch', model: 'TR 4000', time: '1 день', fast: true, symptom: 'Не включается', action: 'Сбой <strong>термостата</strong>. Заменили термостат.', work: 45, parts: 55 },
+      { brand: 'Thermex', model: 'Champion 50', time: '1 день', fast: true, symptom: 'Течёт кран сброса', action: 'Износ <strong>предохранительного клапана</strong>. Заменили.', work: 40, parts: 30 },
+      { brand: 'Ariston', model: 'PRO R 100', time: '2 дня', symptom: 'Ошибка на дисплее', action: 'Сбой <strong>платы управления</strong>. Заменили модуль.', work: 55, parts: 90 },
+      { brand: 'Electrolux', model: 'EWH 100', time: '2 дня', symptom: 'Шум при нагреве', action: 'Накипь на <strong>ТЭНе</strong> и датчике. Очистили.', work: 50, parts: 35 },
+      { brand: 'Gorenje', model: 'TGR 50', time: '1 день', fast: true, symptom: 'Не греет вторую ступень', action: 'Износ <strong>ТЭНа</strong> второй ступени. Заменили.', work: 50, parts: 45 },
+      { brand: 'Bosch', model: 'Tronic 5000', time: '2 дня', symptom: 'Течёт из бака', action: 'Трещина <strong>внутреннего бака</strong>. Заменили бак.', work: 90, parts: 180 },
+      { brand: 'Thermex', model: 'Stream 80', time: '1 день', fast: true, symptom: 'Не нагревает до температуры', action: 'Износ <strong>термостата</strong>. Заменили, откалибровали.', work: 50, parts: 40 },
+      { brand: 'Ariston', model: 'Velis 50', time: '1 день', fast: true, symptom: 'Течёт из ТЭНа', action: 'Износ <strong>прокладки ТЭНа</strong>. Заменили прокладку.', work: 45, parts: 25 },
+      { brand: 'Electrolux', model: 'EWH 30', time: '1 день', fast: true, symptom: 'Не работает индикатор', action: 'Сбой <strong>LED-индикатора</strong>. Заменили.', work: 40, parts: 20 },
+      { brand: 'Ballu', model: 'BWH 80', time: '2 дня', symptom: 'Нагревает долго', action: 'Накипь на <strong>ТЭНе</strong>. Очистили, заменили анод.', work: 50, parts: 35 },
+      { brand: 'Gorenje', model: 'OTG 100', time: '2 дня', symptom: 'Не выключается', action: 'Залипание <strong>термостата</strong>. Заменили термостат.', work: 55, parts: 55 },
+      { brand: 'Bosch', model: 'TR 5500', time: '2 дня', symptom: 'Слабый напор', action: 'Засор <strong>впускного патрубка</strong>. Прочистили, заменили.', work: 50, parts: 30 }
+    ]
+  },
+  oven: {
+    label: 'Духовки',
+    items: [
+      { brand: 'Bosch', model: 'HBG 634', time: '1 день', fast: true, symptom: 'Не работает конвекция', action: 'Износ <strong>вентилятора конвекции</strong> и ТЭНа. Заменили.', work: 50, parts: 65 },
+      { brand: 'Samsung', model: 'NV 70', time: '2 дня', symptom: 'Дверца не закрывается', action: 'Износ <strong>петель и замка</strong>. Заменили, отрегулировали.', work: 45, parts: 55 },
+      { brand: 'Electrolux', model: 'EOB 5450', time: '2 дня', symptom: 'Пиролиз не работает', action: 'Износ <strong>ТЭНа пиролиза</strong>, сбой замка. Заменили.', work: 65, parts: 90 },
+      { brand: 'Gorenje', model: 'BO 73', time: '1 день', fast: true, symptom: 'Не греет верхний ТЭН', action: 'Износ <strong>верхнего ТЭНа</strong>. Заменили, проверили термостат.', work: 45, parts: 50 },
+      { brand: 'Bosch', model: 'HBF 134', time: '1 день', fast: true, symptom: 'Ошибка на дисплее', action: 'Сбой <strong>платы управления</strong>. Заменили модуль.', work: 55, parts: 90 },
+      { brand: 'Siemens', model: 'HB 678', time: '2 дня', symptom: 'Пароварка не подаёт пар', action: 'Засор <strong>парогенератора</strong>. Почистили ультразвуком.', work: 60, parts: 70 },
+      { brand: 'Samsung', model: 'NV 73', time: '2 дня', symptom: 'Не работает таймер', action: 'Сбой <strong>контроллера</strong>. Заменили модуль.', work: 55, parts: 80 },
+      { brand: 'Electrolux', model: 'EOC 5850', time: '1 день', fast: true, symptom: 'Свет не горит', action: 'Износ <strong>LED-модуля</strong>. Заменили модуль подсветки.', work: 40, parts: 30 },
+      { brand: 'Miele', model: 'H 7260', time: '2 дня', symptom: 'Не работает пиролиз', action: 'Сбой <strong>ТЭНа пиролиза</strong>. Заменили ТЭН, откалибровали.', work: 75, parts: 120 },
+      { brand: 'Gaggenau', model: 'BO 480', time: '3 дня', symptom: 'Ошибка E 04', action: 'Износ <strong>модуля управления</strong>. Заменили на оригинал.', work: 90, parts: 180 },
+      { brand: 'Neff', model: 'B 47', time: '2 дня', symptom: 'Не греет нижний ТЭН', action: 'Износ <strong>нижнего ТЭНа</strong>. Заменили, проверили термостат.', work: 50, parts: 65 },
+      { brand: 'Whirlpool', model: 'AKZ 9', time: '2 дня', symptom: 'Не работает гриль', action: 'Износ <strong>ТЭНа гриля</strong>. Заменили, проверили реле.', work: 50, parts: 60 },
+      { brand: 'Siemens', model: 'HB 634', time: '2 дня', symptom: 'Слабо греет', action: 'Износ <strong>термостата</strong>. Заменили, проверили датчик.', work: 50, parts: 55 },
+      { brand: 'Bosch', model: 'HBJ 558', time: '1 день', fast: true, symptom: 'Дверца падает', action: 'Износ <strong>петель</strong>. Заменили петли, отрегулировали.', work: 45, parts: 50 },
+      { brand: 'Gorenje', model: 'BO 87', time: '2 дня', symptom: 'Не работает пиролиз', action: 'Сбой <strong>замка блокировки</strong>. Заменили замок.', work: 55, parts: 75 }
+    ]
+  },
+  cooktop: {
+    label: 'Варочные панели',
+    items: [
+      { brand: 'LG', model: 'индукция CIB', time: '3 дня', symptom: 'Не включается', action: 'Сбой <strong>силового модуля</strong>. Заменили модуль.', work: 70, parts: 120 },
+      { brand: 'Bosch', model: 'PXX 875', time: '3 дня', symptom: 'Не греет одна зона', action: 'Износ <strong>индукционной катушки</strong>. Заменили.', work: 55, parts: 85 },
+      { brand: 'Siemens', model: 'EX 875', time: '2 дня', symptom: 'Сенсоры не реагируют', action: 'Сбой <strong>сенсорной панели</strong>. Заменили панель.', work: 60, parts: 95 },
+      { brand: 'Electrolux', model: 'стеклокерамика', time: '1 день', fast: true, symptom: 'Не греет одна зона', action: 'Износ <strong>нагревательного элемента</strong>. Заменили.', work: 55, parts: 75 },
+      { brand: 'Gorenje', model: 'ECT 643', time: '2 дня', symptom: 'Выбивает автомат', action: 'Пробой <strong>ТЭНа</strong> из-за влаги. Заменили ТЭН.', work: 60, parts: 65 },
+      { brand: 'Bosch', model: 'PIE 675', time: '2 дня', symptom: 'Не работает таймер', action: 'Сбой <strong>контроллера</strong>. Заменили модуль.', work: 55, parts: 80 },
+      { brand: 'LG', model: 'индукция 60', time: '3 дня', symptom: 'Шумит вентилятор', action: 'Износ <strong>вентилятора охлаждения</strong>. Заменили.', work: 50, parts: 60 },
+      { brand: 'Siemens', model: 'EX 675', time: '2 дня', symptom: 'Не включается зона', action: 'Износ <strong>силового реле</strong>. Заменили реле.', work: 55, parts: 70 },
+      { brand: 'Neff', model: 'T58TL6', time: '3 дня', symptom: 'Не работает TwistPad', action: 'Сбой <strong>магнитного контроллера</strong>. Восстановили связь.', work: 65, parts: 110 },
+      { brand: 'Miele', model: 'KM 7564', time: '3 дня', symptom: 'Не греет одна зона', action: 'Износ <strong>катушки</strong>. Заменили, проверили модуль.', work: 70, parts: 120 },
+      { brand: 'Bosch', model: 'PXE 875', time: '2 дня', symptom: 'Ошибка на дисплее', action: 'Сбой <strong>платы</strong>. Заменили модуль, откалибровали.', work: 60, parts: 95 },
+      { brand: 'Electrolux', model: 'EHF 16240', time: '2 дня', symptom: 'Трещина на стекле', action: 'Заменили <strong>стеклокерамику</strong>, проверили модули.', work: 80, parts: 140 },
+      { brand: 'Gorenje', model: 'IT 643', time: '2 дня', symptom: 'Не работает блокировка', action: 'Сбой <strong>кнопки Lock</strong>. Заменили панель управления.', work: 55, parts: 80 },
+      { brand: 'Whirlpool', model: 'AKT 809', time: '2 дня', symptom: 'Не греет центр', action: 'Износ <strong>центрального нагревателя</strong>. Заменили.', work: 55, parts: 70 },
+      { brand: 'LG', model: 'индукция 4 зоны', time: '3 дня', symptom: 'Скачет мощность', action: 'Сбой <strong>инвертора</strong>. Заменили плату инвертора.', work: 65, parts: 110 }
+    ]
+  },
+  vacuum: {
+    label: 'Пылесосы',
+    items: [
+      { brand: 'Dyson', model: 'V11', time: '1 день', fast: true, symptom: 'Быстро садится батарея', action: 'Износ <strong>Li-Ion аккумулятора</strong>. Заменили на оригинал.', work: 45, parts: 120 },
+      { brand: 'Samsung', model: 'SC 20', time: '1 день', fast: true, symptom: 'Плохо сосёт', action: 'Засор фильтров и <strong>турбины</strong>. Почистили.', work: 40, parts: 20 },
+      { brand: 'Dyson', model: 'V15', time: '2 дня', symptom: 'Не крутится турбощётка', action: 'Износ <strong>мотора щётки</strong>. Заменили мотор.', work: 55, parts: 80 },
+      { brand: 'Bosch', model: 'Serie 6', time: '1 день', fast: true, symptom: 'Шумит / вибрирует', action: 'Износ <strong>подшипников двигателя</strong>. Заменили.', work: 45, parts: 40 },
+      { brand: 'Xiaomi', model: 'Roborock S7', time: '3 дня', symptom: 'Не находит базу', action: 'Сбой <strong>навигации</strong>. Заменили камеру.', work: 60, parts: 90 },
+      { brand: 'Dyson', model: 'V7', time: '1 день', fast: true, symptom: 'Не включается', action: 'Износ <strong>кнопки</strong>. Заменили кнопку.', work: 40, parts: 25 },
+      { brand: 'Xiaomi', model: 'Roborock S5', time: '2 дня', symptom: 'Не заряжается', action: 'Износ <strong>контактов базы</strong>. Заменили контакты.', work: 45, parts: 35 },
+      { brand: 'LG', model: 'CordZero A9', time: '2 дня', symptom: 'Мотор работает рывками', action: 'Сбой <strong>платы управления</strong>. Заменили плату.', work: 55, parts: 85 },
+      { brand: 'Dyson', model: 'V8 Absolute', time: '2 дня', symptom: 'Не держит заряд', action: 'Износ <strong>аккумулятора</strong>. Заменили на оригинал.', work: 45, parts: 110 },
+      { brand: 'Samsung', model: 'Jet 75', time: '2 дня', symptom: 'Не крутится щётка', action: 'Износ <strong>привода щётки</strong>. Заменили привод.', work: 50, parts: 70 },
+      { brand: 'iRobot', model: 'Roomba j7', time: '3 дня', symptom: 'Теряет навигацию', action: 'Износ <strong>системы навигации</strong>. Заменили датчики.', work: 65, parts: 100 },
+      { brand: 'Bosch', model: 'Unlimited 8', time: '1 день', fast: true, symptom: 'Не включается', action: 'Сбой <strong>кнопки</strong>. Заменили, проверили батарею.', work: 40, parts: 30 },
+      { brand: 'Xiaomi', model: 'Roborock S6', time: '3 дня', symptom: 'Не моет влажно', action: 'Засор форсунок. Прочистили, заменили <strong>помпу</strong>.', work: 55, parts: 60 },
+      { brand: 'Dyson', model: 'V10', time: '1 день', fast: true, symptom: 'Слабо сосёт', action: 'Засор фильтра и циклонов. Почистили, заменили фильтр.', work: 40, parts: 30 },
+      { brand: 'Philips', model: 'PowerPro', time: '2 дня', symptom: 'Не держит батарея', action: 'Износ <strong>аккумулятора</strong>. Заменили.', work: 45, parts: 80 }
+    ]
+  },
+  hood: {
+    label: 'Вытяжки',
+    items: [
+      { brand: 'Bosch', model: 'DKE 98', time: '1 день', fast: true, symptom: 'Слабо всасывает, шумит', action: 'Забиты фильтры, износ <strong>крыльчатки</strong>. Заменили.', work: 45, parts: 40 },
+      { brand: 'Siemens', model: 'LC 98', time: '2 дня', symptom: 'Не работает мотор', action: 'Износ <strong>двигателя</strong>. Заменили мотор.', work: 55, parts: 110 },
+      { brand: 'Miele', model: 'DA 6096', time: '2 дня', symptom: 'Не работает подсветка', action: 'Износ <strong>LED-модуля</strong>. Заменили модуль.', work: 45, parts: 55 },
+      { brand: 'Neff', model: 'D 79 ML', time: '2 дня', symptom: 'Не реагирует на кнопки', action: 'Сбой <strong>сенсорной панели</strong>. Заменили панель.', work: 55, parts: 85 },
+      { brand: 'Bosch', model: 'DWK 98', time: '1 день', fast: true, symptom: 'Вибрация при работе', action: 'Износ <strong>крепления крыльчатки</strong>. Заменили.', work: 40, parts: 25 },
+      { brand: 'Gorenje', model: 'WHI 643', time: '2 дня', symptom: 'Не выключается', action: 'Сбой <strong>датчика воздуха</strong>. Заменили датчик.', work: 50, parts: 60 },
+      { brand: 'Siemens', model: 'LC 67', time: '1 день', fast: true, symptom: 'Ошибка на дисплее', action: 'Сбой <strong>контроллера</strong>. Перепрошили, проверили.', work: 45, parts: 30 },
+      { brand: 'Miele', model: 'DA 6698', time: '2 дня', symptom: 'Не работает Home Connect', action: 'Сбой <strong>Wi-Fi модуля</strong>. Заменили модуль.', work: 55, parts: 70 },
+      { brand: 'Neff', model: 'D 57', time: '2 дня', symptom: 'Сильно вибрирует', action: 'Износ <strong>крепления крыльчатки</strong>. Заменили.', work: 45, parts: 40 },
+      { brand: 'Bosch', model: 'DWB 98', time: '2 дня', symptom: 'Не работает мотор', action: 'Сбой <strong>платы</strong>. Заменили модуль, проверили мотор.', work: 60, parts: 90 },
+      { brand: 'Gaggenau', model: 'AW 442', time: '3 дня', symptom: 'Не выключается', action: 'Сбой <strong>датчика воздуха</strong>. Заменили.', work: 65, parts: 95 },
+      { brand: 'Siemens', model: 'LC 98 BA', time: '2 дня', symptom: 'Шумит мотор', action: 'Износ <strong>подшипников мотора</strong>. Заменили мотор.', work: 60, parts: 100 },
+      { brand: 'Whirlpool', model: 'WH 90', time: '1 день', fast: true, symptom: 'Не работает подсветка', action: 'Износ <strong>LED-модуля</strong>. Заменили модуль.', work: 40, parts: 35 },
+      { brand: 'Miele', model: 'DA 7000', time: '2 дня', symptom: 'Сенсоры не реагируют', action: 'Сбой <strong>панели управления</strong>. Заменили панель.', work: 60, parts: 90 },
+      { brand: 'Bosch', model: 'DHL 585', time: '2 дня', symptom: 'Течёт конденсат', action: 'Засор дренажа. Прочистили, заменили <strong>трубку</strong>.', work: 45, parts: 30 }
+    ]
+  },
+  small: {
+    label: 'Мелкая техника',
+    items: [
+      { brand: 'Philips', model: 'Отпариватель GC 6', time: '1 день', fast: true, symptom: 'Слабо дует пар', action: 'Засор <strong>бойлера накипью</strong>. Очистили.', work: 45, parts: 25 },
+      { brand: 'Bosch', model: 'Фен Professional', time: '1 день', fast: true, symptom: 'Не греет', action: 'Износ <strong>нагревательного элемента</strong>. Заменили.', work: 35, parts: 45 },
+      { brand: 'Braun', model: 'Satin Hair', time: '1 день', fast: true, symptom: 'Шумит / вибрирует', action: 'Износ <strong>подшипников двигателя</strong>. Заменили.', work: 40, parts: 50 },
+      { brand: 'Tefal', model: 'Pro Express', time: '2 дня', symptom: 'Течёт вода', action: 'Износ <strong>уплотнителей бойлера</strong>. Заменили.', work: 45, parts: 35 },
+      { brand: 'Rowenta', model: 'Стайлер', time: '1 день', fast: true, symptom: 'Не работает регулятор', action: 'Износ <strong>переключателя</strong>. Заменили.', work: 40, parts: 30 },
+      { brand: 'Philips', model: 'Фен BHD', time: '1 день', fast: true, symptom: 'Не включается', action: 'Обрыв провода. Заменили <strong>шнур</strong>.', work: 35, parts: 25 },
+      { brand: 'Bosch', model: 'Отпариватель', time: '2 дня', symptom: 'Плохо подаёт пар', action: 'Засор <strong>клапана пара</strong>. Заменили клапан.', work: 45, parts: 40 },
+      { brand: 'Tefal', model: 'Фен Studio', time: '1 день', fast: true, symptom: 'Не крутится вентилятор', action: 'Износ <strong>двигателя</strong>. Заменили двигатель.', work: 40, parts: 55 },
+      { brand: 'Rowenta', model: 'Отпариватель', time: '2 дня', symptom: 'Не нагревает', action: 'Износ <strong>ТЭНа</strong>. Заменили, проверили термостат.', work: 45, parts: 40 },
+      { brand: 'Philips', model: 'Утюг Azur', time: '1 день', fast: true, symptom: 'Не подаёт пар', action: 'Засор <strong>клапана</strong>. Прочистили, заменили.', work: 35, parts: 30 },
+      { brand: 'Bosch', model: 'Фен Style', time: '1 день', fast: true, symptom: 'Не работает переключатель', action: 'Износ <strong>переключателя</strong>. Заменили.', work: 35, parts: 25 },
+      { brand: 'Braun', model: 'Отпариватель', time: '2 дня', symptom: 'Течёт вода', action: 'Износ <strong>уплотнителей</strong>. Заменили.', work: 40, parts: 30 },
+      { brand: 'Tefal', model: 'Утюг Ultimate', time: '1 день', fast: true, symptom: 'Не работает подошва', action: 'Износ <strong>нагревателя</strong>. Заменили узел.', work: 40, parts: 45 },
+      { brand: 'Philips', model: 'Паровой утюг', time: '1 день', fast: true, symptom: 'Не работает автоподогрев', action: 'Сбой <strong>платы управления</strong>. Заменили модуль.', work: 45, parts: 50 },
+      { brand: 'Rowenta', model: 'Фен Motion', time: '1 день', fast: true, symptom: 'Пахнет гарью', action: 'Износ <strong>нагревателя</strong>. Заменили, проверили изоляцию.', work: 40, parts: 45 }
+    ]
+  }
+};
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div>
-            <div class="work-card__brand">Bosch</div>
-            <div class="work-card__model">Стиральная WAT 24</div>
-          </div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не сливает воду, код ошибки на дисплее</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Засор в фильтре и износ <strong>сливной помпы</strong>. Прочистили систему, заменили помпу на оригинал.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">85 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>45 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>40 BYN</span></div></div>
-        </div>
-      </article>
+(function () {
+  var tabsWrap = document.getElementById('worksTabs');
+  var gridWrap = document.getElementById('worksGrid');
+  var moreWrap = document.getElementById('worksMoreWrap');
+  var moreBtn = document.getElementById('worksMore');
+  if (!tabsWrap || !gridWrap) return;
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Samsung</div><div class="work-card__model">Стиральная WF 60</div></div>
-          <div class="work-card__badge">3 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Сильный гул при отжиме, вибрация</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ <strong>подшипников барабана</strong>. Разобрали бак, заменили подшипники и сальник. Продлили срок службы на 5 лет.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">150 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>90 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>60 BYN</span></div></div>
-        </div>
-      </article>
+  var INITIAL = 6;
+  var STEP = 6;
+  var currentCat = 'wash';
+  var shown = INITIAL;
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">LG</div><div class="work-card__model">Стиральная F2M5</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не отжимает, барабан не крутится</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ <strong>щёток двигателя</strong>. Заменили щётки, проверили коллектор, плату управления.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">95 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>55 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>40 BYN</span></div></div>
-        </div>
-      </article>
+  function renderTabs() {
+    tabsWrap.innerHTML = Object.keys(WORKS).map(function (key) {
+      var cat = WORKS[key];
+      var cls = key === currentCat ? 'works-tab is-active' : 'works-tab';
+      return '<button type="button" class="' + cls + '" data-cat="' + key + '">' + cat.label + '<span class="works-tab__count">' + cat.items.length + '</span></button>';
+    }).join('');
+  }
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Bosch</div><div class="work-card__model">Посудомойка SMV 68</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Ошибка <strong>E15</strong> — сработала система AquaStop</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ уплотнителя дверцы. Заменили уплотнитель, проверили поддон, сбросили AquaStop.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">95 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>45 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>50 BYN</span></div></div>
-        </div>
-      </article>
+  function cardHTML(w) {
+    var total = w.work + w.parts;
+    var badgeCls = w.fast ? 'work-card__badge work-card__badge--fast' : 'work-card__badge';
+    return '<article class="work-card">' +
+      '<div class="work-card__head">' +
+        '<div><div class="work-card__brand">' + w.brand + '</div><div class="work-card__model">' + w.model + '</div></div>' +
+        '<div class="' + badgeCls + '">' + w.time + '</div>' +
+      '</div>' +
+      '<div class="work-card__rows">' +
+        '<div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">' + w.symptom + '</div></div>' +
+        '<div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">' + w.action + '</div></div>' +
+      '</div>' +
+      '<div class="work-card__footer">' +
+        '<div><div class="work-card__price-label">Итог</div><div class="work-card__price">' + total + ' BYN</div></div>' +
+        '<div class="work-card__meta">' +
+          '<div class="work-card__meta-item">Работа: <span>' + w.work + ' BYN</span></div>' +
+          (w.parts > 0 ? '<div class="work-card__meta-item">Запчасть: <span>' + w.parts + ' BYN</span></div>' : '') +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Samsung</div><div class="work-card__model">Посудомойка DW 60</div></div>
-          <div class="work-card__badge">2 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Плохо моет посуду, остаётся налёт</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Забиты форсунки коромысел и износ <strong>циркуляционной помпы</strong>. Разобрали, почистили, заменили помпу.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">155 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>60 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>95 BYN</span></div></div>
-        </div>
-      </article>
+  function renderCases() {
+    var items = WORKS[currentCat].items;
+    var slice = items.slice(0, shown);
+    gridWrap.innerHTML = slice.map(cardHTML).join('');
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">LG</div><div class="work-card__model">Посудомойка DF 24</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не сушит посуду, вода остаётся на тарелках</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ <strong>ТЭНа сушки</strong>. Заменили ТЭН, проверили вентилятор конденсации.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">110 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>50 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>60 BYN</span></div></div>
-        </div>
-      </article>
+    if (items.length > shown) {
+      moreWrap.style.display = 'flex';
+      moreBtn.textContent = 'Показать ещё кейсы';
+    } else {
+      moreWrap.style.display = 'none';
+    }
+  }
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Samsung</div><div class="work-card__model">Телевизор UE 55</div></div>
-          <div class="work-card__badge">4 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Нет изображения, звук работает</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Перегорела <strong>светодиодная подсветка</strong>. Разобрали панель, заменили линейку LED.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">210 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>90 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div></div>
-        </div>
-      </article>
+  tabsWrap.addEventListener('click', function (e) {
+    var tab = e.target.closest('.works-tab');
+    if (!tab) return;
+    var cat = tab.dataset.cat;
+    if (!cat || cat === currentCat) return;
+    currentCat = cat;
+    shown = INITIAL;
+    renderTabs();
+    renderCases();
+  });
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">LG</div><div class="work-card__model">Телевизор 43UM</div></div>
-          <div class="work-card__badge">3 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Сам выключается через 5 минут</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ конденсаторов <strong>блока питания</strong>. Перепаяли конденсаторы, проверили питание.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">130 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>60 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>70 BYN</span></div></div>
-        </div>
-      </article>
+  if (moreBtn) {
+    moreBtn.addEventListener('click', function () {
+      shown += STEP;
+      renderCases();
+    });
+  }
 
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Sony</div><div class="work-card__model">Телевизор KD-49</div></div>
-          <div class="work-card__badge">3 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не работает HDMI-порт, пропадает сигнал</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Повреждён разъём. Перепаяли <strong>HDMI-порт</strong>, проверили остальные входы.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">90 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>55 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>35 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">DeLonghi</div><div class="work-card__model">Кофемашина Magnifica</div></div>
-          <div class="work-card__badge">2 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Течёт вода снизу, слабый напор кофе</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Треснул бойлер, износились уплотнители. Заменили бойлер и помпу, промыли гидросистему.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">185 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>65 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Philips</div><div class="work-card__model">Кофемашина 3200 LatteGo</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не мелет кофе, посторонний шум</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ <strong>керамических жернов</strong>. Заменили жернова на оригинал, откалибровали помол.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">150 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>60 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>90 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Siemens</div><div class="work-card__model">Кофемашина EQ.6</div></div>
-          <div class="work-card__badge">2 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не работает капучинатор, нет пара</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Засор парогенератора. Разобрали, почистили ультразвуком, заменили трубки и клапан.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">140 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>55 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>85 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Ariston</div><div class="work-card__model">Водонагреватель 80 л</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не греет воду, выбивает автомат</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Пробой <strong>ТЭНа</strong> из-за накипи. Заменили ТЭН, почистили бак, заменили магниевый анод.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">120 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>55 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>65 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Electrolux</div><div class="work-card__model">Водонагреватель 50 л</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Течёт вода из-под фланца</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ уплотнителя фланца. Заменили прокладку, проверили корпус бака на трещины.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">80 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>50 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>30 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Bosch</div><div class="work-card__model">Духовка HBG 634</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не работает конвекция, слабо греет</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ вентилятора конвекции и ТЭНа. Заменили оба узла, проверили термодатчик.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">115 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>50 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>65 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Samsung</div><div class="work-card__model">Духовка NV 70</div></div>
-          <div class="work-card__badge">2 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Дверца не закрывается плотно</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ петель и замка. Заменили петли, отрегулировали дверцу. Проверили герметичность.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">100 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>45 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>55 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">LG</div><div class="work-card__model">Варочная панель индукция</div></div>
-          <div class="work-card__badge">3 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не включается, сенсоры не реагируют</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Сбой <strong>силового модуля</strong> после скачка напряжения. Заменили модуль, проверили катушки.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">190 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>70 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Bosch</div><div class="work-card__model">Варочная PXX 875</div></div>
-          <div class="work-card__badge">3 дня</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Не греет одна зона</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ <strong>индукционной катушки</strong>. Заменили катушку, проверили связь с платой.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">140 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>55 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>85 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Dyson</div><div class="work-card__model">Пылесос V11</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Быстро садится аккумулятор, теряет мощность</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Износ <strong>Li-Ion батареи</strong>. Заменили на оригинальный аккумулятор, проверили мотор.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">165 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>45 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div></div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-card__head">
-          <div><div class="work-card__brand">Bosch</div><div class="work-card__model">Вытяжка DKE 98</div></div>
-          <div class="work-card__badge work-card__badge--fast">1 день</div>
-        </div>
-        <div class="work-card__rows">
-          <div class="work-card__row"><div class="work-card__row-label">Симптом</div><div class="work-card__row-text">Слабо всасывает, шумит при работе</div></div>
-          <div class="work-card__row"><div class="work-card__row-label">Что сделали</div><div class="work-card__row-text">Забиты жировые фильтры, износ крыльчатки. Почистили моторный отсек, заменили крыльчатку.</div></div>
-        </div>
-        <div class="work-card__footer">
-          <div><div class="work-card__price-label">Итог</div><div class="work-card__price">85 BYN</div></div>
-          <div class="work-card__meta"><div class="work-card__meta-item">Работа: <span>45 BYN</span></div><div class="work-card__meta-item">Запчасть: <span>40 BYN</span></div></div>
-        </div>
-      </article>
-
-    </div>
+  renderTabs();
+  renderCases();
+})();
+</script>
