@@ -18,11 +18,17 @@
   <div class="container topbar__inner">
     <div class="topbar__left">
       <span class="topbar__item">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
         Гродно, Большая Троицкая, 48
       </span>
       <span class="topbar__item">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;">
+          <circle cx="12" cy="12" r="9"/>
+          <polyline points="12 7 12 12 15 14"/>
+        </svg>
         Ежедневно 11:00 — 18:00
       </span>
     </div>
@@ -49,7 +55,9 @@
     </nav>
     <div class="header__actions">
       <a href="tel:+375291087979" class="header__phone">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
         +375 29 108-79-79
       </a>
       <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
@@ -64,8 +72,8 @@
     <div class="hero__gradient"></div>
   </div>
 
-  <div class="container hero__inner" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center;">
-    <div class="hero__left" style="min-width:0;">
+  <div class="container hero__inner">
+    <div class="hero__left">
       <div class="hero__status">
         <span class="hero__status-dot">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;display:block;"><polyline points="20 6 9 17 4 12"/></svg>
@@ -94,8 +102,8 @@
       </div>
     </div>
 
-    <div class="hero__right" style="min-width:0;max-width:100%;">
-      <div class="hero-calc" id="heroCalc" style="min-width:0;max-width:100%;width:100%;">
+    <div class="hero__right">
+      <div class="hero-calc" id="heroCalc">
         <div class="hero-calc__head">
           <div class="hero-calc__title">Расчёт стоимости ремонта</div>
           <div class="hero-calc__badge">Расчёт</div>
@@ -103,15 +111,15 @@
         <div class="hero-calc__body">
           <div class="hero-calc__step">
             <label class="hero-calc__label">Что ремонтируем</label>
-            <div class="hero-calc__chips hero-calc__chips--scroll" data-group="type" id="calcTypes" style="max-width:100%;overflow-x:auto;"></div>
+            <div class="hero-calc__chips" data-group="type" id="calcTypes"></div>
           </div>
           <div class="hero-calc__step">
             <label class="hero-calc__label">Что случилось</label>
-            <div class="hero-calc__chips hero-calc__chips--scroll" data-group="issue" id="calcIssues" style="max-width:100%;overflow-x:auto;"></div>
+            <div class="hero-calc__chips" data-group="issue" id="calcIssues"></div>
           </div>
           <div class="hero-calc__result">
             <div class="hero-calc__result-label">ОТ</div>
-            <div class="hero-calc__result-value" id="calcValue">40 BYN</div>
+            <div class="hero-calc__result-value" id="calcValue">45 BYN</div>
           </div>
           <a href="#form" class="hero-calc__cta">Точную цену скажем после диагностики
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
@@ -151,6 +159,7 @@
     </div>
 
     <div class="services-list">
+
       <a href="washing-machines.html" class="service-row">
         <div class="service-row__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="14" r="1.5"/><line x1="15" y1="7" x2="17" y2="7"/></svg></div>
         <div><div class="service-row__title">Стиральные машины</div><div class="service-row__desc">Подшипники, помпы, ТЭНы, платы управления. Все бренды.</div></div>
