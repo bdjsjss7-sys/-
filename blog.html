@@ -4,13 +4,81 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#FFFFFF">
-<title>Блог о ремонте бытовой техники — РемБытТехника | Гродно</title>
-<meta name="description" content="Полезные статьи о ремонте бытовой техники: стиральных машин, посудомоек, кофемашин, телевизоров. Коды ошибок, советы по уходу, разбор типичных поломок.">
+<title>Блог о ремонте бытовой техники — 52 статьи | РемБытТехника</title>
+<meta name="description" content="52 полезные статьи о ремонте бытовой техники: стиральных машин, посудомоек, кофемашин, телевизоров, пылесосов. Коды ошибок, разбор поломок, советы по уходу.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=1001">
+<style>
+  .blog-cats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .blog-cat { padding: 8px 14px; border-radius: var(--r-full); background: var(--bg-soft); border: 1px solid var(--line); font-size: 13px; font-weight: 500; color: var(--ink-2); cursor: pointer; transition: all 0.2s var(--ease); display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+  .blog-cat:hover { border-color: var(--line-3); color: var(--ink); }
+  .blog-cat.is-active { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .blog-cat__count { font-family: var(--mono); font-size: 11px; background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 10px; }
+  .blog-cat.is-active .blog-cat__count { background: rgba(255,255,255,0.2); }
+
+  .blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .blog-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; transition: all 0.35s var(--ease); color: inherit; min-width: 0; cursor: pointer; text-align: left; font-family: inherit; padding: 0; }
+  .blog-card:hover { border-color: var(--blue-line); transform: translateY(-3px); box-shadow: var(--sh-lg); }
+  .blog-card__cover { aspect-ratio: 16 / 10; background: linear-gradient(135deg, var(--blue-soft), var(--bg-tint)); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--line-2); overflow: hidden; }
+  .blog-card__cover svg { width: 48px; height: 48px; stroke-width: 1.25; color: var(--blue); opacity: 0.7; transition: transform 0.5s var(--ease); }
+  .blog-card:hover .blog-card__cover svg { transform: scale(1.1); }
+  .blog-card__body { padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .blog-card__meta { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-4); }
+  .blog-card__cat { color: var(--blue); }
+  .blog-card__sep { color: var(--ink-4); opacity: 0.5; }
+  .blog-card__title { font-size: 17px; font-weight: 600; color: var(--ink); letter-spacing: -0.018em; line-height: 1.35; transition: color 0.25s; }
+  .blog-card:hover .blog-card__title { color: var(--blue); }
+  .blog-card__text { font-size: 14px; color: var(--ink-3); line-height: 1.6; flex: 1; }
+  .blog-card__link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--blue); margin-top: 4px; transition: gap 0.3s var(--ease); }
+  .blog-card__link svg { width: 14px; height: 14px; }
+  .blog-card:hover .blog-card__link { gap: 10px; }
+
+  .blog-more-wrap { display: flex; justify-content: center; margin-top: 40px; }
+
+  /* СТАТЬЯ */
+  .article-view { max-width: 760px; margin: 0 auto; display: none; }
+  .article-view.is-open { display: block; }
+  .article-view__back { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--blue); margin-bottom: 32px; cursor: pointer; transition: gap 0.3s var(--ease); background: none; border: none; font-family: inherit; padding: 0; }
+  .article-view__back:hover { gap: 12px; }
+  .article-view__back svg { width: 16px; height: 16px; }
+  .article-view__meta { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 16px; }
+  .article-view__cat { color: var(--blue); }
+  .article-view__title { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.15; margin-bottom: 20px; color: var(--ink); }
+  .article-view__lead { font-size: 17px; color: var(--ink-3); line-height: 1.6; margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+  .article-body { font-size: 16px; color: var(--ink-2); line-height: 1.75; }
+  .article-body h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); margin: 36px 0 14px; }
+  .article-body h3:first-child { margin-top: 0; }
+  .article-body p { margin-bottom: 16px; color: var(--ink-2); }
+  .article-body ul, .article-body ol { margin: 0 0 20px; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .article-body ul li, .article-body ol li { position: relative; padding-left: 26px; font-size: 15.5px; color: var(--ink-2); line-height: 1.6; }
+  .article-body ul li::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+  .article-body ol { counter-reset: item; }
+  .article-body ol li { counter-increment: item; }
+  .article-body ol li::before { content: counter(item); position: absolute; left: 0; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--blue-soft); color: var(--blue); font-family: var(--mono); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; }
+  .article-body strong { color: var(--ink); font-weight: 600; }
+  .article-body em { color: var(--blue); font-style: normal; }
+  .article-body blockquote { margin: 24px 0; padding: 18px 22px; background: var(--bg-soft); border-left: 3px solid var(--blue); border-radius: 8px; font-size: 15.5px; color: var(--ink-2); line-height: 1.65; }
+  .article-body blockquote p:last-child { margin-bottom: 0; }
+  .article-cta { margin-top: 48px; padding: 32px 28px; background: var(--ink); border-radius: var(--r-xl); color: #fff; text-align: center; }
+  .article-cta__title { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .article-cta__text { font-size: 14.5px; color: rgba(255,255,255,0.7); margin-bottom: 20px; line-height: 1.55; }
+  .article-cta__phone { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; background: var(--blue); color: #fff; border-radius: var(--r); font-size: 16px; font-weight: 600; transition: all 0.2s var(--ease); }
+  .article-cta__phone:hover { background: var(--blue-2); transform: translateY(-1px); box-shadow: var(--sh-blue); }
+
+  @media (max-width: 1024px) {
+    .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 768px) {
+    .blog-grid { grid-template-columns: minmax(0, 1fr); }
+    .blog-card__title { font-size: 16px; }
+    .blog-card__body { padding: 20px 18px 22px; }
+    .article-view__title { font-size: 1.6rem; }
+    .article-body { font-size: 15.5px; }
+  }
+</style>
 </head>
 <body>
 
@@ -66,140 +134,25 @@
     </nav>
     <div class="head__eyebrow">Блог</div>
     <h1 class="page-hero__title">Полезное о ремонте техники</h1>
-    <p class="page-hero__lead">Разбираем типичные поломки, расшифровываем коды ошибок и делимся советами по уходу. Всё — из практики мастерской в Гродно.</p>
+    <p class="page-hero__lead">52 статьи: разбираем поломки, расшифровываем коды ошибок, делимся советами по уходу. Всё — из практики мастерской в Гродно.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="blog-grid">
 
-      <a href="blog-e15-bosch.html" class="blog-card">
-        <div class="blog-card__cover">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M16 12h6M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
-        </div>
-        <div class="blog-card__body">
-          <div class="blog-card__meta">
-            <span class="blog-card__cat">Посудомойки</span>
-            <span class="blog-card__sep">·</span>
-            <span>5 мин</span>
-          </div>
-          <div class="blog-card__title">Ошибка E15 на посудомойке Bosch: что делать</div>
-          <p class="blog-card__text">Разбираем систему AquaStop, причины срабатывания и когда можно решить проблему самому, а когда нужен мастер.</p>
-          <span class="blog-card__link">Читать статью
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <a href="blog-stiralnaya-ne-sliv.html" class="blog-card">
-        <div class="blog-card__cover">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="14" r="1.5"/><line x1="15" y1="7" x2="17" y2="7"/></svg>
-        </div>
-        <div class="blog-card__body">
-          <div class="blog-card__meta">
-            <span class="blog-card__cat">Стиральные машины</span>
-            <span class="blog-card__sep">·</span>
-            <span>4 мин</span>
-          </div>
-          <div class="blog-card__title">Стиральная машина не сливает воду: 5 причин</div>
-          <p class="blog-card__text">Засор фильтра, износ помпы, сбой прессостата — как определить причину и что можно починить самостоятельно.</p>
-          <span class="blog-card__link">Читать статью
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <a href="blog-kofemashina-chistka.html" class="blog-card">
-        <div class="blog-card__cover">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v4a6 6 0 0 1-12 0V4z"/><path d="M4 20h16"/><path d="M12 14v4"/></svg>
-        </div>
-        <div class="blog-card__body">
-          <div class="blog-card__meta">
-            <span class="blog-card__cat">Кофемашины</span>
-            <span class="blog-card__sep">·</span>
-            <span>6 мин</span>
-          </div>
-          <div class="blog-card__title">Как чистить кофемашину, чтобы она работала годами</div>
-          <p class="blog-card__text">Пошаговая инструкция по уходу за автоматической кофемашиной: декальцинация, промывка заварочного блока, чистка жернов.</p>
-          <span class="blog-card__link">Читать статью
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <a href="blog-tv-net-izobrazheniya.html" class="blog-card">
-        <div class="blog-card__cover">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
-        </div>
-        <div class="blog-card__body">
-          <div class="blog-card__meta">
-            <span class="blog-card__cat">Телевизоры</span>
-            <span class="blog-card__sep">·</span>
-            <span>5 мин</span>
-          </div>
-          <div class="blog-card__title">Телевизор не показывает, но звук есть — что это</div>
-          <p class="blog-card__text">Разбираем самые частые причины: подсветка, T-CON, mainboard. Объясняем, когда ремонт целесообразен, а когда нет.</p>
-          <span class="blog-card__link">Читать статью
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <a href="blog-pylesos-akkumulyator.html" class="blog-card">
-        <div class="blog-card__cover">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"/><path d="M15 14h5v-4l-3-2"/><path d="M10 9V6"/></svg>
-        </div>
-        <div class="blog-card__body">
-          <div class="blog-card__meta">
-            <span class="blog-card__cat">Пылесосы</span>
-            <span class="blog-card__sep">·</span>
-            <span>4 мин</span>
-          </div>
-          <div class="blog-card__title">Почему аккумулятор пылесоса Dyson садится за 5 минут</div>
-          <p class="blog-card__text">Разбираем, как деградируют Li-Ion батареи, какие есть варианты замены и почему "восстановление" — не всегда лучший путь.</p>
-          <span class="blog-card__link">Читать статью
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <a href="blog-boiler-nakip.html" class="blog-card">
-        <div class="blog-card__cover">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="16" rx="3"/><path d="M12 8v4M12 8l-2 2M12 8l2 2"/></svg>
-        </div>
-        <div class="blog-card__body">
-          <div class="blog-card__meta">
-            <span class="blog-card__cat">Водонагреватели</span>
-            <span class="blog-card__sep">·</span>
-            <span>5 мин</span>
-          </div>
-          <div class="blog-card__title">Накипь в бойлере: как понять и что делать</div>
-          <p class="blog-card__text">Признаки накипи, почему она убивает ТЭН, как часто менять магниевый анод и стоит ли чистить бойлер самому.</p>
-          <span class="blog-card__link">Читать статью
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<section class="section section--soft">
-  <div class="container">
-    <div class="cta-strip">
-      <div class="cta-strip__content">
-        <h2 class="cta-strip__title">Не нашли ответ на свой вопрос?</h2>
-        <p class="cta-strip__text">Позвоните — коротко опишите, что с техникой. Подскажем вероятную причину и вилку стоимости ремонта. Если случай сложный, пригласим в мастерскую на диагностику.</p>
-        <div class="cta-strip__actions">
-          <a href="tel:+375291087979" class="btn btn--blue btn--lg">+375 29 108-79-79
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </a>
-          <a href="services.html" class="btn btn--ghost-dark btn--lg">Все услуги</a>
-        </div>
+    <!-- СПИСОК СТАТЕЙ -->
+    <div id="blogListView">
+      <div class="blog-cats" id="blogCats"></div>
+      <div class="blog-grid" id="blogGrid"></div>
+      <div class="blog-more-wrap" id="blogMoreWrap">
+        <button type="button" class="btn btn--outline btn--lg" id="blogMore">Показать ещё</button>
       </div>
     </div>
+
+    <!-- ПРОСМОТР СТАТЬИ -->
+    <article class="article-view" id="articleView"></article>
+
   </div>
 </section>
 
@@ -218,5 +171,1186 @@
 </footer>
 
 <script src="js/script.js"></script>
-</body>
-</html>
+
+<script>
+/* ============================================================
+   КАТЕГОРИИ И ИКОНКИ
+   ============================================================ */
+var BLOG_CATS = {
+  wash:    'Стиральные машины',
+  dish:    'Посудомойки',
+  tv:      'Телевизоры',
+  coffee:  'Кофемашины',
+  boiler:  'Водонагреватели',
+  oven:    'Духовки',
+  cooktop: 'Варочные панели',
+  vacuum:  'Пылесосы',
+  hood:    'Вытяжки',
+  gas:     'Газовые плиты',
+  small:   'Мелкая техника',
+  micro:   'Микроволновки'
+};
+
+var BLOG_ICONS = {
+  wash:    '<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="14" r="1.5"/><line x1="15" y1="7" x2="17" y2="7"/>',
+  dish:    '<rect x="4" y="3" width="16" height="18" rx="2"/><line x1="4" y1="9" x2="20" y2="9"/><circle cx="8" cy="6" r="0.5" fill="currentColor"/><path d="M8 14c1.5 0 2.5 1 2.5 2s-1 2-2.5 2"/><path d="M14 14c-1.5 0-2.5 1-2.5 2s1 2 2.5 2"/>',
+  tv:      '<rect x="3" y="5" width="18" height="12" rx="2"/><polyline points="8 21 12 17 16 21"/>',
+  coffee:  '<path d="M6 4h12v4a6 6 0 0 1-12 0V4z"/><path d="M4 20h16"/><path d="M12 14v4"/>',
+  boiler:  '<rect x="6" y="4" width="12" height="16" rx="3"/><path d="M12 8v4M12 8l-2 2M12 8l2 2"/>',
+  oven:    '<rect x="4" y="4" width="16" height="16" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="9" y1="15" x2="15" y2="15"/>',
+  cooktop: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="12" r="2"/>',
+  vacuum:  '<circle cx="10" cy="14" r="5"/><path d="M15 14h5v-4l-3-2"/><path d="M10 9V6"/>',
+  hood:    '<path d="M4 14h16v6H4z"/><path d="M7 14V6h10v8"/><circle cx="12" cy="17" r="1"/>',
+  gas:     '<circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M8 9c0-1.5 0-3 0-4M16 9c0-1.5 0-3 0-4"/>',
+  small:   '<path d="M9 3h6v6a3 3 0 0 1-6 0V3z"/><path d="M12 12v4"/><rect x="8" y="16" width="8" height="5" rx="1"/>',
+  micro:   '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="15" cy="12" r="3"/><line x1="7" y1="12" x2="7.01" y2="12"/>'
+};
+
+/* ============================================================
+   52 СТАТЬИ — ПОЛНЫЕ ТЕКСТЫ
+   ============================================================ */
+var BLOG_POSTS = [
+
+/* ============ СТИРАЛЬНЫЕ МАШИНЫ (8) ============ */
+{
+  slug: 'stiralnaya-ne-sliv', cat: 'wash', time: 4,
+  title: 'Стиральная машина не сливает воду: 5 причин',
+  excerpt: 'Засор фильтра, износ помпы, сбой прессостата — как определить причину и что можно починить самостоятельно.',
+  body: `
+    <p>Если после стирки в барабане остаётся вода, а машина гудит или мигает ошибкой — не спешите вызывать мастера. В половине случаев проблема решается за 15 минут самостоятельно.</p>
+    <h3>Причина 1: Засор сливного фильтра</h3>
+    <p>Самый частый случай. Ворс, монеты, косточки от бюстгальтера забивают фильтр, и вода не может уйти. Фильтр находится внизу за декоративной панелью (у большинства машин — справа).</p>
+    <ul>
+      <li>Отключите машину от сети и перекройте воду.</li>
+      <li>Постелите тряпку — при откручивании выльется остаток воды.</li>
+      <li>Открутите фильтр против часовой, прочистите, промойте.</li>
+      <li>Закрутите обратно и запустите «Слив» или «Отжим».</li>
+    </ul>
+    <h3>Причина 2: Засор сливного шланга или канализации</h3>
+    <p>Если фильтр чистый, а вода всё равно стоит — проблема в шланге или в самой канализации. Отсоедините шланг от сифона и проверьте его на просвет.</p>
+    <h3>Причина 3: Износ сливной помпы</h3>
+    <p>Помпа работает, но не создаёт нужного давления. Признаки: гудение без результата, ошибка через 5–10 минут после начала слива. Помпа — расходник, её ресурс 5–7 лет. Замена стоит от 45 BYN + стоимость детали (30–60 BYN).</p>
+    <h3>Причина 4: Сбой прессостата</h3>
+    <p>Датчик уровня воды «думает», что вода уже слита, и не даёт команду на отжим. Проверяется мультиметром, при поломке меняется — это недорогая деталь.</p>
+    <h3>Причина 5: Плата управления</h3>
+    <p>Редко, но бывает: сгорает реле слива или дорожка на плате. Это уже серьёзный ремонт, тут нужен мастер с паяльной станцией.</p>
+    <blockquote><p><strong>Совет:</strong> перед тем как разбирать машину, посмотрите код ошибки. У Bosch это E18, у LG — OE, у Samsung — 5E. По коду часто можно понять причину за 5 секунд.</p></blockquote>
+    <h3>Когда точно нужен мастер</h3>
+    <ul>
+      <li>Фильтр и шланг чистые, но вода стоит.</li>
+      <li>Машина выбивает автомат при попытке слива.</li>
+      <li>Появился запах горелого.</li>
+      <li>Ошибка повторяется после сброса.</li>
+    </ul>
+    <p>Привозите в мастерскую — за диагностику возьмём минимум, и сразу назовём точную стоимость ремонта.</p>
+  `
+},
+{
+  slug: 'stiralnaya-ne-otzhim', cat: 'wash', time: 5,
+  title: 'Стиральная машина не отжимает: что делать',
+  excerpt: 'Разбираем причины: ремень, щётки двигателя, плата управления, дисбаланс барабана.',
+  body: `
+    <p>Стирка прошла, а бельё вынимается мокрым? Разбираем по порядку, где искать проблему и что можно исправить самому.</p>
+    <h3>Сначала проверьте простое</h3>
+    <ul>
+      <li><strong>Режим стирки.</strong> Некоторые программы (деликатные, «шерсть») вообще не отжимают или отжимают на минимальных оборотах.</li>
+      <li><strong>Дисбаланс.</strong> Если вы стирали одну крупную вещь (плед, куртку) — машина не может распределить бельё. Попробуйте добавить пару полотенец и запустить отжим отдельно.</li>
+      <li><strong>Засор фильтра.</strong> Если вода не полностью слилась — отжим не начнётся.</li>
+    </ul>
+    <h3>Ремень привода</h3>
+    <p>У машин с ременным приводом (Indesit, Beko, Candy, старые Bosch) ремень растягивается или рвётся. Симптом: барабан свободно крутится рукой, но при стирке не вращается. Ремень стоит 15–30 BYN, замена занимает 20 минут.</p>
+    <h3>Щётки двигателя</h3>
+    <p>У коллекторных моторов со временем стираются графитовые щётки. Признаки: барабан крутится рывками, машина гудит, но не отжимает. Ресурс щёток — 5–8 лет. Замена — от 45 BYN + стоимость щёток.</p>
+    <h3>Датчик оборотов (тахогенератор)</h3>
+    <p>Если тахогенератор не передаёт данные на плату, машина «не понимает», что барабан вращается, и не запускает отжим. Проверяется мультиметром.</p>
+    <h3>Плата управления</h3>
+    <p>Самый дорогой вариант. Симптом: все остальные узлы в порядке, но команды на отжим нет. Замена модуля — от 55 BYN + стоимость платы (120–250 BYN).</p>
+    <blockquote><p>У машин с прямым приводом (LG Direct Drive) нет ни ремня, ни щёток. Если такая машина не отжимает — сразу проверяйте тахогенератор и плату.</p></blockquote>
+    <h3>Что делать прямо сейчас</h3>
+    <ol>
+      <li>Запустите программу «Отжим» отдельно от стирки.</li>
+      <li>Проверьте фильтр — он не забит?</li>
+      <li>Посмотрите код ошибки на дисплее.</li>
+      <li>Если простые причины исключены — везите в мастерскую.</li>
+    </ol>
+  `
+},
+{
+  slug: 'gul-pri-otzhime', cat: 'wash', time: 6,
+  title: 'Гул при отжиме: износ подшипников барабана',
+  excerpt: 'Как отличить износ подшипника от постороннего предмета в баке. Когда ремонт оправдан.',
+  body: `
+    <p>Если стиральная машина гудит как самолёт при отжиме — это почти всегда подшипник барабана. Причём звук будет усиливаться со временем. Разбираемся, как это подтвердить и что делать.</p>
+    <h3>Как звучит изношенный подшипник</h3>
+    <ul>
+      <li>Гул нарастает с увеличением оборотов.</li>
+      <li>Звук похож на «взлёт самолёта» или рокот.</li>
+      <li>Появляется вибрация корпуса.</li>
+      <li>При вращении барабана рукой — слышен хруст или скрежет.</li>
+    </ul>
+    <h3>Как проверить самостоятельно</h3>
+    <ol>
+      <li>Откройте дверцу, прокрутите барабан рукой.</li>
+      <li>Люфт барабана вверх-вниз — плохой знак.</li>
+      <li>Если барабан «болтается» — подшипник точно изношен.</li>
+    </ol>
+    <h3>Посторонний предмет в баке</h3>
+    <p>Иногда гул вызывает не подшипник, а застрявший предмет между баком и барабаном: косточка от бюстгальтера, монета, ключ. Звук будет металлическим, с лязгом. Проблема решается разборкой бака.</p>
+    <h3>Сколько стоит ремонт</h3>
+    <p>Замена подшипников — сложная операция. У машин с разборным баком (Bosch, Siemens, Electrolux) стоимость работы — от 90 BYN + подшипники и сальник (60–100 BYN). У машин с неразборным баком (многие Samsung, LG, Indesit) бак меняется целиком — работа 120+ BYN и запчасть 150–250 BYN.</p>
+    <blockquote><p>Ремонт оправдан, если машине меньше 7–8 лет. Если старше и стоимость ремонта превышает 50% стоимости новой — задумайтесь о покупке.</p></blockquote>
+    <h3>Можно ли ездить так дальше</h3>
+    <p>Нет. Изношенный подшипник убивает вал и сальник, а через повреждённый сальник вода попадает на подшипник и двигатель. Через месяц-два к гулу добавится течь и короткое замыкание. Не тяните.</p>
+  `
+},
+{
+  slug: 'tech-voda-snizu', cat: 'wash', time: 4,
+  title: 'Течёт вода снизу стиральной машины',
+  excerpt: 'Уплотнитель люка, патрубки, сливной шланг — где искать протечку и как устранить.',
+  body: `
+    <p>Лужа под машиной — тревожный сигнал. До появления плесени и короткого замыкания стоит разобраться. В большинстве случаев причина находится быстро.</p>
+    <h3>Источник 1: Уплотнитель дверцы</h3>
+    <p>Резиновая манжета люка со временем трескается, покрывается налётом или теряет эластичность. Признак — мокрое пятно сразу под дверцей или на самом люке.</p>
+    <ul>
+      <li>Осмотрите манжету по кругу — трещины, разрывы.</li>
+      <li>Протрите складки — часто в них скапливается грязь и волосы.</li>
+      <li>При износе — замена манжеты (30–80 BYN + работа от 45 BYN).</li>
+    </ul>
+    <h3>Источник 2: Патрубки и хомуты</h3>
+    <p>Соединительные патрубки между баком, помпой и клапаном со временем трескаются или ослабляются хомуты. Требуется частичная разборка машины.</p>
+    <h3>Источник 3: Сливной шланг</h3>
+    <p>Место соединения шланга и канализации — классика. Если шланг вставлен недостаточно глубоко или отсутствует обратный клапан, воду может «подсасывать» обратно. Проверьте стык и уплотнение.</p>
+    <h3>Источник 4: Лоток для порошка</h3>
+    <p>Засор в лотке или его направляющих — вода переливается через край. Снимите лоток (обычно нажимается защёлка) и промойте под проточной водой.</p>
+    <h3>Источник 5: Помпа</h3>
+    <p>Износ сальника помпы приводит к капельной течи снизу. Симптом — лужа появляется во время слива. Помпа меняется целиком (деталь + работа ~85 BYN).</p>
+    <blockquote><p><strong>Совет:</strong> положите под машину лист белой бумаги на ночь и запустите стирку. По мокрому пятну вы точно определите, где капает.</p></blockquote>
+    <h3>Чего делать нельзя</h3>
+    <ul>
+      <li>Оставлять машину подключённой к сети при течи — риск замыкания.</li>
+      <li>Заклеивать патрубки скотчем — временное решение на 1–2 стирки.</li>
+      <li>Игнорировать проблему — плесень и запах гарантированы.</li>
+    </ul>
+  `
+},
+{
+  slug: 'ne-greet-vodu', cat: 'wash', time: 5,
+  title: 'Стиральная машина не греет воду: ТЭН или плата',
+  excerpt: 'Диагностика ТЭНа, термодатчика, реле нагрева. Причины и стоимость ремонта.',
+  body: `
+    <p>Стирка проходит в холодной воде — это заметно по белью, которое остаётся грязным, и по отсутствию пара. Чаще всего виноват ТЭН, но есть и другие причины.</p>
+    <h3>Причина 1: ТЭН (нагревательный элемент)</h3>
+    <p>Самая частая и самая очевидная. ТЭН покрывается накипью, трескается и перегорает. Диагностика:</p>
+    <ul>
+      <li>Прозвонить ТЭН мультиметром — сопротивление в норме 20–40 Ом.</li>
+      <li>Проверить на пробой — не «звонится» ли на корпус.</li>
+      <li>Осмотреть визуально — трещины, нагар.</li>
+    </ul>
+    <p>Замена ТЭНа: работа от 50 BYN + сама деталь 30–60 BYN. У Bosch, Siemens, LG, Samsung — ремонт делается за 1 день.</p>
+    <h3>Причина 2: Термодатчик</h3>
+    <p>Если датчик температуры показывает «вода уже горячая», машина не запускает нагрев. Проверяется мультиметром, при поломке меняется (недорогая деталь).</p>
+    <h3>Причина 3: Реле нагрева на плате</h3>
+    <p>Плата не подаёт напряжение на ТЭН. Симптом: ТЭН исправен, но не греет. Ремонт — пайка или замена реле, либо замена модуля целиком.</p>
+    <h3>Причина 4: Программа без нагрева</h3>
+    <p>Сначала проверьте режим стирки. «Быстрая 15 минут», «Деликатная», «Холодная стирка» — не греют воду. Это норма, а не поломка.</p>
+    <h3>Как не убить новый ТЭН</h3>
+    <ul>
+      <li>Раз в 3–4 месяца запускайте стирку при 90°C с лимонной кислотой (100 г).</li>
+      <li>Используйте средства от накипи для стиральных машин.</li>
+      <li>Не сыпьте порошок «на глаз» — избыток тоже образует накипь.</li>
+    </ul>
+    <blockquote><p>В Гродно вода средней жёсткости — ТЭН выходит из строя в среднем через 4–5 лет. Если у вас машине больше 5 лет и она перестала греть воду — почти наверняка ТЭН.</p></blockquote>
+  `
+},
+{
+  slug: 'oshibka-e18-bosch', cat: 'wash', time: 4,
+  title: 'Ошибка E18 на стиральной машине Bosch',
+  excerpt: 'Что означает код E18, как сбросить и когда нужен мастер.',
+  body: `
+    <p>E18 у Bosch — проблема со сливом воды. Машина не может откачать воду из бака за отведённое время (обычно 2–3 минуты) и останавливает программу.</p>
+    <h3>Что означает E18</h3>
+    <p>Bosch использует единую систему кодов для всей линейки. E18 = слив не работает или работает слишком медленно. Это не обязательно поломка — часто достаточно прочистить фильтр.</p>
+    <h3>Пошаговая диагностика</h3>
+    <ol>
+      <li><strong>Отключите машину</strong> от сети и перекройте воду.</li>
+      <li><strong>Откройте сливной фильтр</strong> внизу справа. Если он забит ворсом, монетами — прочистите.</li>
+      <li><strong>Проверьте сливной шланг</strong> — он не перегнут? Он подключён к канализации, а не в ведро?</li>
+      <li><strong>Проверьте канализацию</strong> — в раковине вода уходит нормально?</li>
+      <li><strong>Запустите программу «Слив».</strong> Если ошибка повторяется — идём дальше.</li>
+    </ol>
+    <h3>Если фильтр чистый, а ошибка остаётся</h3>
+    <ul>
+      <li><strong>Сливная помпа.</strong> Проверьте, крутится ли крыльчатка. Гудение без вращения = износ помпы. Замена: работа от 45 BYN + помпа 35–60 BYN.</li>
+      <li><strong>Прессостат.</strong> Датчик уровня воды может врать. Меняется недорого.</li>
+      <li><strong>Плата управления.</strong> Сгорело реле слива. Замена модуля — самый дорогой вариант (от 150 BYN).</li>
+    </ul>
+    <h3>Как сбросить ошибку</h3>
+    <p>Просто выключите машину на 30 секунд и включите снова. Если после этого E18 не появляется — проблема была в разовом засоре. Если ошибка возвращается — нужен ремонт.</p>
+    <blockquote><p>У моделей Bosch Serie 4 и Serie 6 тот же код может отображаться по-другому: мигание индикатора «Слив» + звуковой сигнал. Проверьте инструкцию к вашей модели.</p></blockquote>
+  `
+},
+{
+  slug: 'oshibka-f21-lg', cat: 'wash', time: 4,
+  title: 'Ошибка F21 у стиральных машин LG',
+  excerpt: 'Расшифровка, причины появления и пошаговая диагностика.',
+  body: `
+    <p>F21 (иногда отображается как 0E, OE) у LG — проблема со сливом воды. Как и E18 у Bosch, этот код означает, что машина не смогла откачать воду за отведённое время.</p>
+    <h3>Что проверить первым</h3>
+    <ol>
+      <li>Сливной фильтр — внизу справа за декоративной крышкой.</li>
+      <li>Сливной шланг — не перегнут, не забит.</li>
+      <li>Канализация — проходимость.</li>
+      <li>Высота подключения шланга — не выше 1 метра от пола.</li>
+    </ol>
+    <h3>Причины F21, если фильтр и шланг чистые</h3>
+    <ul>
+      <li><strong>Сливная помпа.</strong> У LG помпы надёжные, но за 7–10 лет изнашиваются. Признак — гудение без вращения. Замена: работа 45 BYN + помпа 40–70 BYN.</li>
+      <li><strong>Прессостат (датчик уровня воды).</strong> Может «залипнуть» и не давать команду на слив.</li>
+      <li><strong>Плата управления.</strong> Реже, но у LG тоже бывает. Плата — самый дорогой узел.</li>
+    </ul>
+    <h3>Что нельзя делать</h3>
+    <ul>
+      <li>Наклонять машину с водой — она выльется через лоток.</li>
+      <li>Открывать фильтр, не слив воду предварительно через аварийный шланг (если он есть).</li>
+      <li>Игнорировать ошибку и продолжать стирки — можно сжечь двигатель.</li>
+    </ul>
+    <h3>Сколько стоит диагностика</h3>
+    <p>В нашей мастерской диагностика LG обойдётся в 15 BYN. Если соглашаетесь на ремонт — эта сумма засчитывается в стоимость. По статистике: 60% обращений с F21 — засор, 30% — помпа, 10% — плата.</p>
+    <blockquote><p>У LG с функцией Smart ThinQ можно посмотреть историю ошибок через приложение. Это поможет мастеру понять, была ли проблема разовой или постоянной.</p></blockquote>
+  `
+},
+{
+  slug: 'zapah-iz-barabana', cat: 'wash', time: 3,
+  title: 'Запах из барабана стиральной машины: что делать',
+  excerpt: 'Плесень, накипь, застой воды. Как почистить и как не допустить.',
+  body: `
+    <p>Неприятный запах из машины — не поломка, но с ним сталкиваются почти все. Причина — бактерии и плесень в местах, где скапливается вода и грязь.</p>
+    <h3>Откуда берётся запах</h3>
+    <ul>
+      <li><strong>Манжета люка.</strong> В складках резинки остаётся вода, ворс, порошок. Через 2–3 недели это начинает пахнуть.</li>
+      <li><strong>Лоток для порошка.</strong> Засохший порошок и кондиционер — идеальная среда для бактерий.</li>
+      <li><strong>Сливной фильтр.</strong> Застой воды с грязью.</li>
+      <li><strong>ТЭН.</strong> Накипь впитывает органику и «фонит» при нагреве.</li>
+      <li><strong>Барабан и бак.</strong> Тонкая плёнка моющего средства, которое не смывается.</li>
+    </ul>
+    <h3>Что сделать прямо сейчас</h3>
+    <ol>
+      <li>Откройте манжету по кругу, протрите складки мыльным раствором.</li>
+      <li>Выньте лоток для порошка (обычно нажимается защёлка), замочите в горячей воде с содой.</li>
+      <li>Открутите и промойте сливной фильтр.</li>
+      <li>Запустите пустую стирку при 90°C с 100 г лимонной кислоты (или 500 мл уксуса).</li>
+      <li>После стирки — протрите манжету и оставьте дверцу приоткрытой.</li>
+    </ol>
+    <h3>Если не помогло — серьёзная чистка</h3>
+    <p>Запах из бака (особенно у машин с горизонтальной загрузкой старше 7 лет) может означать, что внутри — слой ила. Нужна разборка и чистка бака в мастерской. Услуга — от 70 BYN.</p>
+    <h3>Профилактика</h3>
+    <ul>
+      <li>Не оставляйте бельё в машине на ночь.</li>
+      <li>Раз в месяц — стирка при 90°C с лимонной кислотой.</li>
+      <li>Дверца всегда приоткрыта в перерывах.</li>
+      <li>Не сыпьте больше порошка, чем нужно.</li>
+    </ul>
+    <blockquote><p>Стойкий запах плесени + тёмные пятна на белье — признак, что плесень добралась до бака. Тут уже нужна разборка и профессиональная чистка.</p></blockquote>
+  `
+},
+
+/* ============ ПОСУДОМОЙКИ (6) ============ */
+{
+  slug: 'e15-bosch', cat: 'dish', time: 5,
+  title: 'Ошибка E15 на посудомойке Bosch: что делать',
+  excerpt: 'Разбираем систему AquaStop, причины срабатывания и когда нужен мастер.',
+  body: `
+    <p>E15 у посудомоек Bosch и Siemens — сработала система защиты от протечек AquaStop. В поддоне машины оказалась вода, датчик это заметил и остановил программу.</p>
+    <h3>Что такое AquaStop</h3>
+    <p>Это двойная система защиты: специальный шланг с обратным клапаном + поплавковый датчик в поддоне. Если вода попадёт в поддон, поплавок поднимется, замкнёт контакт и машина заблокируется.</p>
+    <h3>Причины E15</h3>
+    <ol>
+      <li><strong>Разовый перелив.</strong> Иногда достаточно наклонить машину и слить воду из поддона — ошибка уйдёт.</li>
+      <li><strong>Засор фильтра или дренажа.</strong> Вода не уходит и переливается.</li>
+      <li><strong>Уплотнитель дверцы.</strong> Износ или загрязнение — вода просачивается.</li>
+      <li><strong>Трещина в патрубке или шланге.</strong> Микротечь.</li>
+      <li><strong>Неисправность прессостата.</strong> Датчик врёт, машина переливает воду.</li>
+    </ol>
+    <h3>Как действовать</h3>
+    <ol>
+      <li>Отключите машину от сети и воды.</li>
+      <li>Наклоните на бок (обычно на левый) — вода из поддона выльется.</li>
+      <li>Проверьте фильтр и дренаж.</li>
+      <li>Включите — если E15 не появляется, дело было в разовом переливе.</li>
+    </ol>
+    <h3>Когда нужен мастер</h3>
+    <ul>
+      <li>Ошибка повторяется после слива воды и сброса.</li>
+      <li>Под машиной постоянно лужа.</li>
+      <li>Видны повреждения шлангов или патрубков.</li>
+    </ul>
+    <p>Средний ремонт при E15 — замена уплотнителя дверцы или устранение засора. Стоимость от 45 BYN + детали.</p>
+    <blockquote><p>У Bosch посудомоек премиум-класса (SMS, SMV) ошибка E15 может «висеть» в памяти. Чтобы её сбросить, нужно подержать кнопку «Старт» 5 секунд. Если не помогает — только через сброс питания.</p></blockquote>
+  `
+},
+{
+  slug: 'f11-miele', cat: 'dish', time: 5,
+  title: 'Ошибка F11 у Miele: проблема с дренажем',
+  excerpt: 'Засор фильтра, износ помпы, обратный клапан — как найти причину.',
+  body: `
+    <p>F11 у Miele — проблема с дренажем или системой Waterproof. Машина не может откачать воду или обнаружила протечку в поддоне.</p>
+    <h3>Что означает F11</h3>
+    <p>В зависимости от модели, F11 может означать:</p>
+    <ul>
+      <li>Засор фильтра или дренажного шланга.</li>
+      <li>Износ сливной помпы.</li>
+      <li>Протечку в поддон (сработала защита).</li>
+      <li>Неисправность датчика уровня воды.</li>
+    </ul>
+    <h3>Пошаговая диагностика</h3>
+    <ol>
+      <li>Отключите машину от сети.</li>
+      <li>Достаньте корзины и снимите нижний фильтр — обычно он забит остатками еды.</li>
+      <li>Проверьте крыльчатку сливной помпы (доступна снизу) — крутится легко?</li>
+      <li>Наклоните машину — есть ли вода в поддоне?</li>
+      <li>Проверьте шланг на перегиб и засор.</li>
+    </ol>
+    <h3>Частые причины у Miele</h3>
+    <ul>
+      <li><strong>Обратный клапан дренажа.</strong> Забивается жиром и остатками еды. Чистится или меняется.</li>
+      <li><strong>Сливная помпа.</strong> У Miele помпа надёжная, но за 10+ лет изнашивается. Меняется в сборе с корпусом.</li>
+      <li><strong>Прессостат.</strong> Датчик уровня воды может «залипнуть».</li>
+    </ul>
+    <h3>Что стоит запомнить</h3>
+    <p>Miele — техника долговечная, но детали дорогие. Помпа на Miele стоит в 2–3 раза дороже, чем на Bosch или Samsung. Поэтому профилактика (чистка фильтра раз в месяц, соль для посудомоечных машин) — экономически оправданная привычка.</p>
+    <blockquote><p>Если после чистки фильтра и слива воды из поддона F11 возвращается — не мучайте машину. Скорее всего, изношена помпа, и её нужно менять.</p></blockquote>
+  `
+},
+{
+  slug: 'f24-miele', cat: 'dish', time: 5,
+  title: 'Ошибка F24 у Miele: сбой подачи воды',
+  excerpt: 'Аквасенсор, впускной клапан, прессостат — что проверять в первую очередь.',
+  body: `
+    <p>F24 у Miele — машина не набирает воду или набирает её слишком медленно. Программа останавливается, вода не поступает в камеру мойки.</p>
+    <h3>Причины F24</h3>
+    <ol>
+      <li><strong>Перекрыт водопроводный кран.</strong> Банально, но проверяется первым.</li>
+      <li><strong>Засор впускного клапана.</strong> Ржавчина, накипь, песок из водопровода.</li>
+      <li><strong>Засор сеточки-фильтра.</strong> Находится на входе шланга, у самой машины.</li>
+      <li><strong>Аквасенсор.</strong> Датчик мутности воды может быть неисправен — если машина не понимает качество воды, она не запускает цикл.</li>
+      <li><strong>Прессостат.</strong> Датчик уровня воды.</li>
+      <li><strong>Плата управления.</strong> Реже всего, но возможно.</li>
+    </ol>
+    <h3>Что делать самостоятельно</h3>
+    <ul>
+      <li>Проверьте, открыт ли кран подачи воды.</li>
+      <li>Отключите машину от воды, открутите заливной шланг, промойте сеточку под краном.</li>
+      <li>Проверьте, нет ли перегиба шланга.</li>
+    </ul>
+    <h3>Если не помогло</h3>
+    <p>Дальше нужен мастер — проверка впускного клапана и аквасенсора. Клапан проверяется мультиметром (сопротивление обмотки), аквасенсор — только диагностикой.</p>
+    <h3>Что стоит знать</h3>
+    <p>Miele использует систему Aqua-Sensor для определения жёсткости воды и степени загрязнения посуды. Если датчик не работает, машина не может правильно настроить цикл и выдаёт F24. Замена датчика — от 60 BYN + стоимость детали.</p>
+    <blockquote><p>F24 часто появляется после отключения воды в доме. Когда вода возвращается, в систему попадает ржавчина и взвесь. Профилактика — открыть кран и дать воде стечь 5 минут, прежде чем запускать посудомойку.</p></blockquote>
+  `
+},
+{
+  slug: 'ploho-moet', cat: 'dish', time: 4,
+  title: 'Посудомойка плохо моет посуду: 6 причин',
+  excerpt: 'Форсунки, циркуляционная помпа, дозатор, температура воды.',
+  body: `
+    <p>Посуда выходит из машины с остатками еды или разводами — это не всегда повод для ремонта. Разбираем причины по частоте.</p>
+    <h3>1. Засор форсунок коромысел</h3>
+    <p>Самый частый случай. Отверстия в разбрызгивателях забиваются остатками еды и налётом. Проверьте: снимите коромысла (обычно откручиваются рукой), промойте под проточной водой, прочистите зубочисткой.</p>
+    <h3>2. Засор фильтров</h3>
+    <p>Внизу машины есть кассета с двумя фильтрами — грубой и тонкой очистки. Забитые фильтры = грязная вода гоняется по кругу.</p>
+    <ul>
+      <li>Достаньте фильтры, промойте под проточной водой.</li>
+      <li>Проверьте дренажную зону — там часто скапливается жир.</li>
+      <li>Раз в месяц — замачивание в средстве для посудомоек.</li>
+    </ul>
+    <h3>3. Неправильная загрузка</h3>
+    <p>Если тарелки стоят вплотную друг к другу или закрывают друг друга — вода не достаёт. Правило: ничего не должно блокировать струи коромысел.</p>
+    <h3>4. Износ циркуляционной помпы</h3>
+    <p>Помпа работает, но не создаёт нужного давления. Признаки: посуда чище в нижней части, чем в верхней. Меняется в мастерской (деталь + работа).</p>
+    <h3>5. Не работает дозатор</h3>
+    <p>Таблетка или порошок не высыпаются в нужный момент. Проверьте: открывается ли крышка дозатора во время цикла. Если нет — ремонт крышки или замена узла.</p>
+    <h3>6. Низкая температура</h3>
+    <p>Износ ТЭНа или сбой термодатчика. Вода не нагревается до нужной температуры, жир не растворяется. Диагностика — у мастера.</p>
+    <blockquote><p><strong>Совет:</strong> используйте ополаскиватель. Он не только убирает разводы, но и помогает воде стекать с посуды — сушка идёт быстрее.</p></blockquote>
+  `
+},
+{
+  slug: 'ne-sushit', cat: 'dish', time: 5,
+  title: 'Посудомойка не сушит посуду: ТЭН или вентилятор',
+  excerpt: 'Система сушки: как диагностировать и что чаще всего ломается.',
+  body: `
+    <p>После цикла посуда остаётся мокрой — это неприятно, но не всегда поломка. Разбираем, как работает сушка и что может пойти не так.</p>
+    <h3>Как работает сушка</h3>
+    <p>У большинства посудомоек два механизма:</p>
+    <ul>
+      <li><strong>Конденсационная сушка.</strong> Горячая посуда остывает, влага оседает на стенках камеры и стекает в поддон.</li>
+      <li><strong>Турбосушка (Zeolith, AirDry и др.).</strong> Вентилятор прогоняет воздух через нагревательный элемент или цеолит.</li>
+    </ul>
+    <h3>Причины плохой сушки</h3>
+    <ol>
+      <li><strong>Засор воздуховода.</strong> Вентилятор гонит воздух, но он не проходит — забиты каналы.</li>
+      <li><strong>Износ ТЭНа сушки.</strong> У машин с турбосушкой ТЭН со временем перегорает.</li>
+      <li><strong>Вентилятор сушки.</strong> Износ подшипников или обмотки.</li>
+      <li><strong>Термодатчик.</strong> Машина «не понимает», что пора сушить.</li>
+      <li><strong>Не залит ополаскиватель.</strong> Без него вода хуже стекает.</li>
+    </ol>
+    <h3>Что проверить самому</h3>
+    <ul>
+      <li>Залит ли ополаскиватель (индикатор на панели).</li>
+      <li>Работает ли вентилятор — слышно ли его после мойки.</li>
+      <li>Не забит ли воздуховод (у некоторых моделей снимается задняя панель).</li>
+    </ul>
+    <h3>Когда нужен мастер</h3>
+    <p>Если вентилятор не крутится или не греет воздух — нужна диагностика и замена узла. Стоимость: работа от 50 BYN + детали.</p>
+    <blockquote><p>У Miele с системой Zeolith срок службы нагревателя — 8–10 лет. Если сушка пропала после 5+ лет работы, виноват скорее вентилятор или засор, чем сам цеолит.</p></blockquote>
+  `
+},
+{
+  slug: 'dverca-ne-otkryvaetsya', cat: 'dish', time: 4,
+  title: 'Дверца посудомойки не открывается',
+  excerpt: 'AutoOpen, замок, петли. Что можно починить самому.',
+  body: `
+    <p>Дверца не открывается сразу после мойки — либо сработала система автоматического открытия (AutoOpen), либо проблема с замком.</p>
+    <h3>AutoOpen — что это</h3>
+    <p>У посудомоек Bosch, Siemens, Miele и других премиум-брендов есть функция AutoOpen: после мойки дверца автоматически приоткрывается на 10–15 см для лучшей сушки. Управляет этим электромеханический привод.</p>
+    <h3>Если AutoOpen не сработал</h3>
+    <ul>
+      <li><strong>Программа без AutoOpen.</strong> Не все режимы включают эту функцию. Проверьте инструкцию.</li>
+      <li><strong>Износ привода.</strong> Привод — расходник, ресурс 5–7 лет.</li>
+      <li><strong>Сбой платы.</strong> Плата не даёт команду на открытие.</li>
+      <li><strong>Ручная блокировка.</strong> Некоторые модели дают отключить AutoOpen в настройках.</li>
+    </ul>
+    <h3>Если дверца вообще не открывается</h3>
+    <p>Здесь возможны варианты:</p>
+    <ol>
+      <li>Замок заклинило — попробуйте нажать на кнопку открытия с усилием.</li>
+      <li>Сломался механизм замка — нужна замена.</li>
+      <li>Петли перекосило — дверца прижата к корпусу.</li>
+    </ol>
+    <h3>Что делать</h3>
+    <ul>
+      <li>Отключите машину от сети на 10 минут — иногда сброс помогает.</li>
+      <li>Проверьте, нет ли механических препятствий.</li>
+      <li>Если не открывается — не ломайте силой, вызовите мастера.</li>
+    </ul>
+    <h3>Стоимость ремонта</h3>
+    <p>Замена привода AutoOpen — от 65 BYN + деталь. Замена замка — от 50 BYN + деталь. Замена петель — от 50 BYN.</p>
+    <blockquote><p>У Miele G 5000 и G 7000 привод AutoOpen — известная слабая точка. Если ваша машина старше 5 лет и AutoOpen перестал работать, это почти всегда привод.</p></blockquote>
+  `
+},
+
+/* ============ ТЕЛЕВИЗОРЫ (5) ============ */
+{
+  slug: 'tv-net-izobrazheniya', cat: 'tv', time: 5,
+  title: 'Телевизор не показывает, но звук есть',
+  excerpt: 'Подсветка, T-CON, mainboard. Когда ремонт целесообразен, а когда нет.',
+  body: `
+    <p>Если телевизор включается, звук идёт, но экран чёрный — проблема с подсветкой или с обработкой видео. Диагностика зависит от того, что именно вы видите на экране.</p>
+    <h3>Вариант 1: Экран полностью чёрный, но подсветка видна</h3>
+    <p>Посмотрите на экран в темноте — если видите слабое свечение (или изображение «через лупу»), проблема в матрице или T-CON. Это дорогой ремонт — от 85 BYN + стоимость деталей.</p>
+    <h3>Вариант 2: Экран чёрный, свечения нет</h3>
+    <p>Скорее всего, перегорела LED-подсветка. Это самая частая причина. Симптом: изображение «угадывается» при ярком свете фонарика — если направить на экран фонарь, можно увидеть картинку.</p>
+    <ul>
+      <li>Замена LED-линеек — стандартная процедура.</li>
+      <li>Стоимость: от 90 BYN + LED-линейки (100–200 BYN).</li>
+      <li>По времени — 2–4 дня.</li>
+    </ul>
+    <h3>Вариант 3: Экран мигает или белый</h3>
+    <p>Проблема с T-CON (контроллер тайминга) или шлейфами. Замена T-CON — от 85 BYN + деталь. Замена шлейфов — от 70 BYN.</p>
+    <h3>Вариант 4: Чёрный экран, звук есть, но изображение пропало после скачка напряжения</h3>
+    <p>Скорее всего, mainboard (материнская плата). Замена — от 60 BYN + плата (80–200 BYN).</p>
+    <h3>Когда ремонт нецелесообразен</h3>
+    <ul>
+      <li>Телевизор старше 8 лет, а стоимость ремонта превышает 70% стоимости нового.</li>
+      <li>Повреждена матрица (трещины, сколы).</li>
+      <li>Проблема с OLED-панелью (замена матрицы почти равна цене нового ТВ).</li>
+    </ul>
+    <blockquote><p><strong>Совет:</strong> привезите телевизор в мастерскую. По модели и симптому мы сразу скажем ориентировочную стоимость — часто диагноз ставится за 10 минут.</p></blockquote>
+  `
+},
+{
+  slug: 'tv-ne-vklyuchaetsya', cat: 'tv', time: 5,
+  title: 'Телевизор не включается: что проверить',
+  excerpt: 'Кнопка питания, блок питания, конденсаторы. Диагностика по симптомам.',
+  body: `
+    <p>Телевизор не реагирует на пульт и кнопку — но это не всегда значит, что он «сгорел». Разбираем по симптомам.</p>
+    <h3>Проверьте базовые вещи</h3>
+    <ol>
+      <li>Работает ли розетка? Проверьте на другом приборе.</li>
+      <li>Индикатор дежурного режима горит?</li>
+      <li>Реагирует ли ТВ на кнопку на корпусе (не только на пульт)?</li>
+      <li>Мигает ли индикатор определённым образом?</li>
+    </ol>
+    <h3>Если индикатор не горит вообще</h3>
+    <p>Проблема в блоке питания. Самая частая причина — вспухшие конденсаторы или сгоревший ШИМ-контроллер. Ремонт: от 60 BYN + детали. Часто делается за 1 день.</p>
+    <h3>Если индикатор горит, но ТВ не включается</h3>
+    <p>Проблема в mainboard или кнопке питания:</p>
+    <ul>
+      <li>Кнопка могла «залипнуть» — обрыв или замыкание.</li>
+      <li>Прошивка mainboard слетела — нужна перепрошивка.</li>
+      <li>Полный выход платы из строя — замена модуля.</li>
+    </ul>
+    <h3>Если индикатор мигает</h3>
+    <p>Количество миганий часто указывает на конкретную ошибку. У Samsung — свои коды, у LG — свои, у Sony — свои. Запишите количество миганий и назовите мастеру — это сильно ускорит диагностику.</p>
+    <h3>Что можно сделать самому</h3>
+    <ul>
+      <li>Проверить кабель питания — нет ли повреждений.</li>
+      <li>Отключить ТВ от розетки на 5 минут — иногда сбрасывается защита.</li>
+      <li>Заменить батарейки в пульте — вдруг дело только в пульте.</li>
+    </ul>
+    <h3>Когда нужен мастер</h3>
+    <p>Если базовые проверки не помогли — нужна разборка и диагностика блока питания мультиметром. Не разбирайте ТВ сами, если не имеете опыта: в блоке питания накапливается напряжение до 400 В, даже когда ТВ выключен.</p>
+    <blockquote><p>Диагностика телевизора в мастерской — 25 BYN. Если соглашаетесь на ремонт, эта сумма засчитывается в стоимость.</p></blockquote>
+  `
+},
+{
+  slug: 'polosy-na-ekrane', cat: 'tv', time: 6,
+  title: 'Полосы на экране телевизора: причины',
+  excerpt: 'T-CON, шлейфы, матрица. Почему это часто не дёшево.',
+  body: `
+    <p>Вертикальные или горизонтальные полосы на экране — симптом серьёзный. В большинстве случаев это T-CON, шлейфы или матрица. Разбираем по порядку.</p>
+    <h3>Типы полос</h3>
+    <ul>
+      <li><strong>Вертикальные полосы.</strong> Чаще — проблема со шлейфами между матрицей и T-CON.</li>
+      <li><strong>Горизонтальные полосы.</strong> Обычно — проблема с T-CON или питанием матрицы.</li>
+      <li><strong>Полосы по всей ширине.</strong> T-CON или главная плата.</li>
+      <li><strong>Широкие тёмные полосы.</strong> Скорее всего, повреждены драйверы матрицы.</li>
+    </ul>
+    <h3>Диагностика</h3>
+    <ol>
+      <li><strong>T-CON.</strong> Плата тайминга, управляет работой матрицы. Относительно недорогой ремонт — 85–120 BYN + деталь.</li>
+      <li><strong>Шлейфы.</strong> Тонкие ленты между платой и матрицей. Иногда можно перепаять или заменить — 70–100 BYN.</li>
+      <li><strong>Матрица.</strong> Если проблема в самой панели — ремонт почти невозможен. Замена матрицы сопоставима с ценой нового телевизора.</li>
+    </ol>
+    <h3>Как понять, что именно у вас</h3>
+    <p>Простой тест: нажмите на верхнюю часть экрана (аккуратно, без усилия). Если полосы меняются или исчезают — это шлейф. Если не реагирует — T-CON или матрица.</p>
+    <h3>Когда ремонт не имеет смысла</h3>
+    <ul>
+      <li>Полосы не меняются при нажатии и ТВ старше 6 лет.</li>
+      <li>Тёмные широкие полосы не меняют цвет.</li>
+      <li>Стоимость ремонта > 60% цены нового ТВ.</li>
+    </ul>
+    <blockquote><p>У LED-телевизоров Samsung (серии UE, QE) 2015–2019 годов частая проблема — обрыв шлейфов из-за перегрева. Ремонт возможен, но требует аккуратности.</p></blockquote>
+  `
+},
+{
+  slug: 'hdmi-ne-rabotaet', cat: 'tv', time: 4,
+  title: 'HDMI не работает: разъём или плата',
+  excerpt: 'Как понять, перепаивать разъём или менять mainboard.',
+  body: `
+    <p>Не работает один HDMI-порт из четырёх — не повод выбрасывать телевизор. Разбираемся, что именно сломалось и как это починить.</p>
+    <h3>Проверьте простое</h3>
+    <ul>
+      <li>Попробуйте другой HDMI-кабель.</li>
+      <li>Подключите устройство к другому HDMI-порту — работает ли он.</li>
+      <li>Проверьте, выбрали ли вы правильный источник (Source/Input) в меню.</li>
+      <li>Перезагрузите ТВ (вынуть вилку на 30 секунд).</li>
+    </ul>
+    <h3>Если проблема в разъёме</h3>
+    <p>Симптом: при покачивании кабеля изображение появляется или пропадает. Причина — механическое повреждение разъёма (кто-то дёрнул кабель, погнул контакты).</p>
+    <p><strong>Решение:</strong> перепайка разъёма. Работа — от 55 BYN + стоимость нового разъёма (30–60 BYN). Делается на горячем воздухе или паяльной станции.</p>
+    <h3>Если проблема в плате</h3>
+    <p>Симптом: разъём внешне целый, но порт не работает или работает только один. Причина — повреждение дорожек на плате или сгоревший HDMI-контроллер.</p>
+    <p><strong>Решение:</strong> либо ремонт платы (перепайка микросхемы), либо замена mainboard целиком. Замена — от 60 BYN + плата (80–200 BYN).</p>
+    <h3>Что нельзя делать</h3>
+    <ul>
+      <li>Самостоятельно паять HDMI-разъём без опыта — легко оторвать дорожки.</li>
+      <li>Пытаться «починить» разъём отвёрткой — только хуже.</li>
+      <li>Игнорировать проблему, если она появилась после грозы — может выйти из строя вся плата.</li>
+    </ul>
+    <blockquote><p>Если после грозы перестал работать один HDMI-порт, через несколько недель могут «отвалиться» и остальные. Лучше сразу везти в мастерскую — стоимость ремонта платы вырастет, если ждать.</p></blockquote>
+  `
+},
+{
+  slug: 'tv-sam-vyklyuchaetsya', cat: 'tv', time: 5,
+  title: 'Телевизор сам выключается',
+  excerpt: 'Блок питания, перегрев, сбой прошивки — как искать причину.',
+  body: `
+    <p>Телевизор работает 10–30 минут и выключается сам. Или выключается сразу после включения. Разбираем причины и их решения.</p>
+    <h3>Причина 1: Перегрев</h3>
+    <p>Самая частая. Если телевизор стоит в нише или рядом с радиатором, воздух не циркулирует, и срабатывает защита.</p>
+    <ul>
+      <li>Проверьте, не забиты ли вентиляционные отверстия пылью.</li>
+      <li>Отодвиньте ТВ от стены на 10+ см.</li>
+      <li>Если ТВ висит на стене — попробуйте снять и поставить на тумбу для теста.</li>
+    </ul>
+    <h3>Причина 2: Блок питания</h3>
+    <p>Износ конденсаторов или сгоревший ШИМ. Симптом: ТВ выключается через определённое время (5–30 минут) и после «отдыха» снова работает. Ремонт блока питания — от 60 BYN + детали.</p>
+    <h3>Причина 3: Прошивка</h3>
+    <p>Если ТВ выключается нерегулярно или после обновления — попробуйте сбросить настройки или перепрошить. У Samsung и LG прошивка ставится с флешки.</p>
+    <h3>Причина 4: Кнопка питания</h3>
+    <p>Иногда кнопка «залипает» и даёт команду выключения. Симптом: ТВ выключается только после определённого действия (например, при регулировке громкости).</p>
+    <h3>Причина 5: Материнская плата</h3>
+    <p>Сбой в работе mainboard. Симптом: ТВ выключается беспорядочно, без закономерности. Замена платы — от 60 BYN + деталь.</p>
+    <h3>Что делать</h3>
+    <ol>
+      <li>Дайте ТВ остыть и проверьте вентиляцию.</li>
+      <li>Отключите все внешние устройства (консоли, приставки).</li>
+      <li>Сбросьте настройки через меню.</li>
+      <li>Если проблема остаётся — везите в мастерскую.</li>
+    </ol>
+    <blockquote><p>Если ТВ выключается на 5-й минуте после включения и всегда одинаково — это почти всегда блок питания. Если беспорядочно — прошивка или mainboard.</p></blockquote>
+  `
+},
+
+/* ============ КОФЕМАШИНЫ (5) ============ */
+{
+  slug: 'ne-melet-kofe', cat: 'coffee', time: 5,
+  title: 'Кофемашина не мелет кофе: износ жернов',
+  excerpt: 'Керамические или стальные жернова, калибровка, замена.',
+  body: `
+    <p>Кофемашина гудит, но кофе не мелет — либо жернова стёрлись, либо что-то попало в кофемолку. Разбираемся.</p>
+    <h3>Как понять, что проблема в жерновах</h3>
+    <ul>
+      <li>Звук помола стал глухим, не «жужжащим».</li>
+      <li>Кофе выходит слишком крупного или неравномерного помола.</li>
+      <li>Кофемашина выдаёт ошибку «Заполните отсек для зёрен», хотя зёрна есть.</li>
+      <li>Помол занимает больше времени, чем раньше.</li>
+    </ul>
+    <h3>Керамические vs стальные жернова</h3>
+    <p><strong>Керамические</strong> (DeLonghi, Philips, Siemens) служат 5–7 лет при домашнем использовании. Не тупятся, но крошатся при попадании камня. <strong>Стальные</strong> (Jura, Miele) служат 7–10 лет, но со временем тупятся и требуют замены.</p>
+    <h3>Что делать</h3>
+    <ol>
+      <li>Проверьте, не осталось ли инородного предмета в бункере.</li>
+      <li>Попробуйте отрегулировать степень помола — иногда проблема в сбитой настройке.</li>
+      <li>Если регулировка не помогает — нужна замена жернов.</li>
+    </ol>
+    <h3>Стоимость</h3>
+    <p>Замена жернов: работа от 55 BYN + жернова. Оригинальные жернова DeLonghi — 60–90 BYN, Philips — 70–100 BYN, Jura — 120–180 BYN. После замены нужна калибровка помола.</p>
+    <h3>Что нельзя делать</h3>
+    <ul>
+      <li>Молоть что-либо, кроме кофейных зёрен (специи, орехи, сахар).</li>
+      <li>Засыпать зёрна с ароматизаторами — они забивают жернова.</li>
+      <li>Использовать «жёсткие» сорта с камнями — обычно это светлая обжарка из дешёвых сортов.</li>
+    </ul>
+    <blockquote><p>Если кофемашина на гарантии и перестала молоть — не разбирайте сами. Обратитесь в сервис, иначе гарантию снимут.</p></blockquote>
+  `
+},
+{
+  slug: 'techet-snizu', cat: 'coffee', time: 5,
+  title: 'Кофемашина течёт снизу: бойлер или помпа',
+  excerpt: 'Трещины бойлера, износ уплотнителей, разборка.',
+  body: `
+    <p>Лужа под кофемашиной — серьёзный сигнал. В кофемашине под давлением 15–19 бар вода легко найдёт слабое место. Разбираемся, где искать.</p>
+    <h3>Источник 1: Бойлер</h3>
+    <p>Самый частый случай. Бойлер изготавливается из алюминия или нержавейки. Со временем накипь разъедает стенки, появляются микротрещины. Симптом: течь во время приготовления кофе, не постоянно.</p>
+    <ul>
+      <li>Треснувший алюминиевый бойлер — замена (деталь 100–180 BYN).</li>
+      <li>У Jura и Miele бойлеры обычно нержавеющие, трескаются реже.</li>
+    </ul>
+    <h3>Источник 2: Уплотнители</h3>
+    <p>Резиновые прокладки на бойлере, клапанах, помпе со временем дубеют и трескаются. Течь может быть капельной и не сразу заметной.</p>
+    <p>Решение: замена уплотнителей — недорогая операция (работа от 50 BYN + комплект прокладок 30–60 BYN).</p>
+    <h3>Источник 3: Помпа</h3>
+    <p>Износ сальника помпы. Симптом: течь во время набора воды или при промывке. Замена помпы — от 60 BYN + деталь.</p>
+    <h3>Источник 4: Заварочный блок</h3>
+    <p>У машин с ручным заварочным блоком (Jura, Nivona) вода может протекать через изношенные сальники блока. Чистка и замена сальников — от 55 BYN.</p>
+    <h3>Что делать</h3>
+    <ol>
+      <li>Проверьте поддон — откуда именно капает.</li>
+      <li>Посмотрите на состояние видимых соединений.</li>
+      <li>Не откладывайте ремонт: вода и электрика плохо сочетаются.</li>
+    </ol>
+    <blockquote><p>Кофемашины DeLonghi с алюминиевым бойлером (Magnifica, Dinamica) — самые «текучие» в ремонте. Если ваша машина старше 6 лет — готовьтесь к замене бойлера или уплотнителей.</p></blockquote>
+  `
+},
+{
+  slug: 'kofe-holodny', cat: 'coffee', time: 5,
+  title: 'Кофемашина варит холодный кофе: ТЭН',
+  excerpt: 'ТЭН бойлера, термодатчик, реле нагрева — диагностика.',
+  body: `
+    <p>Кофе из кофемашины выходит еле тёплым, а идеальная температура эспрессо — 88–92°C. Разбираем причины.</p>
+    <h3>Причина 1: ТЭН бойлера</h3>
+    <p>Нагревательный элемент со временем покрывается накипью и перегорает. Симптом: вода не нагревается вообще, кофе еле тёплый. Диагностика — прозвонка ТЭНа мультиметром.</p>
+    <p>Замена ТЭНа: работа от 60 BYN + ТЭН 80–150 BYN. У некоторых моделей ТЭН встроен в бойлер — тогда меняется бойлер целиком.</p>
+    <h3>Причина 2: Термодатчик</h3>
+    <p>Датчик показывает «вода горячая», хотя это не так. Машина не включает нагрев. Замена датчика — недорого.</p>
+    <h3>Причина 3: Реле нагрева на плате</h3>
+    <p>Плата не даёт питание на ТЭН. Симптом: ТЭН исправен, датчик исправен, но нагрев не происходит. Ремонт — пайка реле или замена платы.</p>
+    <h3>Причина 4: Настройки</h3>
+    <p>У некоторых кофемашин температура регулируется в меню. Проверьте, не сбита ли настройка в минимум.</p>
+    <h3>Что влияет на температуру кофе</h3>
+    <ul>
+      <li>Холодная чашка — потери 5–7°C. Прогрейте чашку горячей водой.</li>
+      <li>Крупный помол — вода проходит быстрее, не успевает нагреться.</li>
+      <li>Износ прокладок заварочного блока — вода теряет температуру.</li>
+    </ul>
+    <blockquote><p>Если машина варит тёплый, но не горячий кофе уже давно — скорее всего, ТЭН покрылся накипью. Декальцинация может помочь, но если ТЭН уже повреждён — только замена.</p></blockquote>
+  `
+},
+{
+  slug: 'kapuchinator-ne-rabotaet', cat: 'coffee', time: 4,
+  title: 'Не работает капучинатор: засор или поломка',
+  excerpt: 'Чистка парогенератора, замена трубок, клапан молока.',
+  body: `
+    <p>Капучинатор перестал взбивать молоко или вовсе не подаёт пар. В 80% случаев дело в засоре, который можно устранить самому.</p>
+    <h3>Причина 1: Засор парогенератора</h3>
+    <p>Молоко при взбивании попадает внутрь трубок и пригорает. Со временем каналы забиваются. Признак: пар идёт, но слабый, или с перебоями.</p>
+    <p><strong>Решение:</strong> промывка системы. У большинства кофемашин есть программа автоочистки капучинатора — запускайте её после каждого использования молока.</p>
+    <h3>Причина 2: Износ трубок</h3>
+    <p>Силиконовые трубки внутри капучинатора дубеют, трескаются, теряют герметичность. Замена — рутинная операция, работа от 55 BYN.</p>
+    <h3>Причина 3: Клапан молока</h3>
+    <p>Клапан-регулятор забивается или выходит из строя. Симптом: молоко не всасывается вообще или всасывается, но не смешивается с паром.</p>
+    <h3>Причина 4: Парогенератор</h3>
+    <p>Сам узел нагрева и подачи пара. Симптом: пар не идёт совсем. Диагностика — у мастера.</p>
+    <h3>Профилактика</h3>
+    <ul>
+      <li>После каждого использования молока — промывка капучинатора.</li>
+      <li>Раз в неделю — разборка и промывка под проточной водой.</li>
+      <li>Раз в месяц — замачивание в специальном средстве для кофемашин.</li>
+      <li>Раз в 2–3 месяца — чистка всей системы от накипи.</li>
+    </ul>
+    <h3>Когда нужен мастер</h3>
+    <p>Если после промывки и разборки капучинатор не работает — нужна диагностика парогенератора. Это делается в мастерской с разбором корпуса.</p>
+    <blockquote><p>У Siemens EQ.6 и EQ.9 капучинатор — известное слабое место. Замена трубок делается за 30 минут, но нужна разборка корпуса.</p></blockquote>
+  `
+},
+{
+  slug: 'kak-chistit-kofemashinu', cat: 'coffee', time: 6,
+  title: 'Как чистить кофемашину, чтобы работала годами',
+  excerpt: 'Декальцинация, промывка заварочного блока, чистка жернов, уход за капучинатором.',
+  body: `
+    <p>Автоматическая кофемашина — это инвестиция на 5–10 лет. Регулярный уход продлевает срок службы вдвое. Вот пошаговая программа.</p>
+    <h3>Ежедневно</h3>
+    <ul>
+      <li>Промывать капучинатор после каждого использования молока (программа «Промывка»).</li>
+      <li>Выливать воду из поддона.</li>
+      <li>Протирать носик подачи кофе влажной салфеткой.</li>
+    </ul>
+    <h3>Еженедельно</h3>
+    <ul>
+      <li>Промывать заварочный блок под проточной водой (если он съёмный).</li>
+      <li>Замачивать капучинатор в тёплой воде.</li>
+      <li>Протирать бункер для зёрен.</li>
+    </ul>
+    <h3>Раз в месяц: промывка системы</h3>
+    <p>У большинства кофемашин есть встроенная программа «Промывка». Используйте специальные таблетки для чистки заварочного блока.</p>
+    <h3>Раз в 2–3 месяца: декальцинация</h3>
+    <p>Удаление накипи. Используйте только средства, рекомендованные производителем (DeLonghi EcoDecalk, Jura Descaler и др.).</p>
+    <ol>
+      <li>Залейте раствор в бак для воды.</li>
+      <li>Запустите программу «Декальцинация».</li>
+      <li>Промойте бак 2–3 раза чистой водой.</li>
+    </ol>
+    <p><strong>Важно:</strong> лимонная кислота подходит для чайников, но не для кофемашин — она разъедает уплотнители.</p>
+    <h3>Раз в год: чистка жернов</h3>
+    <p>Специальными таблетками для чистки кофемолки (например, Urnex Grindz). Засыпаете, мелете — жернова очищаются от остатков масла.</p>
+    <h3>Чего нельзя делать</h3>
+    <ul>
+      <li>Мыть корпус в посудомойке.</li>
+      <li>Использовать абразивные средства.</li>
+      <li>Засыпать ароматизированные или глазированные зёрна.</li>
+      <li>Игнорировать просьбы машины о чистке — она их запоминает.</li>
+    </ul>
+    <blockquote><p><strong>Золотое правило:</strong> если кофемашина сообщает «Требуется чистка» — не откладывайте. Отложения, которые не удалили сразу, удаляются потом с разборкой корпуса за 60+ BYN.</p></blockquote>
+  `
+},
+
+/* ============ ВОДОНАГРЕВАТЕЛИ (5) ============ */
+{
+  slug: 'boiler-ne-greet', cat: 'boiler', time: 4,
+  title: 'Водонагреватель не греет воду',
+  excerpt: 'ТЭН, термостат, предохранитель. Диагностика за 5 шагов.',
+  body: `
+    <p>Бойлер включён, но вода остаётся холодной. Разбираем причины и что можно проверить самому, а что — только мастеру.</p>
+    <h3>Шаг 1: Проверьте питание</h3>
+    <ul>
+      <li>Индикатор на корпусе горит?</li>
+      <li>Автомат в щитке не выбит?</li>
+      <li>Розетка работает?</li>
+    </ul>
+    <h3>Шаг 2: ТЭН</h3>
+    <p>Нагревательный элемент со временем покрывается накипью или перегорает. Симптом: бойлер гудит, но вода не греется. Диагностика:</p>
+    <ul>
+      <li>Прозвонка ТЭНа мультиметром — сопротивление в норме.</li>
+      <li>Проверка на пробой на корпус.</li>
+    </ul>
+    <p>Замена ТЭНа: работа от 55 BYN + ТЭН 40–80 BYN.</p>
+    <h3>Шаг 3: Термостат</h3>
+    <p>Регулятор температуры. Если он «залип» в положении «выключено», нагрев не идёт. Замена — недорого.</p>
+    <h3>Шаг 4: Предохранитель</h3>
+    <p>Термопредохранитель защищает от перегрева. При срабатывании (одноразовый) рвётся цепь. Замена — 15–40 BYN + работа.</p>
+    <h3>Шаг 5: Плата управления</h3>
+    <p>У бойлеров с электронным управлением — сбой платы. Ремонт или замена модуля, от 90 BYN.</p>
+    <h3>Что делать прямо сейчас</h3>
+    <ol>
+      <li>Проверьте индикатор и автомат.</li>
+      <li>Отключите бойлер от сети, слейте воду.</li>
+      <li>Снимите крышку, осмотрите ТЭН и контакты.</li>
+      <li>Если видите нагар, трещины или следы пробоя — не включайте, везите в мастерскую.</li>
+    </ol>
+    <blockquote><p><strong>Важно:</strong> не запускайте бойлер без воды — ТЭН сгорит за 30 секунд. Если слили воду для проверки — обязательно залейте обратно перед включением.</p></blockquote>
+  `
+},
+{
+  slug: 'techet-iz-flanca', cat: 'boiler', time: 4,
+  title: 'Течёт из-под фланца водонагревателя',
+  excerpt: 'Замена прокладки, крепёж, состояние бака.',
+  body: `
+    <p>Течь из-под фланца — одна из самых частых проблем бойлеров. В большинстве случаев решается заменой прокладки, но иногда сигнализирует о серьёзных проблемах.</p>
+    <h3>Причины течи из-под фланца</h3>
+    <ol>
+      <li><strong>Износ прокладки.</strong> Резиновая прокладка под фланцем со временем дубеет и теряет эластичность.</li>
+      <li><strong>Ослабление болтов.</strong> Крепёж фланца ослабевает, и вода просачивается.</li>
+      <li><strong>Повреждение фланца.</strong> Трещины или деформация.</li>
+      <li><strong>Перегрев.</strong> Если ТЭН работал без воды, металл фланца мог деформироваться.</li>
+      <li><strong>Коррозия бака.</strong> Если течь идёт по стенке бака, а не по фланцу — это плохо.</li>
+    </ol>
+    <h3>Что делать</h3>
+    <ol>
+      <li>Отключите бойлер от сети.</li>
+      <li>Перекройте подачу воды, слейте воду из бака.</li>
+      <li>Снимите фланец (откручивается 4–6 болтов).</li>
+      <li>Замените прокладку (стоит 20–40 BYN).</li>
+      <li>Проверьте состояние ТЭНа и анода.</li>
+      <li>Соберите обратно, залейте воду, включите.</li>
+    </ol>
+    <h3>Когда течь — серьёзно</h3>
+    <ul>
+      <li>Вода ржавая, с примесями — коррозия бака.</li>
+      <li>Трещины на самом фланце или баке.</li>
+      <li>Течь не прекращается после замены прокладки.</li>
+    </ul>
+    <p>В этих случаях ремонт может быть нецелесообразен — иногда дешевле купить новый бойлер.</p>
+    <h3>Профилактика</h3>
+    <ul>
+      <li>Раз в год — осмотр фланца и подтяжка болтов.</li>
+      <li>Раз в 2 года — замена прокладки, чистка бака от накипи.</li>
+      <li>Раз в 1–2 года — замена магниевого анода.</li>
+    </ul>
+    <blockquote><p>Если течь из-под фланца появилась внезапно — не тяните. Даже слабая течь за месяц разъедает контакты и приводит к короткому замыканию.</p></blockquote>
+  `
+},
+{
+  slug: 'nakip-na-tene', cat: 'boiler', time: 5,
+  title: 'Накипь на ТЭНе: почему и что делать',
+  excerpt: 'Как накипь убивает ТЭН, как часто чистить, как продлить срок службы.',
+  body: `
+    <p>Накипь — главный враг любого водонагревателя. Слой 5 мм увеличивает расход энергии на 30%, а слой 10 мм убивает ТЭН за несколько месяцев.</p>
+    <h3>Как образуется накипь</h3>
+    <p>В воде содержатся соли кальция и магния. При нагреве они выпадают в осадок и оседают на ТЭНе, стенках бака, датчиках. Чем жёстче вода — тем быстрее.</p>
+    <h3>Признаки накипи</h3>
+    <ul>
+      <li>Бойлер стал шуметь при нагреве (шипение, треск).</li>
+      <li>Нагрев занимает больше времени.</li>
+      <li>Счёт за электричество вырос.</li>
+      <li>Вода с примесью, «песком».</li>
+      <li>Слабее напор горячей воды.</li>
+    </ul>
+    <h3>Как очистить</h3>
+    <ol>
+      <li>Отключите бойлер от сети, слейте воду.</li>
+      <li>Снимите ТЭН (через фланец).</li>
+      <li>Замочите ТЭН в растворе лимонной кислоты (100 г на 1 л воды) на 4–6 часов.</li>
+      <li>Аккуратно удалите остатки накипи щёткой.</li>
+      <li>Промойте бак от накипи — можно тем же раствором.</li>
+      <li>Замените анод и прокладку фланца.</li>
+    </ol>
+    <h3>Чего нельзя делать</h3>
+    <ul>
+      <li>Счищать накипь ножом или металлической щёткой — повредите покрытие ТЭНа.</li>
+      <li>Использовать концентрированные кислоты — они разъедают металл.</li>
+      <li>Ударять ТЭН — керамический изолятор хрупкий.</li>
+    </ul>
+    <h3>Как продлить срок службы</h3>
+    <ul>
+      <li>Установите магнитный или полифосфатный фильтр на входе воды.</li>
+      <li>Раз в год чистите ТЭН от накипи.</li>
+      <li>Раз в 1–2 года меняйте магниевый анод.</li>
+      <li>Не нагревайте воду выше 60°C — при высокой температуре накипь образуется быстрее.</li>
+    </ul>
+    <blockquote><p>В Гродно вода средней жёсткости. При ежедневном использовании бойлера на 50 литров чистить ТЭН нужно раз в 12–18 месяцев. Если вода очень жёсткая — раз в 8–10 месяцев.</p></blockquote>
+  `
+},
+{
+  slug: 'boiler-ne-vyklyuchaetsya', cat: 'boiler', time: 4,
+  title: 'Водонагреватель не выключается',
+  excerpt: 'Залипание термостата, датчик температуры, реле.',
+  body: `
+    <p>Бойлер греет воду бесконечно, вода кипит, слышно шипение. Это опасная ситуация — может привести к повреждению бака или возгоранию.</p>
+    <h3>Причина 1: Термостат</h3>
+    <p>Главная причина. Термостат «залип» в положении «нагрев» и не отключает ТЭН при достижении нужной температуры. Вода перегревается.</p>
+    <p><strong>Решение:</strong> замена термостата. Работа от 45 BYN + деталь 25–60 BYN.</p>
+    <h3>Причина 2: Датчик температуры</h3>
+    <p>У бойлеров с электронным управлением датчик «врёт» — показывает низкую температуру, хотя вода горячая. Плата не выключает нагрев.</p>
+    <h3>Причина 3: Реле на плате</h3>
+    <p>Реле «залипло» в замкнутом положении. Симптом: нагрев не отключается даже при выключенном бойлере. Ремонт платы или замена модуля.</p>
+    <h3>Причина 4: Магнитный пускатель</h3>
+    <p>У мощных бойлеров (от 3 кВт) есть пускатель. Контакты могут «залипнуть».</p>
+    <h3>Что делать срочно</h3>
+    <ol>
+      <li>Отключите бойлер от сети через автомат (не через кнопку!).</li>
+      <li>Перекройте подачу воды.</li>
+      <li>Слейте горячую воду через кран, чтобы снизить давление.</li>
+      <li>Не включайте до приезда мастера.</li>
+    </ol>
+    <h3>Чего нельзя делать</h3>
+    <ul>
+      <li>Оставлять бойлер включённым без присмотра, если он «не выключается».</li>
+      <li>Пытаться «сбросить» термостат ударами.</li>
+      <li>Самостоятельно ремонтировать плату — там высокое напряжение.</li>
+    </ul>
+    <blockquote><p>Если бойлер не выключается — это может закончиться разрывом бака или пожаром. Не откладывайте ремонт, вызывайте мастера в тот же день.</p></blockquote>
+  `
+},
+{
+  slug: 'kak-chasto-menyat-anod', cat: 'boiler', time: 4,
+  title: 'Как часто менять магниевый анод в бойлере',
+  excerpt: 'Почему это важно и что будет, если забыть про анод.',
+  body: `
+    <p>Магниевый анод — самый недооценённый элемент бойлера. Стоит копейки, но именно он защищает бак от коррозии. Если про него забыть — бак сгниёт за 3–5 лет.</p>
+    <h3>Как работает анод</h3>
+    <p>Анод изготавливается из магниевого сплава. Он «жертвует» собой: корродирует первым, принимая на себя электрохимическую реакцию. Пока анод цел, стенки бака защищены.</p>
+    <h3>Когда менять</h3>
+    <ul>
+      <li><strong>Раз в 1–2 года</strong> — стандартный интервал для домашних бойлеров.</li>
+      <li><strong>Раз в год</strong> — если вода жёсткая или бойлер работает интенсивно.</li>
+      <li><strong>Каждый раз при чистке ТЭНа</strong> — заодно и анод.</li>
+    </ul>
+    <h3>Признаки, что анод пора менять</h3>
+    <ul>
+      <li>Вода из бойлера пахнет сероводородом (тухлыми яйцами).</li>
+      <li>Вода ржавая.</li>
+      <li>Слышен запах гнили из бака.</li>
+      <li>Анод визуально истончился, покрылся рытвинами.</li>
+    </ul>
+    <h3>Как проверить состояние анода</h3>
+    <ol>
+      <li>Отключите бойлер, слейте воду.</li>
+      <li>Снимите фланец.</li>
+      <li>Анод прикручен к фланцу или к отдельному штуцеру.</li>
+      <li>Осмотрите: если диаметр уменьшился в 2 раза — меняйте.</li>
+    </ol>
+    <h3>Стоимость</h3>
+    <p>Анод стоит 10–25 BYN. Замена при снятом фланце — работа от 25 BYN. Итого 35–50 BYN раз в 1–2 года. Против стоимости нового бойлера 250–500 BYN — очевидная экономия.</p>
+    <h3>Что будет, если не менять</h3>
+    <p>Анод растворяется полностью за 2–4 года. После этого начинается коррозия бака. Через 1–2 года бак прогнивает, и бойлер течёт. Ремонт невозможен — только замена.</p>
+    <blockquote><p>Если вода из вашего бойлера пахнет сероводородом — это первый сигнал. Скорее всего, анод уже израсходован, а в баке начались процессы гниения.</p></blockquote>
+  `
+},
+
+/* ============ ДУХОВКИ (4) ============ */
+{
+  slug: 'duhovka-ne-greet-verh', cat: 'oven', time: 4,
+  title: 'Духовка не греет верхний ТЭН',
+  excerpt: 'Диагностика ТЭНа, термостата, реле. Что менять.',
+  body: `
+    <p>Верхний нагрев не работает — запеканки остаются сырыми сверху, гриль не румянит. Разбираемся.</p>
+    <h3>Причина 1: Верхний ТЭН</h3>
+    <p>Самая частая. Нагревательный элемент перегорает или покрывается нагаром. Диагностика:</p>
+    <ul>
+      <li>Прозвонить ТЭН мультиметром — должно быть сопротивление в норме.</li>
+      <li>Осмотреть визуально — трещины, разрывы.</li>
+      <li>Проверить контакты — не подгорели ли.</li>
+    </ul>
+    <p>Замена ТЭНа: работа от 45 BYN + ТЭН 40–70 BYN.</p>
+    <h3>Причина 2: Термостат</h3>
+    <p>Регулятор температуры. Если он неисправен, духовка может не включать один из ТЭНов. Проверяется мультиметром.</p>
+    <h3>Причина 3: Реле на плате</h3>
+    <p>У современных духовок (Bosch, Siemens, Electrolux) за включение каждого ТЭНа отвечает отдельное реле. Если одно сгорело — верхний нагрев не работает. Ремонт платы или замена модуля.</p>
+    <h3>Причина 4: Переключатель режимов</h3>
+    <p>У механических духовок переключатель может «залипнуть». Симптом: не работает не только верхний ТЭН, но и другие режимы.</p>
+    <h3>Что проверить самому</h3>
+    <ol>
+      <li>Убедитесь, что выбран правильный режим (не «нижний нагрев», не «конвекция»).</li>
+      <li>Понаблюдайте, греется ли ТЭН через 2–3 минуты после включения.</li>
+      <li>Проверьте, работает ли вентилятор конвекции — если он сломан, некоторые режимы не запускаются.</li>
+    </ol>
+    <blockquote><p>Если верхний ТЭН греется, но слабо — возможно, он покрылся нагаром. Протрите его мягкой тканью с мыльным раствором после остывания.</p></blockquote>
+  `
+},
+{
+  slug: 'ne-rabotaet-konvekciya', cat: 'oven', time: 5,
+  title: 'Не работает конвекция в духовке',
+  excerpt: 'Вентилятор конвекции и кольцевой ТЭН — что чаще ломается.',
+  body: `
+    <p>Конвекция — режим, при котором вентилятор гоняет горячий воздух. Если он не работает, выпечка получается неравномерной, а время приготовления растёт.</p>
+    <h3>Как понять, что конвекция не работает</h3>
+    <ul>
+      <li>При включении режима «Конвекция» нет характерного гула вентилятора.</li>
+      <li>Задняя стенка духовки холодная, хотя ТЭН кольцевой (вокруг вентилятора) должен греться.</li>
+      <li>Выпечка подгорает с одной стороны.</li>
+    </ul>
+    <h3>Причина 1: Вентилятор</h3>
+    <p>Со временем подшипники вентилятора изнашиваются или обмотка сгорает. Симптом: вентилятор не крутится совсем или издаёт скрип/гул.</p>
+    <p>Замена вентилятора: работа от 50 BYN + деталь 40–90 BYN.</p>
+    <h3>Причина 2: Кольцевой ТЭН</h3>
+    <p>ТЭН вокруг вентилятора нагревает воздух. Если он перегорел, конвекция работает, но «холодная». Проверяется мультиметром.</p>
+    <h3>Причина 3: Плата управления</h3>
+    <p>Реле вентилятора не срабатывает. Симптом: вентилятор исправен, но не запускается в режиме конвекции. Ремонт платы.</p>
+    <h3>Причина 4: Термопредохранитель</h3>
+    <p>Защитный элемент на кольцевом ТЭНе. При срабатывании цепь разрывается. Замена — 20–40 BYN.</p>
+    <h3>Что делать</h3>
+    <ol>
+      <li>Отключите духовку от сети.</li>
+      <li>Снимите заднюю панель (обычно на 4 винтах).</li>
+      <li>Проверьте вентилятор — крутится ли он рукой.</li>
+      <li>Прозвоните кольцевой ТЭН мультиметром.</li>
+      <li>Если что-то не работает — везите в мастерскую или меняйте сами (если есть опыт).</li>
+    </ol>
+    <blockquote><p>У Bosch и Siemens серии HBG вентилятор конвекции — расходник с ресурсом 7–10 лет. Если духовка старше 8 лет и конвекция перестала работать — почти всегда это вентилятор.</p></blockquote>
+  `
+},
+{
+  slug: 'piroliz-ne-rabotaet', cat: 'oven', time: 5,
+  title: 'Пиролиз в духовке не работает',
+  excerpt: 'ТЭН пиролиза, замок блокировки, плата управления.',
+  body: `
+    <p>Пиролиз — самоочистка духовки при высокой температуре (до 500°C). Если функция не запускается — есть несколько причин.</p>
+    <h3>Как работает пиролиз</h3>
+    <p>Духовка нагревается до 500°C, все загрязнения сгорают в пепел. Дверца блокируется на время цикла — это критично для безопасности.</p>
+    <h3>Причина 1: Замок блокировки дверцы</h3>
+    <p>Пиролиз запускается только при запертой дверце. Если замок сломан — программа не стартует. Замена замка — от 55 BYN + деталь.</p>
+    <h3>Причина 2: ТЭН пиролиза</h3>
+    <p>Духовка не может достичь 500°C. ТЭН перегорел или ослаб. Замена — от 65 BYN + деталь.</p>
+    <h3>Причина 3: Плата управления</h3>
+    <p>Сбой программного обеспечения или реле. Ремонт платы — от 65 BYN + детали.</p>
+    <h3>Причина 4: Термодатчик</h3>
+    <p>Духовка не «видит», что температура достигла нужной. Пиролиз не стартует.</p>
+    <h3>Что можно проверить самому</h3>
+    <ul>
+      <li>Плотно ли закрыта дверца.</li>
+      <li>Не сработала ли защита от детей (некоторые модели блокируют пиролиз при включённой блокировке).</li>
+      <li>Не было ли скачка напряжения — попробуйте перезагрузить духовку через автомат.</li>
+    </ul>
+    <h3>Стоит ли ремонтировать</h3>
+    <p>Пиролиз — удобная, но не критичная функция. Если ремонт стоит больше 150 BYN, а духовка старше 8 лет — иногда проще пользоваться обычной мойкой. Впрочем, у премиум-моделей (Miele, Gaggenau) ремонт оправдан — там пиролиз интегрирован в общую систему управления.</p>
+    <blockquote><p>Никогда не пытайтесь запустить пиролиз с открытой дверцей или снятой блокировкой — это опасно. Замок не зря блокирует дверцу на 2+ часа.</p></blockquote>
+  `
+},
+{
+  slug: 'dverca-ne-zakryvaetsya', cat: 'oven', time: 4,
+  title: 'Дверца духовки не закрывается',
+  excerpt: 'Петли, замок, пружины. Регулировка или замена.',
+  body: `
+    <p>Дверца не закрывается плотно — тепло уходит, выпечка не получается, а духовка работает на износ. Причина почти всегда в петлях.</p>
+    <h3>Причина 1: Износ петель</h3>
+    <p>Петли духовки — это пружинный механизм, который держит дверцу в закрытом положении. Со временем пружины растягиваются, механизм изнашивается. Дверца «провисает» и не доходит до упора.</p>
+    <p>Замена петель: работа от 45 BYN + комплект петель 40–80 BYN.</p>
+    <h3>Причина 2: Перекос дверцы</h3>
+    <p>Если духовку роняли или дверцу перегружали (ставили на неё что-то тяжёлое), петли могут погнуться. В этом случае поможет регулировка.</p>
+    <h3>Причина 3: Замок дверцы</h3>
+    <p>У современных духовок с пиролизом есть электромеханический замок. Если он «залип» в положении «закрыто», дверца не закроется до конца. Замена замка — от 55 BYN.</p>
+    <h3>Причина 4: Уплотнитель</h3>
+    <p>Резиновый или силиконовый уплотнитель по периметру дверцы со временем дубеет или отклеивается. Дверца закрывается, но не плотно.</p>
+    <h3>Как проверить</h3>
+    <ol>
+      <li>Откройте дверцу на 45° — держится ли она в этом положении? Если нет, пружины износились.</li>
+      <li>Закройте дверцу — остаётся ли щель с одной стороны?</li>
+      <li>Проверьте уплотнитель — эластичный или задубел?</li>
+    </ol>
+    <h3>Что делать</h3>
+    <ul>
+      <li>Если уплотнитель задубел — замените (недорого).</li>
+      <li>Если петли изношены — замена. Можно сделать самому, но нужен доступ к боковым панелям.</li>
+      <li>Если духовка на гарантии — обратитесь в сервисный центр.</li>
+    </ul>
+    <blockquote><p>Плохо закрытая дверца увеличивает расход электроэнергии на 20–30%. Если у вас газ-контроль, духовка может вообще не включаться — газ уходит, а датчик срабатывает.</p></blockquote>
+  `
+},
+
+/* ============ ВАРОЧНЫЕ ПАНЕЛИ (4) ============ */
+{
+  slug: 'indukciya-ne-vklyuchaetsya', cat: 'cooktop', time: 5,
+  title: 'Индукционная панель не включается',
+  excerpt: 'Силовой модуль, инвертор, предохранитель. Разбор.',
+  body: `
+    <p>Индукция не включается, сенсоры не реагируют. Разбираем причины и объясняем, почему тут нельзя ремонтировать самостоятельно.</p>
+    <h3>Причина 1: Предохранитель</h3>
+    <p>При скачке напряжения или пробое может сгореть входной предохранитель. Симптом: панель полностью «мертвая». Замена — недорого, но требует разборки.</p>
+    <h3>Причина 2: Силовой модуль</h3>
+    <p>Сердце индукции — силовой модуль с IGBT-транзисторами. При перегреве или скачке напряжения транзисторы выходят из строя. Симптом: панель щёлкает, но не греет или не включается.</p>
+    <p>Замена силового модуля: работа от 70 BYN + деталь 100–200 BYN.</p>
+    <h3>Причина 3: Инвертор</h3>
+    <p>Преобразует постоянный ток в переменный высокой частоты. Износ или сбой — панель не работает. Замена инвертора — дорого, от 65 BYN + деталь.</p>
+    <h3>Причина 4: Плата управления</h3>
+    <p>Сенсорная панель или контроллер. Симптом: сенсоры не реагируют вообще. Замена — от 60 BYN + деталь.</p>
+    <h3>Причина 5: Питание</h3>
+    <p>Проверьте: автомат в щитке не выбит? Розетка/проводка в порядке? Иногда проблема в питании, а не в панели.</p>
+    <h3>Почему нельзя чинить самому</h3>
+    <p>В индукционной панели конденсаторы накапливают заряд до 400 В. Даже после отключения от сети это смертельно опасно без разрядки. Плюс модули требуют термопасты и правильной установки — ошибка приведёт к повторному выходу из строя.</p>
+    <h3>Стоит ли ремонтировать</h3>
+    <ul>
+      <li>Если панель на гарантии — сервис.</li>
+      <li>Если панель премиум (Bosch, Siemens, Miele) — ремонт оправдан.</li>
+      <li>Если панель бюджетная и старше 5 лет — иногда дешевле купить новую.</li>
+    </ul>
+    <blockquote><p><strong>Важно:</strong> не разбирайте индукционную панель самостоятельно. Даже после отключения от розетки в конденсаторах остаётся опасное напряжение.</p></blockquote>
+  `
+},
+{
+  slug: 'ne-greet-odna-zona', cat: 'cooktop', time: 5,
+  title: 'Варочная панель не греет одну зону',
+  excerpt: 'Индукционная катушка, нагревательный элемент, реле.',
+  body: `
+    <p>Три зоны работают, а одна — нет. Разбираемся в причинах для каждого типа панелей.</p>
+    <h3>Если панель индукционная</h3>
+    <p>Каждая зона — это индукционная катушка, которая создаёт магнитное поле. Если катушка повреждена — зона не работает.</p>
+    <ul>
+      <li>Проверьте, подходит ли посуда — индукция не работает со стеклянной и алюминиевой посудой.</li>
+      <li>Попробуйте переставить посуду — может, зона просто не «видит» дно.</li>
+      <li>Проверьте, не повреждена ли катушка (визуальный осмотр через стекло).</li>
+    </ul>
+    <p>Замена катушки: работа от 55 BYN + деталь 60–120 BYN.</p>
+    <h3>Если панель стеклокерамическая</h3>
+    <p>Зона — это нагревательный элемент под стеклом. Он может перегореть или потерять контакт.</p>
+    <ul>
+      <li>Прозвонка элемента мультиметром.</li>
+      <li>Проверка контактов — не подгорели ли.</li>
+    </ul>
+    <p>Замена нагревателя: работа от 55 BYN + деталь 50–100 BYN.</p>
+    <h3>Если панель электрическая (блинчики)</h3>
+    <p>Тут узел простой — ТЭН-«блин». Перегорел — меняется. Работа от 45 BYN + деталь 30–60 BYN.</p>
+    <h3>Общая причина: реле на плате</h3>
+    <p>Если зона не работает, хотя катушка/нагреватель исправны — скорее всего, сгорело реле на плате управления. Замена платы — самый дорогой ремонт (от 60 BYN + деталь).</p>
+    <h3>Что делать</h3>
+    <ol>
+      <li>Проверьте на разных режимах — работает ли зона в «бустере», в обычном режиме.</li>
+      <li>Поменяйте посуду (для индукции).</li>
+      <li>Перезагрузите панель через автомат.</li>
+      <li>Если не помогло — в мастерскую.</li>
+    </ol>
+    <blockquote><p>У индукционных панелей Bosch и Siemens 4-зонные модели часто имеют «общую» плату на две зоны. Если одна зона не работает, может «отвалиться» и вторая — не тяните с ремонтом.</p></blockquote>
+  `
+},
+{
+  slug: 'sensory-ne-reagiruyut', cat: 'cooktop', time: 5,
+  title: 'Сенсоры варочной панели не реагируют',
+  excerpt: 'Сенсорная панель, шлейф, контроллер. Диагностика.',
+  body: `
+    <p>Сенсорные кнопки не срабатывают, или срабатывают через раз, или включают не то, что нужно. Разбираем причины.</p>
+    <h3>Причина 1: Загрязнение сенсоров</h3>
+    <p>Первое, что нужно проверить. Жир, вода, налёт мешают ёмкостным сенсорам. Протрите панель мягкой тканью, желательно с средством для стеклокерамики.</p>
+    <h3>Причина 2: Влага на плате</h3>
+    <p>Если панель залили, влага попала внутрь — сенсоры начинают «глючить». Отключите панель от сети, дайте высохнуть 24 часа. Если не помогает — нужна разборка.</p>
+    <h3>Причина 3: Шлейф сенсорной панели</h3>
+    <p>Шлейф соединяет сенсоры с контроллером. Окисление или обрыв — часть сенсоров не работает. Замена шлейфа — от 50 BYN + деталь.</p>
+    <h3>Причина 4: Сенсорная панель</h3>
+    <p>Сам узел сенсоров. Замена панели — от 55 BYN + деталь 80–150 BYN.</p>
+    <h3>Причина 5: Контроллер</h3>
+    <p>Плата управления. Если сенсоры исправны, но не передают данные — проблема в контроллере. Ремонт — от 60 BYN.</p>
+    <h3>Что попробовать самому</h3>
+    <ol>
+      <li>Протрите панель насухо.</li>
+      <li>Отключите от сети на 30 минут — иногда сброс помогает.</li>
+      <li>Проверьте, нет ли влаги в районе сенсоров после готовки.</li>
+      <li>Не нажимайте на сенсоры мокрыми руками — часть панелей на это реагирует плохо.</li>
+    </ol>
+    <h3>Когда нужен мастер</h3>
+    <p>Если после чистки и сброса сенсоры не работают — нужна диагностика. В большинстве случаев это шлейф или сама сенсорная панель.</p>
+    <blockquote><p>У варочных панелей Electrolux и Gorenje — сенсорные панели с завода не самые надёжные. Если ваша панель старше 6 лет, возможно, придётся менять панель целиком.</p></blockquote>
+  `
+},
+{
+  slug: 'treshchina-na-stekle', cat: 'cooktop', time: 6,
+  title: 'Трещина на стеклокерамике: менять или нет',
+  excerpt: 'Стоимость замены стекла и когда это нецелесообразно.',
+  body: `
+    <p>Треснула варочная панель — что делать? Разбираем варианты и считаем экономику.</p>
+    <h3>Когда можно оставить</h3>
+    <ul>
+      <li>Трещина крошечная (до 2 мм) и не растёт.</li>
+      <li>Панель не соприкасается с водой (трещина в углу, далеко от конфорок).</li>
+      <li>Вы готовы к тому, что со временем трещина может пойти дальше.</li>
+    </
