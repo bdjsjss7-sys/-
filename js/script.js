@@ -5,7 +5,162 @@
 (function () {
   'use strict';
 
-  /* HEADER SCROLL + TOPBAR */
+  /* ==========================================================
+     ДАННЫЕ КАЛЬКУЛЯТОРА — техника и проблемы
+     ========================================================== */
+  const CALC_DATA = {
+    wash: {
+      label: 'Стиральная',
+      issues: [
+        { label: 'Не сливает воду', price: 45 },
+        { label: 'Не набирает воду', price: 45 },
+        { label: 'Не отжимает / барабан не крутится', price: 55 },
+        { label: 'Шумит, гудит при отжиме', price: 90 },
+        { label: 'Течёт вода', price: 45 },
+        { label: 'Не греет воду', price: 50 },
+        { label: 'Ошибка на дисплее', price: 55 },
+        { label: 'Не включается', price: 45 }
+      ]
+    },
+    dish: {
+      label: 'Посудомойка',
+      issues: [
+        { label: 'Не сливает воду (E15, F11)', price: 45 },
+        { label: 'Не набирает воду (F24)', price: 45 },
+        { label: 'Плохо моет посуду', price: 40 },
+        { label: 'Не сушит посуду', price: 45 },
+        { label: 'Течёт вода', price: 45 },
+        { label: 'Не открывается дверца', price: 40 },
+        { label: 'Ошибка на дисплее', price: 55 },
+        { label: 'Посторонний шум', price: 50 }
+      ]
+    },
+    tv: {
+      label: 'Телевизор',
+      issues: [
+        { label: 'Не включается', price: 55 },
+        { label: 'Нет изображения / чёрный экран', price: 60 },
+        { label: 'Нет звука', price: 50 },
+        { label: 'Полосы / пятна на экране', price: 70 },
+        { label: 'Не работает подсветка', price: 90 },
+        { label: 'Сам выключается', price: 60 },
+        { label: 'Не работает HDMI', price: 50 },
+        { label: 'Пульт не реагирует', price: 40 }
+      ]
+    },
+    coffee: {
+      label: 'Кофемашина',
+      issues: [
+        { label: 'Не наливает кофе / слабый напор', price: 55 },
+        { label: 'Течёт вода снизу', price: 65 },
+        { label: 'Не нагревает воду', price: 60 },
+        { label: 'Не работает капучинатор', price: 55 },
+        { label: 'Не мелет кофе', price: 60 },
+        { label: 'Ошибка на дисплее', price: 65 },
+        { label: 'Шумит / гудит', price: 55 },
+        { label: 'Постоянно просит промывку', price: 50 }
+      ]
+    },
+    vacuum: {
+      label: 'Пылесос',
+      issues: [
+        { label: 'Не включается', price: 30 },
+        { label: 'Потерял мощность, плохо сосёт', price: 30 },
+        { label: 'Шумит / вибрирует', price: 30 },
+        { label: 'Аккумулятор быстро садится', price: 50 },
+        { label: 'Не крутится турбощётка', price: 35 },
+        { label: 'Не заряжается', price: 40 },
+        { label: 'Робот не находит базу', price: 45 },
+        { label: 'Робот не выезжает с базы', price: 45 }
+      ]
+    },
+    boiler: {
+      label: 'Водонагреватель',
+      issues: [
+        { label: 'Не греет воду', price: 45 },
+        { label: 'Слабо греет / долго нагревает', price: 50 },
+        { label: 'Течёт вода', price: 50 },
+        { label: 'Выбивает автомат', price: 55 },
+        { label: 'Не включается', price: 40 },
+        { label: 'Шумит при нагреве', price: 45 },
+        { label: 'Ошибка на дисплее', price: 55 }
+      ]
+    },
+    oven: {
+      label: 'Духовка',
+      issues: [
+        { label: 'Не греет', price: 45 },
+        { label: 'Не работает конвекция', price: 50 },
+        { label: 'Не работает пиролиз', price: 65 },
+        { label: 'Не работает гриль', price: 50 },
+        { label: 'Дверца не закрывается', price: 40 },
+        { label: 'Не работает таймер', price: 45 },
+        { label: 'Не горит свет внутри', price: 30 },
+        { label: 'Ошибка на дисплее', price: 55 }
+      ]
+    },
+    cooktop: {
+      label: 'Варочная',
+      issues: [
+        { label: 'Не включается', price: 55 },
+        { label: 'Не греет одна зона', price: 55 },
+        { label: 'Сенсоры не реагируют', price: 60 },
+        { label: 'Ошибка на дисплее', price: 60 },
+        { label: 'Выбивает автомат', price: 65 },
+        { label: 'Трещина на стекле', price: 90 },
+        { label: 'Не работает таймер / автоотключение', price: 55 }
+      ]
+    },
+    micro: {
+      label: 'Микроволновка',
+      issues: [
+        { label: 'Не греет', price: 45 },
+        { label: 'Искрит внутри', price: 35 },
+        { label: 'Не крутится поддон', price: 35 },
+        { label: 'Не включается', price: 40 },
+        { label: 'Не работает гриль', price: 45 },
+        { label: 'Шумит при работе', price: 40 },
+        { label: 'Свет не горит', price: 30 }
+      ]
+    },
+    hood: {
+      label: 'Вытяжка',
+      issues: [
+        { label: 'Не работает мотор', price: 50 },
+        { label: 'Не работает подсветка', price: 30 },
+        { label: 'Слабо всасывает', price: 40 },
+        { label: 'Шумит / вибрирует', price: 45 },
+        { label: 'Не реагирует на кнопки', price: 50 },
+        { label: 'Течёт / капает', price: 40 }
+      ]
+    },
+    gas: {
+      label: 'Газовая плита',
+      issues: [
+        { label: 'Не зажигается', price: 35 },
+        { label: 'Гаснет пламя', price: 40 },
+        { label: 'Слабый огонь', price: 35 },
+        { label: 'Не работает электророзжиг', price: 40 },
+        { label: 'Забиты форсунки', price: 35 },
+        { label: 'Течёт газ', price: 55 }
+      ]
+    },
+    small: {
+      label: 'Фен / отпариватель',
+      issues: [
+        { label: 'Не включается', price: 25 },
+        { label: 'Не греет', price: 30 },
+        { label: 'Слабо дует пар', price: 30 },
+        { label: 'Течёт вода', price: 30 },
+        { label: 'Шумит', price: 30 },
+        { label: 'Не работает регулятор', price: 30 }
+      ]
+    }
+  };
+
+  /* ==========================================================
+     HEADER SCROLL
+     ========================================================== */
   function initHeaderScroll() {
     const header = document.getElementById('header');
     const topbar = document.getElementById('topbar');
@@ -32,7 +187,9 @@
     update();
   }
 
-  /* BURGER */
+  /* ==========================================================
+     BURGER
+     ========================================================== */
   function initBurger() {
     const burger = document.getElementById('burger');
     const nav = document.getElementById('nav');
@@ -56,7 +213,9 @@
     });
   }
 
-  /* SMOOTH SCROLL */
+  /* ==========================================================
+     SMOOTH SCROLL
+     ========================================================== */
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
       link.addEventListener('click', (e) => {
@@ -72,7 +231,9 @@
     });
   }
 
-  /* REVEAL */
+  /* ==========================================================
+     REVEAL
+     ========================================================== */
   function initReveal() {
     const elements = document.querySelectorAll(
       '.head, .service-row, .stat-block, .tl-step, .not-doing, .testimonial, .form-wrap, .hero-calc'
@@ -101,53 +262,90 @@
     elements.forEach((el) => observer.observe(el));
   }
 
-  /* HERO КАЛЬКУЛЯТОР */
+  /* ==========================================================
+     КАЛЬКУЛЯТОР В HERO
+     ========================================================== */
   function initHeroCalc() {
     const calc = document.getElementById('heroCalc');
+    const typesWrap = document.getElementById('calcTypes');
+    const issuesWrap = document.getElementById('calcIssues');
     const valueEl = document.getElementById('calcValue');
-    if (!calc || !valueEl) return;
+    if (!calc || !typesWrap || !issuesWrap || !valueEl) return;
 
-    const prices = {
-      wash:      { simple: 30, medium: 45, complex: 60 },
-      dish:      { simple: 35, medium: 50, complex: 70 },
-      tv:        { simple: 40, medium: 60, complex: 90 },
-      coffee:    { simple: 45, medium: 65, complex: 90 },
-      boiler:    { simple: 35, medium: 55, complex: 80 },
-      oven:      { simple: 30, medium: 50, complex: 70 }
+    const state = {
+      type: 'wash',
+      issue: 0
     };
 
-    const state = { type: 'wash', issue: 'simple' };
+    /* Рендер типов техники */
+    function renderTypes() {
+      typesWrap.innerHTML = Object.keys(CALC_DATA).map((key) => {
+        const item = CALC_DATA[key];
+        const cls = key === state.type ? 'hero-calc__chip is-active' : 'hero-calc__chip';
+        return `<button type="button" class="${cls}" data-value="${key}">${item.label}</button>`;
+      }).join('');
+    }
 
-    const update = () => {
-      const price = prices[state.type]?.[state.issue] || 30;
+    /* Рендер проблем под выбранный тип */
+    function renderIssues() {
+      const issues = CALC_DATA[state.type].issues;
+      issuesWrap.innerHTML = issues.map((issue, i) => {
+        const cls = i === state.issue ? 'hero-calc__chip is-active' : 'hero-calc__chip';
+        return `<button type="button" class="${cls}" data-index="${i}">${issue.label}</button>`;
+      }).join('');
+    }
+
+    /* Обновление цены */
+    function updatePrice() {
+      const issue = CALC_DATA[state.type].issues[state.issue];
+      if (!issue) return;
       valueEl.style.opacity = '0';
       setTimeout(() => {
-        valueEl.textContent = price + ' BYN';
+        valueEl.textContent = issue.price + ' BYN';
         valueEl.style.opacity = '1';
       }, 120);
-    };
+    }
 
-    calc.querySelectorAll('.hero-calc__chips').forEach((group) => {
-      const groupName = group.dataset.group;
-      group.querySelectorAll('.hero-calc__chip').forEach((chip) => {
-        chip.addEventListener('click', () => {
-          group.querySelectorAll('.hero-calc__chip').forEach((c) => c.classList.remove('is-active'));
-          chip.classList.add('is-active');
-          state[groupName] = chip.dataset.value;
-          update();
-        });
-      });
+    /* Клик по типу */
+    typesWrap.addEventListener('click', (e) => {
+      const chip = e.target.closest('.hero-calc__chip');
+      if (!chip) return;
+      const val = chip.dataset.value;
+      if (!val || val === state.type) return;
+      state.type = val;
+      state.issue = 0;
+      renderTypes();
+      renderIssues();
+      updatePrice();
     });
+
+    /* Клик по проблеме */
+    issuesWrap.addEventListener('click', (e) => {
+      const chip = e.target.closest('.hero-calc__chip');
+      if (!chip) return;
+      const idx = parseInt(chip.dataset.index, 10);
+      if (isNaN(idx) || idx === state.issue) return;
+      state.issue = idx;
+      renderIssues();
+      updatePrice();
+    });
+
+    /* Стартовый рендер */
+    renderTypes();
+    renderIssues();
+    updatePrice();
   }
 
-  /* КАРУСЕЛЬ ОТЗЫВОВ */
+  /* ==========================================================
+     КАРУСЕЛЬ ОТЗЫВОВ
+     ========================================================== */
   function initTestimonial() {
     const block = document.getElementById('testimonial');
     if (!block) return;
 
     const data = [
       {
-        text: 'Стиральная машина Bosch перестала сливать воду. Позвонил — сказали привезти в мастерскую. Диагностика бесплатная, нашли засор помпы. Заменили за день, взяли 65 рублей. Работает как новая.',
+        text: 'Стиральная машина Bosch перестала сливать воду. Позвонил — сказали привезти в мастерскую. Нашли засор помпы, заменили за день, взяли 65 рублей. Работает как новая.',
         name: 'Андрей',
         device: 'Стиральная машина Bosch'
       },
@@ -220,7 +418,9 @@
     render();
   }
 
-  /* ФОРМЫ */
+  /* ==========================================================
+     ФОРМЫ
+     ========================================================== */
   function initForms() {
     const forms = document.querySelectorAll('form[data-formspree]');
     if (!forms.length) return;
@@ -277,7 +477,9 @@
     setTimeout(() => message.remove(), 8000);
   }
 
-  /* МАСКА ТЕЛЕФОНА */
+  /* ==========================================================
+     МАСКА ТЕЛЕФОНА
+     ========================================================== */
   function initPhoneMask() {
     document.querySelectorAll('input[data-phone]').forEach((input) => {
       input.addEventListener('input', (e) => {
@@ -297,41 +499,9 @@
     });
   }
 
-  /* СЧЁТЧИКИ */
-  function initCounters() {
-    const counters = document.querySelectorAll('[data-count]');
-    if (!counters.length) return;
-
-    const animate = (el) => {
-      const target = parseFloat(el.dataset.count);
-      const suffix = el.dataset.suffix || '';
-      const duration = 1600;
-      const start = performance.now();
-      const tick = (now) => {
-        const p = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.floor(eased * target) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-        else el.textContent = target + suffix;
-      };
-      requestAnimationFrame(tick);
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !entry.target.dataset.animated) {
-            entry.target.dataset.animated = '1';
-            animate(entry.target);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-    counters.forEach((el) => observer.observe(el));
-  }
-
-  /* CURRENT PAGE */
+  /* ==========================================================
+     CURRENT PAGE
+     ========================================================== */
   function initCurrentPage() {
     const nav = document.getElementById('nav');
     if (!nav) return;
@@ -344,7 +514,9 @@
     });
   }
 
-  /* INIT */
+  /* ==========================================================
+     INIT
+     ========================================================== */
   function init() {
     initHeaderScroll();
     initBurger();
@@ -354,7 +526,6 @@
     initTestimonial();
     initForms();
     initPhoneMask();
-    initCounters();
     initCurrentPage();
   }
 
