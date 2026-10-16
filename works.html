@@ -1,3 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>Наши работы — примеры ремонтов | РемБытТехника</title>
+<meta name="description" content="Примеры выполненных ремонтов бытовой техники в Гродно. Более 5000 успешных работ. Стиральные машины, телевизоры, кофемашины, пылесосы и др.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=1001">
+<style>
+/* ДОБАВОЧНЫЕ СТИЛИ ДЛЯ РАБОТ (если их нет в styles.css) */
+.works-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.works-tab { padding: 10px 16px; border-radius: var(--r-full); background: var(--bg-soft); border: 1px solid var(--line); font-size: 14px; font-weight: 500; color: var(--ink-2); cursor: pointer; transition: all 0.2s var(--ease); display: inline-flex; align-items: center; gap: 8px; }
+.works-tab:hover { border-color: var(--line-3); color: var(--ink); }
+.works-tab.is-active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.works-tab__count { font-family: var(--mono); font-size: 11px; background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 10px; }
+.works-tab.is-active .works-tab__count { background: rgba(255,255,255,0.2); }
+.works-more-wrap { display: flex; justify-content: center; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__left">
+      <span class="topbar__item">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Гродно, Большая Троицкая, 48
+      </span>
+      <span class="topbar__item">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+        Ежедневно 11:00 — 18:00
+      </span>
+    </div>
+    <div class="topbar__right">
+      <span class="topbar__item"><span class="topbar__dot"></span>Открыто · принимаем технику</span>
+    </div>
+  </div>
+</div>
+
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="index.html" class="header__logo">
+      <span class="header__logo-mark">Р</span>
+      <span class="header__logo-text">РемБытТехника<span class="header__logo-sub">Гродно</span></span>
+    </a>
+    <nav class="header__nav" id="nav">
+      <a href="services.html">Услуги</a>
+      <a href="prices.html">Цены</a>
+      <a href="works.html" class="is-current">Работы</a>
+      <a href="about.html">О нас</a>
+      <a href="blog.html">Блог</a>
+      <a href="contacts.html">Контакты</a>
+    </nav>
+    <div class="header__actions">
+      <a href="tel:+375291087979" class="header__phone">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +375 29 108-79-79
+      </a>
+      <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="page-hero__bg" aria-hidden="true"><div class="page-hero__dots"></div></div>
+  <div class="container page-hero__inner">
+    <nav class="breadcrumbs">
+      <a href="index.html">Главная</a>
+      <span class="breadcrumbs__sep">/</span>
+      <span class="breadcrumbs__current">Работы</span>
+    </nav>
+    <div class="head__eyebrow">Наши работы</div>
+    <h1 class="page-hero__title">Примеры выполненных ремонтов</h1>
+    <p class="page-hero__lead">Более 5000 отремонтированных единиц техники за 12 лет. Ниже — реальные кейсы с указанием симптомов, выполненных работ и итоговой стоимости.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Контейнеры, которые ищет скрипт -->
+    <div class="works-tabs" id="worksTabs"></div>
+    <div class="works-grid" id="worksGrid"></div>
+    <div class="works-more-wrap" id="worksMoreWrap">
+      <button type="button" class="btn btn--outline btn--lg" id="worksMore">Показать ещё кейсы</button>
+    </div>
+  </div>
+</section>
+
+<section class="section section--soft">
+  <div class="container">
+    <div class="cta-strip">
+      <div class="cta-strip__content">
+        <h2 class="cta-strip__title">Не нашли свою технику в списке?</h2>
+        <p class="cta-strip__text">Позвоните — расскажите, что за техника и что случилось. Скорее всего, поможем. Если нет — честно скажем и подскажем, куда обратиться.</p>
+        <div class="cta-strip__actions">
+          <a href="tel:+375291087979" class="btn btn--blue btn--lg">+375 29 108-79-79
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="contacts.html" class="btn btn--ghost-dark btn--lg">Все контакты</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <a href="index.html" class="footer__brand"><span class="header__logo-mark">Р</span>РемБытТехника</a>
+    <nav class="footer__nav">
+      <a href="services.html">Услуги</a>
+      <a href="prices.html">Цены</a>
+      <a href="works.html">Работы</a>
+      <a href="about.html">О нас</a>
+      <a href="contacts.html">Контакты</a>
+    </nav>
+    <div class="footer__copy">© 2025 РемБытТехника · Гродно</div>
+  </div>
+</footer>
+
+<!-- Основной скрипт сайта -->
+<script src="js/script.js"></script>
+
+<!-- Скрипт для страницы работ (вставлен прямо сюда) -->
 <script>
 /* ДАННЫЕ КЕЙСОВ — 10 категорий × 15 = 150 кейсов */
 const WORKS = {
@@ -280,3 +407,6 @@ const WORKS = {
   renderCases();
 })();
 </script>
+
+</body>
+</html>
