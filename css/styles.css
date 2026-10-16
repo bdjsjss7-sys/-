@@ -1674,3 +1674,37 @@ em { font-style: normal; color: var(--blue); font-weight: 600; }
   .reveal { opacity: 1; transform: none; }
   .marquee__track { animation: none; }
 }
+
+/* ============================================================
+   ФИКС — скролл чипов калькулятора
+   ============================================================ */
+
+.hero-calc__chips--scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: -8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-3) transparent;
+}
+
+.hero-calc__chips--scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.hero-calc__chips--scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hero-calc__chips--scroll::-webkit-scrollbar-thumb {
+  background: var(--line-3);
+  border-radius: 2px;
+}
+
+.hero-calc__chips--scroll .hero-calc__chip {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
