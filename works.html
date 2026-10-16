@@ -1,152 +1,414 @@
-/* WORKS */
-.works-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>Наши работы — примеры ремонтов бытовой техники в Гродно | РемБытТехника</title>
+<meta name="description" content="Примеры реальных ремонтов бытовой техники в мастерской Гродно: стиральные машины, посудомойки, телевизоры, кофемашины, водонагреватели. Модель, симптом, что сделали, цена, срок.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=1002">
+</head>
+<body>
 
-.work-card {
-  padding: 28px 26px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  transition: all 0.35s var(--ease);
-  position: relative;
-  overflow: hidden;
-  min-width: 0;
-}
-.work-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--blue) 50%, transparent);
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-}
-.work-card:hover {
-  border-color: var(--blue-line);
-  transform: translateY(-3px);
-  box-shadow: var(--sh-lg);
-}
-.work-card:hover::before { opacity: 1; }
+<div class="topbar" id="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__left">
+      <span class="topbar__item">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Гродно, Большая Троицкая, 48
+      </span>
+      <span class="topbar__item">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;flex-shrink:0;"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+        Ежедневно 11:00 — 18:00
+      </span>
+    </div>
+    <div class="topbar__right">
+      <span class="topbar__item"><span class="topbar__dot"></span>Открыто · принимаем технику</span>
+    </div>
+  </div>
+</div>
 
-.work-card__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--line-2);
-}
-.work-card__brand {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 6px;
-}
-.work-card__model {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-}
-.work-card__badge {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--ink-4);
-  background: var(--bg-soft);
-  padding: 5px 10px;
-  border-radius: var(--r-full);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.work-card__badge--fast {
-  color: var(--green-ink);
-  background: var(--green-soft);
-}
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="index.html" class="header__logo">
+      <span class="header__logo-mark">Р</span>
+      <span class="header__logo-text">РемБытТехника<span class="header__logo-sub">Гродно</span></span>
+    </a>
+    <nav class="header__nav" id="nav">
+      <a href="services.html">Услуги</a>
+      <a href="prices.html">Цены</a>
+      <a href="works.html" class="is-current">Работы</a>
+      <a href="about.html">О нас</a>
+      <a href="blog.html">Блог</a>
+      <a href="contacts.html">Контакты</a>
+    </nav>
+    <div class="header__actions">
+      <a href="tel:+375291087979" class="header__phone">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +375 29 108-79-79
+      </a>
+      <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
 
-.work-card__rows {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  flex: 1;
-}
-.work-card__row {
-  display: grid;
-  grid-template-columns: 100px minmax(0, 1fr);
-  gap: 16px;
-  align-items: baseline;
-}
-.work-card__row-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-4);
-  font-family: var(--mono);
-}
-.work-card__row-text {
-  font-size: 14.5px;
-  color: var(--ink-2);
-  line-height: 1.55;
-}
-.work-card__row-text strong { color: var(--ink); font-weight: 500; }
+<section class="page-hero">
+  <div class="page-hero__bg" aria-hidden="true"><div class="page-hero__dots"></div></div>
+  <div class="container page-hero__inner">
+    <nav class="breadcrumbs">
+      <a href="index.html">Главная</a>
+      <span class="breadcrumbs__sep">/</span>
+      <span class="breadcrumbs__current">Наши работы</span>
+    </nav>
+    <div class="head__eyebrow">Наши работы</div>
+    <h1 class="page-hero__title">Примеры реальных ремонтов</h1>
+    <p class="page-hero__lead">Ниже — 10 типичных ремонтов, которые мы делали в мастерской. Модель, симптом, что сделали, сколько взяли и за какое время. Без «успешно отремонтировали» — только факты.</p>
+  </div>
+</section>
 
-.work-card__footer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line-2);
-  margin-top: auto;
-}
-.work-card__price-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-4);
-  font-family: var(--mono);
-  margin-bottom: 4px;
-}
-.work-card__price {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  font-family: var(--mono);
-}
-.work-card__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: flex-end;
-  text-align: right;
-}
-.work-card__meta-item {
-  font-size: 12px;
-  color: var(--ink-4);
-  font-family: var(--mono);
-}
-.work-card__meta-item span { color: var(--ink-2); font-weight: 600; }
+<section class="section">
+  <div class="container">
 
-@media (max-width: 1024px) {
-  .works-grid { grid-template-columns: minmax(0, 1fr); }
-}
-@media (max-width: 768px) {
-  .work-card { padding: 22px 20px; }
-  .work-card__head { flex-wrap: wrap; gap: 10px; }
-  .work-card__row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-  .work-card__footer { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .work-card__meta { align-items: flex-start; text-align: left; }
-}
+    <div class="works-grid">
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Bosch</div>
+            <div class="work-card__model">Стиральная WAT 24</div>
+          </div>
+          <div class="work-card__badge work-card__badge--fast">1 день</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Не сливает воду, код ошибки на дисплее</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Засор в фильтре и износ <strong>сливной помпы</strong>. Прочистили систему, заменили помпу на оригинал.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">85 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>45 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>40 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Samsung</div>
+            <div class="work-card__model">Стиральная WF 60</div>
+          </div>
+          <div class="work-card__badge">3 дня</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Сильный гул при отжиме, вибрация</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Износ <strong>подшипников барабана</strong>. Разобрали бак, заменили подшипники и сальник. Продлили срок службы на 5 лет.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">150 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>90 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>60 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Bosch</div>
+            <div class="work-card__model">Посудомойка SMV 68</div>
+          </div>
+          <div class="work-card__badge work-card__badge--fast">1 день</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Ошибка <strong>E15</strong> — сработала система AquaStop</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Износ уплотнителя дверцы. Заменили уплотнитель, проверили поддон, сбросили систему AquaStop.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">95 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>45 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>50 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Samsung</div>
+            <div class="work-card__model">Телевизор UE 55</div>
+          </div>
+          <div class="work-card__badge">4 дня</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Нет изображения, звук работает</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Перегорела <strong>светодиодная подсветка</strong>. Разобрали панель, заменили линейку LED. Работа 3 часа + сутки на тестирование.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">210 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>90 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">DeLonghi</div>
+            <div class="work-card__model">Кофемашина Magnifica</div>
+          </div>
+          <div class="work-card__badge">2 дня</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Течёт вода снизу, слабый напор кофе</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Треснул бойлер и износились уплотнители. Заменили бойлер, помпу, промыли гидросистему.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">185 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>65 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Ariston</div>
+            <div class="work-card__model">Водонагреватель 80 л</div>
+          </div>
+          <div class="work-card__badge work-card__badge--fast">1 день</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Не греет воду, выбивает автомат</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Пробой <strong>ТЭНа</strong> из-за накипи. Заменили ТЭН, почистили бак, заменили магниевый анод. Проверили изоляцию.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">120 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>55 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>65 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Bosch</div>
+            <div class="work-card__model">Духовка HBG 634</div>
+          </div>
+          <div class="work-card__badge work-card__badge--fast">1 день</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Не работает конвекция, слабо греет</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Износ вентилятора конвекции и ТЭНа. Заменили оба узла, проверили термодатчик.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">115 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>50 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>65 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Dyson</div>
+            <div class="work-card__model">Пылесос V11</div>
+          </div>
+          <div class="work-card__badge work-card__badge--fast">1 день</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Быстро садится аккумулятор, теряет мощность</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Износ <strong>Li-Ion батареи</strong>. Заменили на оригинальный аккумулятор, проверили работу мотора.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">165 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>45 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">LG</div>
+            <div class="work-card__model">Варочная панель индукция</div>
+          </div>
+          <div class="work-card__badge">3 дня</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Не включается, сенсоры не реагируют</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Сбой <strong>силового модуля</strong> после скачка напряжения. Заменили модуль, проверили индукционные катушки.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">190 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>70 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>120 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-card__head">
+          <div>
+            <div class="work-card__brand">Bosch</div>
+            <div class="work-card__model">Вытяжка DKE 98</div>
+          </div>
+          <div class="work-card__badge work-card__badge--fast">1 день</div>
+        </div>
+        <div class="work-card__rows">
+          <div class="work-card__row">
+            <div class="work-card__row-label">Симптом</div>
+            <div class="work-card__row-text">Слабо всасывает, шумит при работе</div>
+          </div>
+          <div class="work-card__row">
+            <div class="work-card__row-label">Что сделали</div>
+            <div class="work-card__row-text">Забиты жировые фильтры и изношена крыльчатка. Почистили моторный отсек, заменили крыльчатку.</div>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <div>
+            <div class="work-card__price-label">Итог</div>
+            <div class="work-card__price">85 BYN</div>
+          </div>
+          <div class="work-card__meta">
+            <div class="work-card__meta-item">Работа: <span>45 BYN</span></div>
+            <div class="work-card__meta-item">Запчасть: <span>40 BYN</span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section--soft">
+  <div class="container">
+    <div class="cta-strip">
+      <div class="cta-strip__content">
+        <h2 class="cta-strip__title">Хотите, чтобы ваша техника работала так же?</h2>
+        <p class="cta-strip__text">Позвоните — опишите проблему и модель. Назовём примерную вилку стоимости и подскажем, когда удобнее привезти технику в мастерскую.</p>
+        <div class="cta-strip__actions">
+          <a href="tel:+375291087979" class="btn btn--blue btn--lg">+375 29 108-79-79
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="services.html" class="btn btn--ghost-dark btn--lg">Все услуги</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <a href="index.html" class="footer__brand"><span class="header__logo-mark">Р</span>РемБытТехника</a>
+    <nav class="footer__nav">
+      <a href="services.html">Услуги</a>
+      <a href="prices.html">Цены</a>
+      <a href="works.html">Работы</a>
+      <a href="about.html">О нас</a>
+      <a href="contacts.html">Контакты</a>
+    </nav>
+    <div class="footer__copy">© 2025 РемБытТехника · Гродно</div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
